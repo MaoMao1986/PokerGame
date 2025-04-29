@@ -8,7 +8,7 @@ public class BattleManager : MonoBehaviour
     private bool playerFirst;
     private bool battleEnded = false;
     
-    private List<Card> PublicCards = new();
+    private CardCollection PublicCards;
     private BattleUser Player;
     private BattleUser Enemy;
 
@@ -23,7 +23,7 @@ public class BattleManager : MonoBehaviour
         // 初始化玩家
         Player.Init();
         // 初始化公共牌
-        PublicCards = DeckManager.Instance.DrawPublicCards(3);
+        
         // 确定出手顺序
         DetermineBattleOrder();
     }
@@ -50,43 +50,43 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayRound() {
         // 弃牌阶段
-        yield return StartCoroutine(DiscardPhase());
+        //yield return StartCoroutine(DiscardPhase());
         
         // 出牌阶段
-        List<Card> playerHand = Player.Instance.DrawHand();
-        List<Card> enemyHand = Enemy.Instance.DrawHand();
+        List<Card> playerHand = new();
+        List<Card> enemyHand = new();
         
         // 组合公共牌
-        if (PublicCards.Count > 0) {
-            playerHand.AddRange(PublicCards);
-            enemyHand.AddRange(PublicCards);
-        }
+        //if (PublicCards.Count > 0) {
+        //    playerHand.AddRange(PublicCards);
+        //    enemyHand.AddRange(PublicCards);
+        //}
         
         // 触发牌型技能
-        if (playerFirst) {
-            yield return StartCoroutine(ProcessPlayerTurn(playerHand));
+        //if (playerFirst) {
+        //    yield return StartCoroutine(ProcessPlayerTurn(playerHand));
+        //    yield return StartCoroutine(ProcessEnemyTurn(enemyHand));
+        //} else {
             yield return StartCoroutine(ProcessEnemyTurn(enemyHand));
-        } else {
-            yield return StartCoroutine(ProcessEnemyTurn(enemyHand));
             yield return StartCoroutine(ProcessPlayerTurn(playerHand));
-        }
+        //}
         
         // 回合结束处理
-        yield return StartCoroutine(EndRoundCleanup());
+        //yield return StartCoroutine(EndRoundCleanup());
     }
 
     private IEnumerator ProcessPlayerTurn(List<Card> hand) {
-        PokerHand handType = HandEvaluator.EvaluateHand(hand);
-        SkillManager.Instance.TriggerHandSkill(handType, Player.Instance, Enemy.Instance);
+        //PokerHand handType = HandEvaluator.EvaluateHand(hand);
+        //SkillManager.Instance.TriggerHandSkill(handType, Player.Instance, Enemy.Instance);
         yield return StartCoroutine(TriggerCardSkills(hand, isPlayer: true));
-        Player.Instance.FinalSkill();
+        //Player.Instance.FinalSkill();
     }
 
     private IEnumerator ProcessEnemyTurn(List<Card> hand) {
-        PokerHand handType = HandEvaluator.EvaluateHand(hand);
-        SkillManager.Instance.TriggerHandSkill(handType, Enemy.Instance, Player.Instance);
+        //PokerHand handType = HandEvaluator.EvaluateHand(hand);
+        //SkillManager.Instance.TriggerHandSkill(handType, Enemy.Instance, Player.Instance);
         yield return StartCoroutine(TriggerCardSkills(hand, isPlayer: false));
-        Enemy.Instance.FinalSkill();
+        //Enemy.Instance.FinalSkill();
     }
 
     private IEnumerator TriggerCardSkills(List<Card> hand, bool isPlayer) {
@@ -96,14 +96,14 @@ public class BattleManager : MonoBehaviour
     }
 
     private bool CheckBattleEnd() {
-        if (Player.Instance.IsDead || Enemy.Instance.IsDead) {
-            battleEnded = true;
-            return true;
-        }
+        //if (Player.Instance.IsDead || Enemy.Instance.IsDead) {
+        //    battleEnded = true;
+        //    return true;
+        //}
         return false;
     }
 
     private void EndBattle() {
-        Debug.Log(Player.Instance.IsDead ? "战斗失败" : "战斗胜利");
+        //Debug.Log(Player.Instance.IsDead ? "战斗失败" : "战斗胜利");
     }
 }
