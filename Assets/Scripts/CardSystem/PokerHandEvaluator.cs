@@ -1,56 +1,58 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using System.Reflection;
+using TMPro;
 
 public static class PokerHandEvaluator
 {
-    public static Enum_PokerHandType EvaluateHand(List<Card> p_Cards, List<Card> p_PublicCards = null)
+
+
+    public static (Enum_PokerHandType Type, Dictionary<Card, Card> MatchedCards) EvaluateHand(List<Card> p_Cards, List<Card> p_PublicCards = null)
     {
-        List<Card> t_Cards = p_Cards ?? new List<Card>();
+        List<Card> t_Cards = p_Cards;
+        // 如果有公共牌，则将其与手牌合并
         if (p_PublicCards != null)
         {
-            t_Cards.AddRange(p_PublicCards);
+            t_Cards = p_Cards.Concat(p_PublicCards).ToList();
         }
 
-        var t_TortedCards = t_Cards.OrderBy(c => c.Rank).ToList();
-        Dictionary<Card, Card> t_CardPairs;
-        if (m_IsRoyalFlush(t_TortedCards, out t_CardPairs)) return Enum_PokerHandType.RoyalFlush;
-        if (m_IsStraightFlush(t_TortedCards)) return Enum_PokerHandType.StraightFlush;
-        if (m_IsFourOfAKind(t_TortedCards)) return Enum_PokerHandType.FourOfAKind;
-        if (m_IsFullHouse(t_TortedCards)) return Enum_PokerHandType.FullHouse;
-        if (m_IsFlush(t_TortedCards)) return Enum_PokerHandType.Flush;
-        if (m_IsStraight(t_TortedCards)) return Enum_PokerHandType.Straight;
-        if (m_IsThreeOfAKind(t_TortedCards)) return Enum_PokerHandType.ThreeOfAKind;
-        if (m_IsTwoPairs(t_TortedCards)) return Enum_PokerHandType.TwoPairs;
-        if (m_IsOnePair(t_TortedCards)) return Enum_PokerHandType.OnePair;
+        // 将所有牌分为王牌和非王牌，并按大小排序，并按花色分类
+        (List<Card> t_RegularCards, List<Card> t_JokerCards) = m_SplitAndSortCards(t_Cards);
 
-        return Enum_PokerHandType.HighCard;
+        // 牌型判断逻辑
+        Dictionary<Card, Card> t_MatchedCards;
+        if (m_IsRoyalFlush(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.RoyalFlush, t_MatchedCards);
+        if (m_IsStraightFlush(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.StraightFlush, t_MatchedCards);
+        if (m_IsFourOfAKind(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.FourOfAKind, t_MatchedCards);
+        if (m_IsFullHouse(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.FullHouse, t_MatchedCards);
+        if (m_IsFlush(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.Flush, t_MatchedCards);
+        if (m_IsStraight(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.Straight, t_MatchedCards);
+        if (m_IsThreeOfAKind(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.ThreeOfAKind, t_MatchedCards);
+        if (m_IsTwoPairs(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.TwoPairs, t_MatchedCards);
+        if (m_IsOnePair(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.OnePair, t_MatchedCards);
+
+        // 如果是高牌，则代表其中没有王牌（有王牌的情况下无论如何都不可能匹配到高牌）
+        t_MatchedCards = new(){ { t_RegularCards[0], null } };
+        return (Enum_PokerHandType.HighCard, t_MatchedCards);
     }
 
     /// <summary>
     /// 皇家同花顺
     /// </summary>
     /// <param name="p_Cards"></param>
-    /// <param name="p_CardPiars"></param>
+    /// <param name="p_TransCards"></param>
     /// <returns></returns>
-    private static bool m_IsRoyalFlush(List<Card> p_Cards, out Dictionary<Card,Card> p_CardPiars)
+    private static bool m_IsRoyalFlush(List<Card> p_Cards, out Dictionary<Card,Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
         bool t_Result = false;
-        p_CardPiars = null;
-        Dictionary<Card, Card> t_CardPairs = new();
-        (List<Card> t_RegularCards, List<Card> t_JokerCards) = m_SplitAndSortCards(p_Cards);
-        
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetSingleStraightFlushCombinations(Enum_CardRank.Ace);
-        foreach(var t_Target in t_TargetList)
+        List<List<Card>> t_TargetList = m_GetSingleStraightFlush(Enum_CardRank.Ace);
+        foreach (var t_Target in t_TargetList)
         {
-            (t_Result, t_CardPairs) = m_CheckTargetCombination(t_Target, t_RegularCards, t_JokerCards);
-            if (t_Result)
-            {
-                p_CardPiars = t_CardPairs;
-                return t_Result;
-            }
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards, 5 , p_JokerCards);
+            if (t_Result){ return t_Result; }
         }
+        p_MatchedCards = null;
         return t_Result;
     }
 
@@ -59,84 +61,134 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsStraightFlush(List<Card> p_Cards)
+    private static bool m_IsStraightFlush(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
-        return m_IsFlush(p_Cards) && m_IsStraight(p_Cards);
-    }
-
-    private static bool m_IsFlush(List<Card> p_Cards)
-    {
-        return p_Cards.GroupBy(c => c.Suit).Count() == 1;
-    }
-
-    private static bool m_IsStraight(List<Card> p_Cards)
-    {
-        // 分离普通牌和王牌
-        var (t_RegularCards, t_Jokers) = m_SplitAndSortCards(p_Cards);
-        var t_Ranks = t_RegularCards.Select(c => (int)c.Rank).OrderBy(r => r).ToList();
-    
-        // 检查所有可能的顺子模式
-        int t_Missing = 5 - t_RegularCards.Count;
-        if (t_Jokers.Count < t_Missing) return false;
-    
-        // 生成可能的顺子组合
-        List<List<int>> t_PossibleStraights = new() {
-            new List<int> {1,2,3,4,5}, // A-2-3-4-5
-            new List<int> {10,11,12,13,1} // 10-J-Q-K-A
-        };
-        for (int i=2; i<=9; i++) {
-            t_PossibleStraights.Add(Enumerable.Range(i,5).ToList());
+        bool t_Result = false;
+        //  遍历每种目标
+        List<List<Card>> t_TargetList = m_GetAllStraightFlush();
+        foreach (var t_Target in t_TargetList)
+        {
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards,5, p_JokerCards);
+            if (t_Result) { return t_Result; }
         }
-    
-        // 检查每个可能的顺子模式
-        foreach (var straight in t_PossibleStraights) {
-            int t_Gap = straight.Count(r => !t_Ranks.Contains(r));
-            if (t_Gap <= t_Jokers.Count) {
-                return true;
-            }
-        }
-        return false;
+        p_MatchedCards = null;
+        return t_Result;
     }
 
-    
-
-    private static bool m_IsFourOfAKind(List<Card> p_Cards)
+    /// <summary>
+    /// 顺子
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsFlush(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
-        var (regular, jokers) = m_SplitAndSortCards(p_Cards);
-        var groups = regular.GroupBy(c => c.Rank);
-        return groups.Any(g => g.Count() + jokers.Count >= 4);
+        return
     }
 
-    private static bool m_IsFullHouse(List<Card> p_Cards)
+    /// <summary>
+    /// 同花
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsStraight(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    {
+        bool t_Result = false;
+        //  遍历每种目标
+        List<List<Card>> t_TargetList = m_GetAllSuit();
+        foreach (var t_Target in t_TargetList)
+        {
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards, 5, p_JokerCards);
+            if (t_Result) { return t_Result; }
+        }
+        p_MatchedCards = null;
+        return t_Result;
+    }
+
+    /// <summary>
+    /// 四条
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsFourOfAKind(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    {
+        bool t_Result = false;
+        //  遍历每种目标
+        List<List<Card>> t_TargetList = m_GetAllFour();
+        foreach (var t_Target in t_TargetList)
+        {
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards, 4, p_JokerCards);
+            if (t_Result) { return t_Result; }
+        }
+        p_MatchedCards = null;
+        return t_Result;
+    }
+
+    /// <summary>
+    /// 葫芦，三带二
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsFullHouse(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
         var (regular, jokers) = m_SplitAndSortCards(p_Cards);
         var groups = regular.GroupBy(c => c.Rank).OrderByDescending(g => g.Count()).ToList();
-        
+
         // Case 1: 3+2自然组合
-        if (groups.Count >= 2 && groups[0].Count() >=3 && groups[1].Count() >=2)
+        if (groups.Count >= 2 && groups[0].Count() >= 3 && groups[1].Count() >= 2)
             return true;
-            
+
         // Case 2: 使用万能牌补全
         return (groups.Count > 0 && groups[0].Count() + jokers.Count >= 5);
     }
 
-    private static bool m_IsThreeOfAKind(List<Card> p_Cards)
+    /// <summary>
+    /// 三条
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsThreeOfAKind(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
-        var (regular, jokers) = m_SplitAndSortCards(p_Cards);
-        return regular.GroupBy(c => c.Rank).Any(g => g.Count() + jokers.Count >= 3);
+        bool t_Result = false;
+        //  遍历每种目标
+        List<List<Card>> t_TargetList = m_GetAllFour();
+        foreach (var t_Target in t_TargetList)
+        {
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards, 3, p_JokerCards);
+            if (t_Result) { return t_Result; }
+        }
+        p_MatchedCards = null;
+        return t_Result;
     }
 
-    private static bool m_IsTwoPairs(List<Card> p_Cards)
+    /// <summary>
+    /// 两对
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsTwoPairs(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
         var (regular, jokers) = m_SplitAndSortCards(p_Cards);
         var pairs = regular.GroupBy(c => c.Rank).Count(g => g.Count() >= 2);
         return (pairs + jokers.Count) >= 2;
     }
 
-    private static bool m_IsOnePair(List<Card> p_Cards)
+    /// <summary>
+    /// 对子
+    /// </summary>
+    /// <param name="p_Cards"></param>
+    /// <returns></returns>
+    private static bool m_IsOnePair(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
     {
-        var (regular, jokers) = m_SplitAndSortCards(p_Cards);
-        return regular.GroupBy(c => c.Rank).Any(g => g.Count() + jokers.Count >= 2);
+        bool t_Result = false;
+        //  遍历每种目标
+        List<List<Card>> t_TargetList = m_GetAllFour();
+        foreach (var t_Target in t_TargetList)
+        {
+            (t_Result, p_MatchedCards) = m_CheckTarget(t_Target, p_Cards, 2, p_JokerCards);
+            if (t_Result) { return t_Result; }
+        }
+        p_MatchedCards = null;
+        return t_Result;
     }
 
 
@@ -180,7 +232,7 @@ public static class PokerHandEvaluator
         // 分离普通牌和王牌
         var t_Jokers = p_Cards.Where(c =>
             c.Rank == Enum_CardRank.BigJoker ||
-            c.Rank == Enum_CardRank.LittleJoker).OrderBy(c => c.Rank)
+            c.Rank == Enum_CardRank.LittleJoker).OrderByDescending(c => c.Rank)
             .ToList();
 
         var t_Regular = p_Cards.Except(t_Jokers)
@@ -194,98 +246,164 @@ public static class PokerHandEvaluator
     }
 
     /// <summary>
-    /// 查找凑齐牌型缺失的牌
+    /// 判断目标牌型是否可以用现有牌凑齐，以及凑齐后王牌对应的牌
     /// </summary>
-    /// <param name="targetCombination"></param>
-    /// <param name="currentCards"></param>
+    /// <param name="p_Target"></param>
+    /// <param name="p_Regulars"></param>
+    /// <param name="p_Jokers"></param>
     /// <returns></returns>
-    public static List<Card> m_FindMissingCards(List<Card> targetCombination, List<Card> currentCards)
+    public static (bool Matched, Dictionary<Card, Card> ResultCards) m_CheckTarget(List<Card> p_Target, List<Card> p_Regulars, int p_Number,List<Card> p_Jokers = null)
     {
-        // 创建哈希表加速查找（考虑花色和点数）
-        var currentSet = new HashSet<(Enum_CardSuit, Enum_CardRank)>(
-            currentCards.Select(c => (c.Suit, c.Rank))
-        );
-
-        return targetCombination
-            .Where(t => !currentSet.Contains((t.Suit, t.Rank)))
-            .OrderByDescending(c => c.Rank)  // 按点数降序
-            .ThenByDescending(c => c.Suit)   // 同点数按花色排序
-            .ToList();
+        bool t_Result = false;
+        Dictionary<Card, Card> t_MatchedCards = new();
+        List<Card> t_Target = p_Target.OrderByDescending(c => c.Rank).ThenByDescending(c => c.Suit).ToList();
+        int t_JokerIndex = 0;
+        foreach (var t_Card in t_Target)
+        {
+            List<Card> t_Temp = p_Regulars.Where(t => (t.Rank == t_Card.Rank) && (t.Suit == t_Card.Suit)).ToList();
+            if (t_Temp.Count() > 0)
+            {
+                t_MatchedCards.Add(t_Temp[0], null);
+                continue;
+            }
+            else
+            {
+                if (p_Jokers == null) { continue; }
+                if (t_JokerIndex >= p_Jokers.Count()) { continue; }
+                // 使用大王（替代任意牌），如果是小王，则替代10以下
+                if ((p_Jokers[t_JokerIndex].Rank == Enum_CardRank.BigJoker) || (p_Jokers[t_JokerIndex].Rank == Enum_CardRank.LittleJoker && (int)t_Card.Rank <= 10))
+                {
+                    t_MatchedCards.Add(p_Jokers[t_JokerIndex], t_Card);
+                    t_JokerIndex++;
+                }
+            }
+        }
+        if(t_MatchedCards.Count >= p_Number)
+        {
+            t_Result = true;
+            // 如果匹配到的牌大于目标牌数，则删除多余的牌，由于是按大小排序，所以删除最后的牌
+            for(int i=0;i<t_MatchedCards.Count-p_Number;i++)
+            {
+                t_MatchedCards.Remove(t_MatchedCards.Last().Key);
+            }
+        }
+        return (t_Result, t_MatchedCards);
     }
 
     /// <summary>
     /// 判断目标牌型是否可以用现有牌凑齐，以及凑齐后王牌对应的牌
     /// </summary>
-    /// <param name="p_TargetCombination"></param>
-    /// <param name="p_RegularCards"></param>
+    /// <param name="p_Target"></param>
+    /// <param name="p_Regulars"></param>
     /// <param name="p_Jokers"></param>
     /// <returns></returns>
-    public static (bool Matched, Dictionary<Card,Card> WildcardMatches) m_CheckTargetCombination(
-    List<Card> p_TargetCombination,
-    List<Card> p_RegularCards,
-    List<Card> p_Jokers)
+    public static (bool Matched, Dictionary<Card, Card> ResultCards) m_CheckTarget(List<Enum_CardRank> p_Target, List<Card> p_Regulars, int p_Number, List<Card> p_Jokers = null)
     {
-        var t_Missing = m_FindMissingCards(p_TargetCombination, p_RegularCards);
-        var t_Replacements = new Dictionary<Card,Card>();
-
-        // 分离大小王
-        var t_BigJokers = p_Jokers.Where(j => j.Rank == Enum_CardRank.BigJoker).ToList();
-        var t_LittleJokers = p_Jokers.Where(j => j.Rank == Enum_CardRank.LittleJoker).ToList();
-
-        foreach (var t_Card in t_Missing)
+        bool t_Result = false;
+        Dictionary<Card, Card> t_MatchedCards = new();
+        List<Enum_CardRank> t_Target = p_Target.OrderByDescending(c => c).ToList();
+        int t_JokerIndex = 0;
+        foreach (var t_CardRank in t_Target)
         {
-            // 优先使用大王（可替代任何牌）
-            if (t_BigJokers.Any())
+            List<Card> t_Temp = p_Regulars.Where(t => t.Rank == t_CardRank).ToList();
+            if (t_Temp.Count() > 0)
             {
-                t_Replacements.Add(t_BigJokers[0], new Card(t_Card.Suit, t_Card.Rank));
-                t_BigJokers.RemoveAt(0);
-                continue;
+                t_MatchedCards.Add(t_Temp[0], null);
             }
-
-            // 使用小王（仅替代10及以下）
-            if (t_LittleJokers.Any() && (int)t_Card.Rank <= 10)
+            else
             {
-                t_Replacements.Add(t_LittleJokers[0], new Card(t_Card.Suit, t_Card.Rank));
-                t_LittleJokers.RemoveAt(0);
-                continue;
+                if (p_Jokers == null) { continue; }
+                if (t_JokerIndex >= p_Jokers.Count()) { continue; }
+                // 使用大王（替代任意牌），如果是小王，则替代10以下
+                if ((p_Jokers[t_JokerIndex].Rank == Enum_CardRank.BigJoker) || (p_Jokers[t_JokerIndex].Rank == Enum_CardRank.LittleJoker && (int)t_CardRank <= 10))
+                {
+                    t_MatchedCards.Add(p_Jokers[t_JokerIndex], new Card(Enum_CardSuit.Spades, t_CardRank));
+                    t_JokerIndex++;
+                }
             }
-
-            return (false, null); // 无法匹配
         }
+        if (t_MatchedCards.Count >= p_Number)
+        {
+            t_Result = true;
+            // 如果匹配到的牌大于目标牌数，则删除多余的牌，由于是按大小排序，所以删除最后的牌
+            for (int i = 0; i < t_MatchedCards.Count - p_Number; i++)
+            {
+                t_MatchedCards.Remove(t_MatchedCards.Last().Key);
+            }
+        }
+        return (t_Result, t_MatchedCards);
+    }
 
-        return (t_Missing.Count <= p_Jokers.Count, t_Replacements);
+    #region 生成匹配库
+    private static List<List<Card>> m_GetAllSuit()
+    {
+        List<List<Card>> t_Cards = new();
+        for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
+        {
+            var t_Suit = (Enum_CardSuit)i;
+            var t_List = m_GetSingleSuit(t_Suit);
+            t_Cards.Add(t_List);
+        }
+        return t_Cards;
+    }
+
+    private static List<Card> m_GetSingleSuit(Enum_CardSuit p_Suit)
+    {
+        List<Card> t_Cards = new();
+        for (int i = (int)Enum_CardRank.Ace; i >= (int)Enum_CardRank.Two; i--)
+        {
+            var t_Rank = (Enum_CardRank)i;
+            t_Cards.Add(new(p_Suit, t_Rank));
+        }
+        return t_Cards;
+    }
+
+    /// <summary>
+    /// 获取所有四条的匹配库
+    /// </summary>
+    /// <returns></returns>
+    private static List<List<Card>> m_GetAllFour()
+    {
+        var t_Cards = new List<List<Card>>();
+        // 生成该花色所有可能的顺子组合
+        for (int i = (int)Enum_CardRank.Ace; i >= (int)Enum_CardRank.Five; i--)
+        {
+            var t_List = m_GetSingleFour((Enum_CardRank)i);
+            t_Cards.Add(t_List);
+        }
+        return t_Cards;
+    }
+
+    /// <summary>
+    /// 获取单个四条的匹配库
+    /// </summary>
+    /// <param name="p_Rank"></param>
+    /// <returns></returns>
+    private static List<Card> m_GetSingleFour(Enum_CardRank p_Rank)
+    {
+        List<Card> t_Cards = new();
+        for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
+        {
+            var t_Suit = (Enum_CardSuit)i;
+            t_Cards.Add(new(t_Suit, p_Rank));
+        }
+        return t_Cards;
     }
 
     /// <summary>
     /// 生成所有可能的同花顺组合
     /// </summary>
     /// <returns></returns>
-    private static List<List<Card>> m_GetAllStraightFlushCombinations()
+    private static List<List<Card>> m_GetAllStraightFlush()
     {
-        var t_Combinations = new List<List<Card>>();
-
+        var t_Cards = new List<List<Card>>();
         // 生成该花色所有可能的顺子组合
-        var t_Ranks = new[] 
+        for(int i=(int)Enum_CardRank.Ace;i>= (int)Enum_CardRank.Five; i--)
         {
-            Enum_CardRank.Ace,
-            Enum_CardRank.King,
-            Enum_CardRank.Queen,
-            Enum_CardRank.Jack,
-            Enum_CardRank.Ten,
-            Enum_CardRank.Nine,
-            Enum_CardRank.Eight,
-            Enum_CardRank.Seven,
-            Enum_CardRank.Six,
-            Enum_CardRank.Five
-        };
-
-        foreach (var t_Rank in t_Ranks)
-        {
-            var t_List = m_GetSingleStraightFlushCombinations(t_Rank);
-            t_Combinations.AddRange(t_List);
+            var t_List = m_GetSingleStraightFlush((Enum_CardRank)i);
+            t_Cards.AddRange(t_List);
         }
-
-        return t_Combinations;
+        return t_Cards;
     }
 
     /// <summary>
@@ -293,57 +411,40 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Rank"></param>
     /// <returns></returns>
-    private static List<List<Card>> m_GetSingleStraightFlushCombinations(Enum_CardRank p_Rank)
+    private static List<List<Card>> m_GetSingleStraightFlush(Enum_CardRank p_Rank)
     {
-        var t_Combinations = new List<List<Card>>();
-        var t_AllSuits = new[]
+        var t_Cards = new List<List<Card>>();
+        int t_Rank = (int)p_Rank;
+        if(t_Rank >= (int)Enum_CardRank.Six && t_Rank <= (int)Enum_CardRank.Ace)
         {
-            Enum_CardSuit.Spades,
-            Enum_CardSuit.Hearts,
-            Enum_CardSuit.Clubs,
-            Enum_CardSuit.Diamonds
-        };
-
-        switch (p_Rank)
-        {
-            case Enum_CardRank.Ace:
-            case Enum_CardRank.King:
-            case Enum_CardRank.Queen:
-            case Enum_CardRank.Jack:
-            case Enum_CardRank.Ten:
-            case Enum_CardRank.Nine:
-            case Enum_CardRank.Eight:
-            case Enum_CardRank.Seven:
-            case Enum_CardRank.Six:
+            for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
+            {
+                var t_List = new List<Card>();
+                var t_Suit = (Enum_CardSuit)i;
+                for (int j = 0; j < 5; j++)
                 {
-                    foreach (var t_Suit in t_AllSuits)
-                    {
-                        var t_List = new List<Card>();
-                        for (int i = 0; i < 5; i++)
-                        {
-                            t_List.Add(new Card(t_Suit, (Enum_CardRank)((int)p_Rank-i)));
-                        }
-                        t_Combinations.Add(t_List);
-                    }
+                    t_List.Add(new Card(t_Suit, (Enum_CardRank)(t_Rank - j)));
                 }
-                break;
-            case Enum_CardRank.Five:
-                {
-                    foreach (var t_Suit in t_AllSuits)
-                    {
-                        // 添加5-4-3-2-A特殊组合
-                        t_Combinations.Add(new List<Card> {
-                            new(t_Suit, Enum_CardRank.Ace),
-                            new(t_Suit, Enum_CardRank.Five),
-                            new(t_Suit, Enum_CardRank.Four),
-                            new(t_Suit, Enum_CardRank.Three),
-                            new(t_Suit, Enum_CardRank.Two)
-                        });
-                    }
-                }
-                break;
+                t_Cards.Add(t_List);
+            }
         }
-
-        return t_Combinations;
+        else if(p_Rank == Enum_CardRank.Five)
+        {
+            for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
+            {
+                var t_Suit = (Enum_CardSuit)i;
+                t_Cards.Add(new List<Card> {
+                    new(t_Suit, Enum_CardRank.Ace),
+                    new(t_Suit, Enum_CardRank.Five),
+                    new(t_Suit, Enum_CardRank.Four),
+                    new(t_Suit, Enum_CardRank.Three),
+                    new(t_Suit, Enum_CardRank.Two)
+                });
+            }
+        }
+        return t_Cards;
     }
+    #endregion
+
+
 }
