@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BattleManager : MonoBehaviour 
+public class BattleManager : MonoBehaviour
 {
     private int currentRound = 0;
     private bool playerFirst;
@@ -12,9 +13,33 @@ public class BattleManager : MonoBehaviour
     private BattleUser Player;
     private BattleUser Enemy;
 
+    public Button Button;
+
     void Start() {
-        InitializeBattle();
-        StartCoroutine(BattleLoop());
+        Button.onClick.AddListener(Test);
+        //Test();
+        //InitializeBattle();
+        //StartCoroutine(BattleLoop());
+    }
+
+    public void Test()
+    {
+        // 测试代码
+        Deck t_Deck = new Deck();
+        t_Deck.InitializeBaseDeck();
+        List<Card> t_Cards = t_Deck.DrawCards(5);
+        foreach (Card t_Card in t_Cards)
+        {
+            Debug.Log($"{t_Card.Suit}{(int)t_Card.Rank}");
+        }
+
+        (Enum_PokerHandType t_Type, Dictionary <Card, Card > MatchedCards) = PokerHandEvaluator.EvaluateHand(t_Cards, new List<Card>() { new Card(Enum_CardSuit.大小王, Enum_CardRank.LittleJoker) });
+        Debug.Log($"牌型：{t_Type}");
+        foreach (var t_MatchedCard in MatchedCards)
+        {
+            var t_Target = t_MatchedCard.Value == null ? "空" : (t_MatchedCard.Value.Suit.ToString() + t_MatchedCard.Value.Rank.ToString());
+            Debug.Log($"牌型：{t_MatchedCard.Key.Suit}{(int)t_MatchedCard.Key.Rank} - {t_Target}");
+        }
     }
 
     private void InitializeBattle() {

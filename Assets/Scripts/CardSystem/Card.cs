@@ -14,6 +14,15 @@ public class Card : IComparable<Card>
 
     public int CompareTo(Card p_Other)
     {
-        throw new NotImplementedException();
+        int t_Compare = 0;
+        if (Rank == p_Other.Rank)
+        {
+            t_Compare = Suit.CompareTo(p_Other.Suit);
+        }
+        else
+        {
+            t_Compare = Rank.CompareTo(p_Other.Rank);
+        }
+        return t_Compare;
     }
 }

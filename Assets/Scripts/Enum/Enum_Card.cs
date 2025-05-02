@@ -6,23 +6,23 @@ public enum Enum_CardSuit
     /// <summary>
     /// 大小王
     /// </summary>
-    Joker = 1,
+    大小王 = 1,
     /// <summary>
     /// 方块
     /// </summary>
-    Diamonds = 2,
+    方块 = 2,
     /// <summary>
     /// 梅花
     /// </summary>
-    Clubs = 3,
+    梅花 = 3,
     /// <summary>
     /// 红桃
     /// </summary>
-    Hearts = 4,
+    红桃 = 4,
     /// <summary>
     /// 黑桃
     /// </summary>
-    Spades = 5
+    黑桃 = 5
 }
 
 /// <summary>
