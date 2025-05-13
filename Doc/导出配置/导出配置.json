@@ -1,0 +1,1330 @@
+﻿{
+	"ProjectName": "扑克战争",
+	"VersionList": {
+		"1.0.0.0": {
+			"VersionString": "1.0.0.0",
+			"Name": "默认",
+			"Path": "..\\..\\Assets\\Table",
+			"PlatForm": "",
+			"MethodString": ""
+		}
+	},
+	"PlatFormList": [],
+	"DefaultVersion": [
+		"1.0.0.0"
+	],
+	"EnumDatas": {
+		"tbl_枚举_随机模式": {
+			"Name": "tbl_枚举_随机模式",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "掉率模式",
+					"枚举值": "1",
+					"代码名": "Probility",
+					"代码描述": "概率模式"
+				},
+				{
+					"枚举名称": "权重模式",
+					"枚举值": "2",
+					"代码名": "Weight",
+					"代码描述": "权重模式"
+				}
+			]
+		},
+		"tbl_枚举_随机类型": {
+			"Name": "tbl_枚举_随机类型",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "随机组",
+					"枚举值": "1",
+					"代码名": "RandomGroup",
+					"代码描述": "循环调用的随机组",
+					"转换类型": "配置表",
+					"转换关键字": "Random",
+					"转换字段": "掉落组ID"
+				},
+				{
+					"枚举名称": "道具",
+					"枚举值": "2",
+					"代码名": "Item",
+					"代码描述": "道具",
+					"转换类型": "配置表",
+					"转换关键字": "Item",
+					"转换字段": "id"
+				}
+			]
+		},
+		"tbl_枚举_扑克花色": {
+			"Name": "tbl_枚举_扑克花色",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "王牌",
+					"枚举值": "1",
+					"代码名": "Joker",
+					"代码描述": "大小王"
+				},
+				{
+					"枚举名称": "方块",
+					"枚举值": "2",
+					"代码名": "Diamonds",
+					"代码描述": "方块"
+				},
+				{
+					"枚举名称": "梅花",
+					"枚举值": "3",
+					"代码名": "Clubs",
+					"代码描述": "梅花"
+				},
+				{
+					"枚举名称": "红桃",
+					"枚举值": "4",
+					"代码名": "Hearts",
+					"代码描述": "红桃"
+				},
+				{
+					"枚举名称": "黑桃",
+					"枚举值": "5",
+					"代码名": "Spades",
+					"代码描述": "黑桃"
+				}
+			]
+		},
+		"tbl_枚举_德州牌型": {
+			"Name": "tbl_枚举_德州牌型",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "高牌",
+					"枚举值": "1",
+					"代码名": "HighCard",
+					"代码描述": "高牌"
+				},
+				{
+					"枚举名称": "对子",
+					"枚举值": "2",
+					"代码名": "OnePair",
+					"代码描述": "对子"
+				},
+				{
+					"枚举名称": "两对",
+					"枚举值": "3",
+					"代码名": "TwoPairs",
+					"代码描述": "两对"
+				},
+				{
+					"枚举名称": "三条",
+					"枚举值": "4",
+					"代码名": "ThreeOfAKind",
+					"代码描述": "三条"
+				},
+				{
+					"枚举名称": "同花",
+					"枚举值": "5",
+					"代码名": "Straight",
+					"代码描述": "同花"
+				},
+				{
+					"枚举名称": "顺子",
+					"枚举值": "6",
+					"代码名": "Flush",
+					"代码描述": "顺子"
+				},
+				{
+					"枚举名称": "葫芦",
+					"枚举值": "7",
+					"代码名": "FullHouse",
+					"代码描述": "葫芦"
+				},
+				{
+					"枚举名称": "四条",
+					"枚举值": "8",
+					"代码名": "FourOfAKind",
+					"代码描述": "四条"
+				},
+				{
+					"枚举名称": "同花顺",
+					"枚举值": "9",
+					"代码名": "StraightFlush",
+					"代码描述": "同花顺"
+				},
+				{
+					"枚举名称": "皇家同花顺",
+					"枚举值": "10",
+					"代码名": "RoyalFlush",
+					"代码描述": "皇家同花顺"
+				}
+			]
+		},
+		"tbl_枚举_扑克点数": {
+			"Name": "tbl_枚举_扑克点数",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "2",
+					"枚举值": "2",
+					"代码名": "Two",
+					"代码描述": "2"
+				},
+				{
+					"枚举名称": "3",
+					"枚举值": "3",
+					"代码名": "Three",
+					"代码描述": "3"
+				},
+				{
+					"枚举名称": "4",
+					"枚举值": "4",
+					"代码名": "Four",
+					"代码描述": "4"
+				},
+				{
+					"枚举名称": "5",
+					"枚举值": "5",
+					"代码名": "Five",
+					"代码描述": "5"
+				},
+				{
+					"枚举名称": "6",
+					"枚举值": "6",
+					"代码名": "Six",
+					"代码描述": "6"
+				},
+				{
+					"枚举名称": "7",
+					"枚举值": "7",
+					"代码名": "Seven",
+					"代码描述": "7"
+				},
+				{
+					"枚举名称": "8",
+					"枚举值": "8",
+					"代码名": "Eight",
+					"代码描述": "8"
+				},
+				{
+					"枚举名称": "9",
+					"枚举值": "9",
+					"代码名": "Nine",
+					"代码描述": "9"
+				},
+				{
+					"枚举名称": "10",
+					"枚举值": "10",
+					"代码名": "Ten",
+					"代码描述": "10"
+				},
+				{
+					"枚举名称": "J",
+					"枚举值": "11",
+					"代码名": "Jack",
+					"代码描述": "J"
+				},
+				{
+					"枚举名称": "Q",
+					"枚举值": "12",
+					"代码名": "Queen",
+					"代码描述": "Q"
+				},
+				{
+					"枚举名称": "K",
+					"枚举值": "13",
+					"代码名": "King",
+					"代码描述": "K"
+				},
+				{
+					"枚举名称": "A",
+					"枚举值": "14",
+					"代码名": "Ace",
+					"代码描述": "A"
+				},
+				{
+					"枚举名称": "小王",
+					"枚举值": "15",
+					"代码名": "LittleJoker",
+					"代码描述": "小王"
+				},
+				{
+					"枚举名称": "大王",
+					"枚举值": "16",
+					"代码名": "BigJoker​",
+					"代码描述": "大王"
+				}
+			]
+		},
+		"tbl_枚举_示例": {
+			"Name": "tbl_枚举_示例",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "#示例",
+					"枚举值": null
+				},
+				{
+					"枚举名称": "枚举1",
+					"枚举值": "1"
+				},
+				{
+					"枚举名称": "枚举2",
+					"枚举值": "2"
+				}
+			]
+		}
+	},
+	"TitleDatas": {
+		"tbl_表头_结构": {
+			"Name": "tbl_表头_结构",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "#索引",
+					"字段名": "id",
+					"分组": "客户端|服务器"
+				}
+			]
+		},
+		"tbl_表头_PokerCard": {
+			"Name": "tbl_表头_PokerCard",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "id",
+					"字段名": "id",
+					"表头": "c|string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "花色",
+					"字段名": "suit",
+					"表头": "c|int",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "枚举值",
+					"转换关键字": "tbl_枚举_扑克花色",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "大小",
+					"字段名": "rank",
+					"表头": "c|int",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "枚举值",
+					"转换关键字": "tbl_枚举_扑克点数",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "名称",
+					"字段名": "name",
+					"表头": "c|string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "图片资源",
+					"字段名": "icon",
+					"表头": "c|string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				}
+			]
+		}
+	},
+	"MapDataDisplayInfos": {
+		"tbl_System_参数配置": {
+			"Name": "tbl_System_参数配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium3",
+			"CommentList": [
+				{
+					"Row": 1,
+					"Column": 1,
+					"Comment": "本列为程序读取关键字，不可修改\n\n本表中的参数均为项目配置，修改后重启导出总表才会生效",
+					"CommentType": 0
+				},
+				{
+					"Row": 4,
+					"Column": 1,
+					"Comment": "xml结构表的名称，xml的行内嵌套调用时，嵌套结构默认调用的是结构表里的数据",
+					"CommentType": 0
+				},
+				{
+					"Row": 6,
+					"Column": 1,
+					"Comment": "导出之后调起的提交工具，可以填入svn或者git，不为这俩则不会吊起提交",
+					"CommentType": 0
+				},
+				{
+					"Row": 6,
+					"Column": 2,
+					"Comment": "无,svn,git",
+					"CommentType": 1
+				},
+				{
+					"Row": 26,
+					"Column": 1,
+					"Comment": "使用数据自动生成文件导出配置时的导出文件类型，默认为txt|txt，第一个参数为文件类型，第二个参数为后缀名，对应文件导出配置中的配置",
+					"CommentType": 0
+				},
+				{
+					"Row": 7,
+					"Column": 1,
+					"Comment": "后缀名是否可以为空，如果不可以，则为空时会报错，否则不会报错",
+					"CommentType": 0
+				},
+				{
+					"Row": 7,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 8,
+					"Column": 1,
+					"Comment": "导出表与放置配置表的相对路径，配置表的路径=当前导出表的文件夹路径+配置字符串+文件名.后缀名",
+					"CommentType": 0
+				},
+				{
+					"Row": 9,
+					"Column": 1,
+					"Comment": "导出表与放置Python文件的相对路径，Python文件的路径=当前导出表的文件夹路径+Python文件+文件名.后缀名",
+					"CommentType": 0
+				},
+				{
+					"Row": 10,
+					"Column": 1,
+					"Comment": "将文件生成到工程中的python文件的关键字",
+					"CommentType": 0
+				},
+				{
+					"Row": 11,
+					"Column": 1,
+					"Comment": "导出xml文件时，如果配置数据为空，是否导出该数据，true=为空导出，false=为空不导出，不区分大小写",
+					"CommentType": 0
+				},
+				{
+					"Row": 11,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 12,
+					"Column": 1,
+					"Comment": "xml文件的行内嵌套对象如果为空时是否导出，false=为空不导出，true=为空导出，为空代表的是一行数据全部为空，例如<example a=\" b=\" \\>如果配置为false，则该行直接省略，为true的话如例子般，不区分大小写",
+					"CommentType": 0
+				},
+				{
+					"Row": 12,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 13,
+					"Column": 1,
+					"Comment": "导出json文件时，如果配置数据为空，是否导出该数据，true=为空导出，false=为空不导出，不区分大小写",
+					"CommentType": 0
+				},
+				{
+					"Row": 13,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 14,
+					"Column": 1,
+					"Comment": "json文件导出时，对象和数组的内容为空时是否导出该字段，0不导出空对象，1导出空对象，和json缺省导出的区别为，本字段针对的下级全为嵌套结构，而非具体数值\\n例如{ a: \",b: { },c: { a1: 1} }\\n缺省结构时则为{ c: { a1: 1} }，会将为空的字段和结构全部省略",
+					"CommentType": 0
+				},
+				{
+					"Row": 14,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 15,
+					"Column": 1,
+					"Comment": "json文件导出时，数组的内容为空时是否导出该字段，false=不导出空数组，true=导出空数组，不区分大小写，和json缺省导出的区别为，本字段针对的下级全为嵌套结构，而非具体数值\\n例如[1,[], 2,[]]缺省结构时则为[1, 2]，会将为空数组全部省略",
+					"CommentType": 0
+				},
+				{
+					"Row": 15,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 16,
+					"Column": 1,
+					"Comment": "txt文件的分隔符，默认为tab，即\\t，如果不填也代表是\\t",
+					"CommentType": 0
+				},
+				{
+					"Row": 17,
+					"Column": 1,
+					"Comment": "json文件的缩进符，默认为tab，即\\t，如果不填也代表是\\t",
+					"CommentType": 0
+				},
+				{
+					"Row": 18,
+					"Column": 1,
+					"Comment": "json文件嵌套数据的默认数据格式，必须填二维格式，用|分隔，例如：数组|对象，代表外围为数组，内围为对象",
+					"CommentType": 0
+				},
+				{
+					"Row": 19,
+					"Column": 1,
+					"Comment": "xml文件的缩进符，默认为tab，即\\t，如果不填也代表是\\t",
+					"CommentType": 0
+				},
+				{
+					"Row": 20,
+					"Column": 1,
+					"Comment": "txt格式导出时的默认自定义表头，如果导出_数据配置中该列有数据，则取该列的数据，否则读取此处的数据",
+					"CommentType": 0
+				},
+				{
+					"Row": 21,
+					"Column": 1,
+					"Comment": "excel格式导出时的默认自定义表头，如果导出_数据配置中该列有数据，则取该列的数据，否则读取此处的数据",
+					"CommentType": 0
+				},
+				{
+					"Row": 22,
+					"Column": 1,
+					"Comment": "表头配置前缀，自定义命名规范，可以为空",
+					"CommentType": 0
+				},
+				{
+					"Row": 25,
+					"Column": 1,
+					"Comment": "如果此处没有，则数据表中不增加任何的备注，此处只能填入表头数据的列字段，填入哪个字段，则会显示相应的数据，例如填入了字段名，则会在数据表的备注中增加字段名的显示",
+					"CommentType": 0
+				},
+				{
+					"Row": 28,
+					"Column": 1,
+					"Comment": "设定导入时的前几行为表头数据，每行对应的是表头的相应列",
+					"CommentType": 0
+				},
+				{
+					"Row": 29,
+					"Column": 1,
+					"Comment": "excel文件的导入时的sheet页的默认规范，是个正则表达式，符合规范的才判定为配置表进行导入，必须包含以下关键字格式   (?<fileName>)，用以识别文件名，例如 ^(?<fileName>*)|*$  equip|装备  代表数据名为equip",
+					"CommentType": 0
+				},
+				{
+					"Row": 30,
+					"Column": 1,
+					"Comment": "设定Excel导入时的前几行为表头数据，每行对应的是表头的相应列",
+					"CommentType": 0
+				},
+				{
+					"Row": 31,
+					"Column": 1,
+					"Comment": "Excel文件的导入时创建的workbook文件的默认增加的后缀，不增加后缀的话会出现配置表和目标导出表名称一致，会有问题",
+					"CommentType": 0
+				},
+				{
+					"Row": 32,
+					"Column": 1,
+					"Comment": "excel文件的导入时，第一行为辅助列的标记（即如果符合标记，则该列数据为excel中的辅助列数据，程序并不使用），为空代表数据为空，不为空代表正则表达式",
+					"CommentType": 0
+				},
+				{
+					"Row": 34,
+					"Column": 1,
+					"Comment": "是否显示模拟功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
+					"CommentType": 0
+				},
+				{
+					"Row": 34,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 35,
+					"Column": 1,
+					"Comment": "是否显示日历功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
+					"CommentType": 0
+				},
+				{
+					"Row": 35,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 36,
+					"Column": 1,
+					"Comment": "是否显示导入功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
+					"CommentType": 0
+				},
+				{
+					"Row": 36,
+					"Column": 2,
+					"Comment": "TRUE,FALSE",
+					"CommentType": 1
+				},
+				{
+					"Row": 38,
+					"Column": 1,
+					"Comment": "位置配置表中的根对象",
+					"CommentType": 0
+				},
+				{
+					"Row": 40,
+					"Column": 1,
+					"Comment": "注释行背景色，格式为#FFFFFF",
+					"CommentType": 0
+				},
+				{
+					"Row": 41,
+					"Column": 1,
+					"Comment": "注释行前景色，格式为#FFFFFF",
+					"CommentType": 0
+				},
+				{
+					"Row": 42,
+					"Column": 1,
+					"Comment": "组合行开启，如果填入G#A，则代表第一列数据中为#G#A的话，该行为组合行的开启",
+					"CommentType": 0
+				},
+				{
+					"Row": 43,
+					"Column": 1,
+					"Comment": "组合行结束，如果填入G#B，则代表第一列数据中为#G#B的话，该行为组合行的结束",
+					"CommentType": 0
+				},
+				{
+					"Row": 44,
+					"Column": 1,
+					"Comment": "组合行背景色，格式为#FFFFFF",
+					"CommentType": 0
+				},
+				{
+					"Row": 45,
+					"Column": 1,
+					"Comment": "组合行前景色，格式为#FFFFFF",
+					"CommentType": 0
+				},
+				{
+					"Row": 47,
+					"Column": 1,
+					"Comment": "版本号单位的最大长度，例如233.333.1.3，其中最大长度为3",
+					"CommentType": 0
+				},
+				{
+					"Row": 48,
+					"Column": 1,
+					"Comment": "版本号的位数，例如2.3.1.8的位数为4",
+					"CommentType": 0
+				}
+			]
+		},
+		"tbl_System_文件导出配置": {
+			"Name": "tbl_System_文件导出配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium3",
+			"CommentList": []
+		},
+		"tbl_System_数据导出配置": {
+			"Name": "tbl_System_数据导出配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium14",
+			"CommentList": []
+		},
+		"tbl_System_Python配置": {
+			"Name": "tbl_System_Python配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium14",
+			"CommentList": []
+		},
+		"tbl_System_属性配置": {
+			"Name": "tbl_System_属性配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium9",
+			"CommentList": []
+		},
+		"tbl_System_单位对象配置": {
+			"Name": "tbl_System_单位对象配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium9",
+			"CommentList": []
+		},
+		"tbl_System_单位模板配置": {
+			"Name": "tbl_System_单位模板配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium9",
+			"CommentList": []
+		},
+		"tbl_System_条件配置": {
+			"Name": "tbl_System_条件配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium9",
+			"CommentList": []
+		},
+		"tbl_System_行为配置": {
+			"Name": "tbl_System_行为配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium9",
+			"CommentList": []
+		},
+		"tbl_System_枚举代码导出配置": {
+			"Name": "tbl_System_枚举代码导出配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium14",
+			"CommentList": []
+		},
+		"tbl_System_日历导出配置": {
+			"Name": "tbl_System_日历导出配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium8",
+			"CommentList": []
+		},
+		"Config_结构": {
+			"Name": "Config_结构",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium14",
+			"CommentList": []
+		},
+		"tbl_System_自定义数据配置": {
+			"Name": "tbl_System_自定义数据配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "d1",
+			"Style": "TableStyleMedium7",
+			"CommentList": []
+		},
+		"tbl_System_自定义数据导出配置": {
+			"Name": "tbl_System_自定义数据导出配置",
+			"Type": 1,
+			"AutoGap": 0,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium14",
+			"CommentList": []
+		},
+		"tbl_System_表头格式化配置": {
+			"Name": "tbl_System_表头格式化配置",
+			"Type": 2,
+			"AutoGap": 2,
+			"ColumnOffset": 1,
+			"RowOffset": 1,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium8",
+			"CommentList": []
+		},
+		"tbl_System_枚举格式化配置": {
+			"Name": "tbl_System_枚举格式化配置",
+			"Type": 2,
+			"AutoGap": 1,
+			"ColumnOffset": 0,
+			"RowOffset": 0,
+			"RangeAddress": "a1",
+			"Style": "TableStyleMedium8",
+			"CommentList": []
+		}
+	},
+	"Data": {
+		"Name": "tbl_System_数据导出配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_数据导出配置",
+		"DataTable": [
+			{
+				"索引": "#项目配置数据##############################################################################################",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": null,
+				"数据工作簿名称": null,
+				"数据工作表名称": null,
+				"数据ListObject名称": null
+			},
+			{
+				"索引": "PokerCard",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": "tbl_表头_PokerCard",
+				"数据工作簿名称": "PokerCard.xlsx",
+				"数据工作表名称": "PokerCard",
+				"数据ListObject名称": "Cfg_PokerCard"
+			}
+		]
+	},
+	"CustomData": {
+		"Name": "tbl_System_自定义数据导出配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_自定义数据导出配置",
+		"DataTable": [
+			{
+				"电脑名": "#示例",
+				"工程路径": ""
+			},
+			{
+				"电脑名": "LAPTOP-0DAOHQRL",
+				"工程路径": ""
+			}
+		]
+	},
+	"Python": {
+		"Name": "tbl_System_Python配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_Python配置",
+		"DataTable": [
+			{
+				"名称": "CreateFile",
+				"文件名": "CreateFile.py",
+				"方法名": "Run",
+				"方法参数": null,
+				"文件路径": null,
+				"默认选中": null,
+				"方法备注": null,
+				"参数备注": null
+			}
+		]
+	},
+	"EnumFile": {
+		"Name": "tbl_System_枚举代码导出配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_枚举代码导出配置",
+		"DataTable": [
+			{
+				"索引": "#扑克",
+				"分组": null,
+				"代码名": null,
+				"描述": null
+			},
+			{
+				"索引": "tbl_枚举_扑克花色",
+				"分组": "Card",
+				"代码名": "Enum_CardSuit",
+				"描述": "扑克花色"
+			},
+			{
+				"索引": "tbl_枚举_扑克点数",
+				"分组": "Card",
+				"代码名": "Enum_CardRank",
+				"描述": "扑克点数"
+			},
+			{
+				"索引": "tbl_枚举_德州牌型",
+				"分组": "Card",
+				"代码名": "Enum_PokerHandType",
+				"描述": "德州牌型"
+			},
+			{
+				"索引": "#随机",
+				"分组": null,
+				"代码名": null,
+				"描述": null
+			},
+			{
+				"索引": "tbl_枚举_随机模式",
+				"分组": "Random",
+				"代码名": "Enum_RandomType",
+				"描述": "随机类型"
+			}
+		]
+	},
+	"File": {
+		"Name": "tbl_System_文件导出配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_文件导出配置",
+		"DataTable": [
+			{
+				"索引": "#自动导出枚举",
+				"父节点": null,
+				"导出文件用途类型": null,
+				"导出文件类型": null,
+				"文件通用数据调用方法": null,
+				"关键字": null,
+				"文件名": null,
+				"sheet名": null,
+				"后缀名": null,
+				"文件编码": null,
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Enum_Card",
+				"父节点": "#EnumFile",
+				"导出文件用途类型": "枚举代码",
+				"导出文件类型": "csFile",
+				"文件通用数据调用方法": null,
+				"关键字": "Card",
+				"文件名": "AutoEnum_Card",
+				"sheet名": null,
+				"后缀名": "cs",
+				"文件编码": "UTF8",
+				"文件路径": "\\..\\Scripts\\Enum\\",
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Enum_Random",
+				"父节点": "#EnumFile",
+				"导出文件用途类型": "枚举代码",
+				"导出文件类型": "csFile",
+				"文件通用数据调用方法": null,
+				"关键字": "Random",
+				"文件名": "AutoEnum_Random",
+				"sheet名": null,
+				"后缀名": "cs",
+				"文件编码": "UTF8",
+				"文件路径": "\\..\\Scripts\\Enum\\",
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "PokerCard",
+				"父节点": "#PokerCard",
+				"导出文件用途类型": "配置表",
+				"导出文件类型": "txt",
+				"文件通用数据调用方法": null,
+				"关键字": "PokerCard",
+				"文件名": "PokerCard",
+				"sheet名": null,
+				"后缀名": "txt",
+				"文件编码": "UTF8",
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			}
+		]
+	},
+	"Struct": {
+		"Name": "Config_结构",
+		"AutoIndex": false,
+		"DisplayInfoKey": "Config_结构",
+		"DataTable": [
+			{
+				"索引": "#示例",
+				"xml表头": null,
+				"嵌套": null,
+				"行内嵌套": null
+			}
+		]
+	},
+	"Property": {
+		"Name": "tbl_System_属性配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_属性配置",
+		"DataTable": [
+			{
+				"名称": "#示例",
+				"类型": null,
+				"参数": null,
+				"初始值": null
+			}
+		]
+	},
+	"Calendar": {
+		"Name": "tbl_System_日历导出配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_日历导出配置",
+		"DataTable": [
+			{
+				"关键字": "#示例",
+				"数据关键字": null,
+				"文件名": null,
+				"sheet页名称": null,
+				"显示名所在列": null,
+				"开始时间所在列": null,
+				"结束时间所在列": null,
+				"背景色": null,
+				"文字颜色": null
+			}
+		]
+	},
+	"UnitObject": {
+		"Name": "tbl_System_单位对象配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_单位对象配置",
+		"DataTable": [
+			{
+				"名称": "#示例",
+				"模板名": null,
+				"对象列表": null
+			}
+		]
+	},
+	"UnitTemplate": {
+		"Name": "tbl_System_单位模板配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_单位模板配置",
+		"DataTable": [
+			{
+				"名称": "#示例",
+				"类型": null,
+				"属性列表": null,
+				"数据名": null
+			}
+		]
+	},
+	"Behaviour": {
+		"Name": "tbl_System_行为配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_行为配置",
+		"DataTable": [
+			{
+				"名称": "#示例",
+				"类型": null,
+				"条件": null,
+				"运行类型": null,
+				"参数列表": null
+			}
+		]
+	},
+	"Condition": {
+		"Name": "tbl_System_条件配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_条件配置",
+		"DataTable": [
+			{
+				"名称": "#示例",
+				"类型": null,
+				"属性": null,
+				"比较符": null,
+				"参数": null
+			}
+		]
+	},
+	"System": {
+		"Name": "tbl_System_参数配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_参数配置",
+		"DataTable": [
+			{
+				"配置参数名称": "####################################",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "#数据名称配置",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "xml结构表名称",
+				"参数值": "结构"
+			},
+			{
+				"配置参数名称": "#导出设置配置###################",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "提交工具",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "后缀名是否可以为空",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "导出表路径",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "Python脚本路径",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "生成工程文件脚本名",
+				"参数值": "CreateFile"
+			},
+			{
+				"配置参数名称": "xml缺省导出",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "xml行内嵌套缺省导出",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "json缺省导出",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "json对象缺省导出",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "json数组缺省导出",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "txt分隔符",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "json缩进符",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "默认嵌套类型",
+				"参数值": "对象|对象"
+			},
+			{
+				"配置参数名称": "xml缩进符",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "txt自定义表头",
+				"参数值": "字段索引|字段名|表头|表头"
+			},
+			{
+				"配置参数名称": "excel自定义表头",
+				"参数值": "字段索引|字段名|表头|表头"
+			},
+			{
+				"配置参数名称": "表头配置前缀",
+				"参数值": "tbl_表头_"
+			},
+			{
+				"配置参数名称": "sheet前缀",
+				"参数值": "Cfg_"
+			},
+			{
+				"配置参数名称": "listobject前缀",
+				"参数值": "Cfg_"
+			},
+			{
+				"配置参数名称": "数据表表头的备注内容",
+				"参数值": "字段名|表头|数据类型|数据类型参数|为空是否导出|默认值|分组|转换类型|转换关键字|转换字段|字段描述"
+			},
+			{
+				"配置参数名称": "自动生成文件类型",
+				"参数值": "txt|txt"
+			},
+			{
+				"配置参数名称": "#导入设置配置################",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "txt导入表头列表",
+				"参数值": "字段索引|字段名|表头|表头|表头"
+			},
+			{
+				"配置参数名称": "sheet名称规范",
+				"参数值": "^(?<fileName>.+)\\|(.+)$"
+			},
+			{
+				"配置参数名称": "excel导入表头列表",
+				"参数值": "表头|表头|字段名|字段索引"
+			},
+			{
+				"配置参数名称": "excel导入添加后缀",
+				"参数值": "配置"
+			},
+			{
+				"配置参数名称": "excel导入辅助列标记",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "#ribbon显示配置##############",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "显示模拟功能",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "显示日历功能",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "显示导入功能",
+				"参数值": "False"
+			},
+			{
+				"配置参数名称": "#模拟设置##############",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "位置表根对象名称",
+				"参数值": "角色"
+			},
+			{
+				"配置参数名称": "#数据格式化设置#########",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "注释行背景色",
+				"参数值": "#D9D9D9"
+			},
+			{
+				"配置参数名称": "注释行前景色",
+				"参数值": "#7B7B7B"
+			},
+			{
+				"配置参数名称": "组合行开始关键字",
+				"参数值": "GS#"
+			},
+			{
+				"配置参数名称": "组合行结束关键字",
+				"参数值": "GE#"
+			},
+			{
+				"配置参数名称": "组合行背景色",
+				"参数值": "#00B050"
+			},
+			{
+				"配置参数名称": "组合行前景色",
+				"参数值": "#FFFF00"
+			},
+			{
+				"配置参数名称": "#版本号设置#########",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "版本单位最大位数",
+				"参数值": "3"
+			},
+			{
+				"配置参数名称": "版本号位数",
+				"参数值": "4"
+			},
+			{
+				"配置参数名称": "#坐标生成器设置#########",
+				"参数值": null
+			},
+			{
+				"配置参数名称": "坐标生成sheet页",
+				"参数值": "关卡图"
+			},
+			{
+				"配置参数名称": "坐标生成区域",
+				"参数值": "b2:o13"
+			},
+			{
+				"配置参数名称": "坐标类型",
+				"参数值": "0"
+			},
+			{
+				"配置参数名称": "颜色类型转化",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "内容转化",
+				"参数值": ""
+			},
+			{
+				"配置参数名称": "索引下标",
+				"参数值": "0"
+			}
+		]
+	},
+	"CustomDataField": {
+		"Name": "tbl_System_自定义数据配置",
+		"AutoIndex": false,
+		"DisplayInfoKey": "tbl_System_自定义数据配置",
+		"DataTable": [
+			{
+				"关键字": "工程路径",
+				"默认值": ""
+			}
+		]
+	}
+}
