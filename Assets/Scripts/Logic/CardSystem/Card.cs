@@ -7,12 +7,13 @@ public class Card : IComparable<Card>
         get
         {
             DRPokercard t_Row = CfgTableMgr.GetRow<DRPokercard>(ID);
-            return "UI/UI/" + t_Row.Icon;
+            return "UI/Card/" + t_Row.Icon;
         }
     }
     public string ID { get { return ((int)Suit * 100 + (int)Rank).ToString(); } }
     public Enum_CardSuit Suit { get; private set; }
     public Enum_CardRank Rank { get; private set; }
+    public UI_Card UICard { get; set; }
     public int Attack { get; private set; }
 
     public Card(Enum_CardSuit p_Suit, Enum_CardRank p_Rank)

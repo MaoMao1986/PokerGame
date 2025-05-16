@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,36 +9,124 @@ public class BattleManager : MonoBehaviour
     private int currentRound = 0;
     private bool playerFirst;
     private bool battleEnded = false;
-    
+
+    private Deck m_Deck;
     private CardCollection PublicCards;
     private BattleUser Player;
     private BattleUser Enemy;
+    public GameObject HandCardGroup;
+    public GameObject PublicCardGroup;
+    public GameObject DawnCardGroup;
+    private UI_CardGroup m_HandCardGroup;
+    private UI_CardGroup m_PublicCardGroup;
+    private UI_CardGroup m_DawnCardGroup;
+    public Button DawnCard;
+    public Button DropCard;
+    public Button Reset;
+    public Button RemoveLight;
+    public TextMeshProUGUI CardType;
+    public GameObject CardTypeUI;
 
     void Start() {
-        //Test();
+        Init();
+        Test();
         //InitializeBattle();
         //StartCoroutine(BattleLoop());
     }
 
-    //public void Test()
-    //{
-    //    // 测试代码
-    //    Deck t_Deck = new Deck();
-    //    t_Deck.InitializeBaseDeck();
-    //    List<Card> t_Cards = t_Deck.DrawCards(5);
-    //    foreach (Card t_Card in t_Cards)
-    //    {
-    //        Debug.Log($"{t_Card.Suit}{(int)t_Card.Rank}");
-    //    }
+    private void Init()
+    {
+        m_PublicCardGroup = PublicCardGroup.GetComponent<UI_CardGroup>();
+        m_HandCardGroup = HandCardGroup.GetComponent<UI_CardGroup>();
+        m_DawnCardGroup = DawnCardGroup.GetComponent<UI_CardGroup>();
 
-    //    (Enum_PokerHandType t_Type, Dictionary <Card, Card > MatchedCards) = PokerHandEvaluator.EvaluateHand(t_Cards, new List<Card>() { new Card(Enum_CardSuit.大小王, Enum_CardRank.LittleJoker) });
-    //    Debug.Log($"牌型：{t_Type}");
-    //    foreach (var t_MatchedCard in MatchedCards)
-    //    {
-    //        var t_Target = t_MatchedCard.Value == null ? "空" : (t_MatchedCard.Value.Suit.ToString() + t_MatchedCard.Value.Rank.ToString());
-    //        Debug.Log($"牌型：{t_MatchedCard.Key.Suit}{(int)t_MatchedCard.Key.Rank} - {t_Target}");
-    //    }
-    //}
+        DawnCard.onClick.AddListener(m_DawnCardOnClick);
+        DropCard.onClick.AddListener(m_DropCardOnClick);
+        Reset.onClick.AddListener(m_ResetOnClick);
+        RemoveLight.onClick.AddListener(m_RemoveLight);
+    }
+
+    public void Test()
+    {
+        // 测试代码
+        m_Deck = new Deck();
+        m_Deck.InitializeBaseDeck();
+
+        // 初始化公共牌
+        List<Card> t_PublicCards = m_Deck.DrawCards(5);
+        m_PublicCardGroup.InitData(t_PublicCards, false);
+
+        // 初始化玩家手牌
+        List<Card> t_HandCards = m_Deck.DrawCards(5);
+        m_HandCardGroup.InitData(t_HandCards, true);
+
+        // 初始化出牌区
+        List<Card> t_DawnCards = new();
+        m_DawnCardGroup.InitData(t_DawnCards, false);
+    }
+
+    private void m_ResetOnClick()
+    {
+        Test();
+    }
+
+    private void m_RemoveLight()
+    {
+        foreach (var t_Card in m_DawnCardGroup.GetCardDatas())
+        {
+            t_Card.UICard?.CardUnLight();
+        }
+        foreach (var t_Card in m_PublicCardGroup.GetCardDatas())
+        {
+            t_Card.UICard?.CardUnLight();
+        }
+    }
+
+    /// <summary>
+    /// 出牌按钮点击事件
+    /// </summary>
+    private void m_DawnCardOnClick()
+    {
+        List<GameObject> t_Cards = m_HandCardGroup.GetUICardDatas(true);
+        if(t_Cards.Count > 0)
+        {
+            m_DawnCardGroup.MoveCards(t_Cards);
+            m_HandCardGroup.RemoveCards(t_Cards);
+            // 检测牌型
+            List<Card> t_DawnCards = m_DawnCardGroup.GetCardDatas();
+            List<Card> t_PublicCards = m_PublicCardGroup.GetCardDatas();
+            var(t_Type, t_MatchedCards) = PokerHandEvaluator.EvaluateHand(t_DawnCards, t_PublicCards);
+            foreach(var t_Card in t_MatchedCards.Keys)
+            {
+                t_Card.UICard?.CardLight();
+            }
+            CardType.text = Consts.PokerHandTypeName[t_Type];
+            // 让Text可见
+            CardTypeUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("没有选择任何牌");
+        }
+    }
+
+    /// <summary>
+    /// 弃牌按钮点击事件
+    /// </summary>
+    private void m_DropCardOnClick()
+    {
+        List<GameObject> t_Cards = m_HandCardGroup.GetUICardDatas(true);
+        if (t_Cards.Count > 0)
+        {
+            m_HandCardGroup.DestroyCards(t_Cards);
+        }
+        else
+        {
+            Debug.Log("没有选择任何牌");
+        }
+    }
+
+
 
     private void InitializeBattle() {
         // 初始敌人
