@@ -13,6 +13,10 @@ public class Deck
     /// </summary>
     public void InitializeBaseDeck()
     {
+        // 加上大小王
+        m_ActiveCardList.Add(new Card(Enum_CardSuit.Joker, Enum_CardRank.BigJoker));
+        m_ActiveCardList.Add(new Card(Enum_CardSuit.Joker, Enum_CardRank.LittleJoker));
+
         foreach (Enum_CardSuit t_Suit in System.Enum.GetValues(typeof(Enum_CardSuit)))
         {
             if(t_Suit != Enum_CardSuit.Joker)
@@ -26,6 +30,11 @@ public class Deck
                 }
             }
         }
+    }
+
+    public int GetLeftCardNum()
+    {
+        return m_ActiveCardList.Count;
     }
 
     /// <summary>

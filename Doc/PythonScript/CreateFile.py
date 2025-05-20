@@ -12,7 +12,7 @@
 def Run(p_Array):
     txtPath = ProjectPath + "\\..\\..\\Assets\\Table\\"
     Log.WriteLog(txtPath,True)
-    configCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Config\\"
+    configCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Config\\Txt\\"
     Log.WriteLog(configCSPath,True)
     
     #生成配置表对应的cs解析文件    
@@ -24,6 +24,7 @@ def Run(p_Array):
 def CreateConfigCS(txtFilePath,csFilePath):
     File.DeleteFiles(csFilePath,"cs")
     typeArray = {"int":"TransToInt","string":"TransToString","bool":"TransToBool","double":"TransToDouble","int[]":"TransToIntArray","string[]":"TransToStringArray","bool[]":"TransToBoolArray","double[]":"TransToDoubleArray","int[,]":"TransToIntArray2","string[,]":"TransToStringArray2","bool[,]":"TransToBoolArray2","double[,]":"TransToDoubleArray2"}
+    EnumData = Project.EnumFile
     for file in File.GetFiles(txtFilePath,"txt"):
         titles = File.GetLines(file,2,4)
         fieldName = titles[0].split("\t")
@@ -44,7 +45,11 @@ def CreateConfigCS(txtFilePath,csFilePath):
         #循环写入字段
         for i in range(len(fieldType)):
             if not (fieldType[i] in typeArray):
-                Log.WriteError("{0}文件的第4行数据类型字段的第{1}列{2}配置错误，无该类型",True,file,str(i),fieldType[i])
+                if not (fieldType[i] in EnumData.GetRowKeyList()):
+                    Log.WriteError("{0}文件的第4行数据类型字段的第{1}列{2}配置错误，无该类型",True,file,str(i),fieldType[i])
+                else:
+                    t_EnumType = EnumData.GetCodeName(fieldType[i])
+                    fileContent += "\tpublic " + t_EnumType + " " + fieldName[i].title() + " {get; private set;}\n"
             else:
                 fileContent += "\tpublic " + fieldType[i] + " " + fieldName[i].title() + " {get; private set;}\n"
         
@@ -55,7 +60,11 @@ def CreateConfigCS(txtFilePath,csFilePath):
         
         #循环写入字段解析
         for i in range(len(fieldType)):
-            fileContent += "\t\t" + fieldName[i].title() + " = CfgTableMgr." + typeArray[fieldType[i]] + "(p_dataRowString[t_Index]); t_Index++;\n"
+            if not (fieldType[i] in typeArray):
+                t_EnumType = EnumData.GetCodeName(fieldType[i])
+                fileContent += "\t\t" + fieldName[i].title() + " = ConfigManager.TransToEnum<" + t_EnumType + ">(p_dataRowString[t_Index]); t_Index++;\n"
+            else:
+                fileContent += "\t\t" + fieldName[i].title() + " = ConfigManager." + typeArray[fieldType[i]] + "(p_dataRowString[t_Index]); t_Index++;\n"
         
         fileContent += "\t}\n"
         fileContent += "}\n"
@@ -63,13 +72,13 @@ def CreateConfigCS(txtFilePath,csFilePath):
         Log.WriteSuccess("生成" + csFilePath + "DR" + name.title() + ".cs" + "成功",True)
         
 def CreateConfigMainCS(txtFilePath):
-    configMainCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Manager\\CfgTableMgrEx.cs"
+    configMainCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Manager\\ConfigManagerEx.cs"
     
     fileContent = ""
     fileContent += "/// <summary>\n"
     fileContent += "/// 配置文件列表，工具自动生成，勿手动修改\n"
     fileContent += "/// </summary>\n"
-    fileContent += "public static partial class CfgTableMgr\n"
+    fileContent += "public static partial class ConfigManager\n"
     fileContent += "{\n"
     fileContent += "\tpublic static void LoadConfig()\n"
     fileContent += "\t{\n"

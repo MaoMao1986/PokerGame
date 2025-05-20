@@ -1,7 +1,7 @@
 id	花色	大小	名称	图片资源
 id	suit	rank	name	icon
 c	c	c	c	c
-string	int	int	string	string
+string	tbl_枚举_扑克花色	tbl_枚举_扑克点数	string	string
 115	1	15	小王	JOKER_LITTLE
 116	1	16	大王	JOKER_BIG
 202	2	2	方块2	Diamonds_2

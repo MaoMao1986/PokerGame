@@ -300,7 +300,8 @@
 				{
 					"字段索引": "id",
 					"字段名": "id",
-					"表头": "c|string",
+					"表头": "c",
+					"字段类型": "string",
 					"数据类型": null,
 					"为空是否导出": null,
 					"默认值": null,
@@ -314,7 +315,8 @@
 				{
 					"字段索引": "花色",
 					"字段名": "suit",
-					"表头": "c|int",
+					"表头": "c",
+					"字段类型": "tbl_枚举_扑克花色",
 					"数据类型": null,
 					"为空是否导出": null,
 					"默认值": null,
@@ -328,7 +330,8 @@
 				{
 					"字段索引": "大小",
 					"字段名": "rank",
-					"表头": "c|int",
+					"表头": "c",
+					"字段类型": "tbl_枚举_扑克点数",
 					"数据类型": null,
 					"为空是否导出": null,
 					"默认值": null,
@@ -342,7 +345,8 @@
 				{
 					"字段索引": "名称",
 					"字段名": "name",
-					"表头": "c|string",
+					"表头": "c",
+					"字段类型": "string",
 					"数据类型": null,
 					"为空是否导出": null,
 					"默认值": null,
@@ -356,7 +360,180 @@
 				{
 					"字段索引": "图片资源",
 					"字段名": "icon",
-					"表头": "c|string",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				}
+			]
+		},
+		"tbl_表头_Property": {
+			"Name": "tbl_表头_Property",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "id",
+					"字段名": "id",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "类型",
+					"字段名": "type",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "子类型",
+					"字段名": "subType",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "枚举名称",
+					"字段名": "enumName",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "显示名称",
+					"字段名": "displayName",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "显示颜色",
+					"字段名": "displayColor",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "显示类型",
+					"字段名": "displayType",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "生效值",
+					"字段名": "validValue",
+					"表头": "c",
+					"字段类型": "int",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "初始化值",
+					"字段名": "initValue",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "属性上限",
+					"字段名": "maxValue",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "属性描述",
+					"字段名": "content",
+					"表头": "c",
+					"字段类型": "string",
 					"数据类型": null,
 					"为空是否导出": null,
 					"默认值": null,
@@ -405,7 +582,7 @@
 					"CommentType": 1
 				},
 				{
-					"Row": 26,
+					"Row": 27,
 					"Column": 1,
 					"Comment": "使用数据自动生成文件导出配置时的导出文件类型，默认为txt|txt，第一个参数为文件类型，第二个参数为后缀名，对应文件导出配置中的配置",
 					"CommentType": 0
@@ -543,127 +720,133 @@
 					"CommentType": 0
 				},
 				{
-					"Row": 25,
+					"Row": 26,
 					"Column": 1,
 					"Comment": "如果此处没有，则数据表中不增加任何的备注，此处只能填入表头数据的列字段，填入哪个字段，则会显示相应的数据，例如填入了字段名，则会在数据表的备注中增加字段名的显示",
 					"CommentType": 0
 				},
 				{
-					"Row": 28,
+					"Row": 25,
 					"Column": 1,
-					"Comment": "设定导入时的前几行为表头数据，每行对应的是表头的相应列",
+					"Comment": "此处填入默认生成时的表头列，需要按从左到右的顺序填入。不为系统默认的列的自动生成自定义列。例如 字段名|表头|表头扩展|数据类型|为空是否导出|默认值|分组|转换类型|转换关键字|转换字段|字段描述 中的[表头扩展]即为自定义表头，自动生成表头时，会将其生成在表头字段后面",
 					"CommentType": 0
 				},
 				{
 					"Row": 29,
 					"Column": 1,
-					"Comment": "excel文件的导入时的sheet页的默认规范，是个正则表达式，符合规范的才判定为配置表进行导入，必须包含以下关键字格式   (?<fileName>)，用以识别文件名，例如 ^(?<fileName>*)|*$  equip|装备  代表数据名为equip",
+					"Comment": "设定导入时的前几行为表头数据，每行对应的是表头的相应列",
 					"CommentType": 0
 				},
 				{
 					"Row": 30,
 					"Column": 1,
-					"Comment": "设定Excel导入时的前几行为表头数据，每行对应的是表头的相应列",
+					"Comment": "excel文件的导入时的sheet页的默认规范，是个正则表达式，符合规范的才判定为配置表进行导入，必须包含以下关键字格式   (?<fileName>)，用以识别文件名，例如 ^(?<fileName>*)|*$  equip|装备  代表数据名为equip",
 					"CommentType": 0
 				},
 				{
 					"Row": 31,
 					"Column": 1,
-					"Comment": "Excel文件的导入时创建的workbook文件的默认增加的后缀，不增加后缀的话会出现配置表和目标导出表名称一致，会有问题",
+					"Comment": "设定Excel导入时的前几行为表头数据，每行对应的是表头的相应列",
 					"CommentType": 0
 				},
 				{
 					"Row": 32,
 					"Column": 1,
+					"Comment": "Excel文件的导入时创建的workbook文件的默认增加的后缀，不增加后缀的话会出现配置表和目标导出表名称一致，会有问题",
+					"CommentType": 0
+				},
+				{
+					"Row": 33,
+					"Column": 1,
 					"Comment": "excel文件的导入时，第一行为辅助列的标记（即如果符合标记，则该列数据为excel中的辅助列数据，程序并不使用），为空代表数据为空，不为空代表正则表达式",
 					"CommentType": 0
 				},
 				{
-					"Row": 34,
+					"Row": 35,
 					"Column": 1,
 					"Comment": "是否显示模拟功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
 					"CommentType": 0
 				},
 				{
-					"Row": 34,
+					"Row": 35,
 					"Column": 2,
 					"Comment": "TRUE,FALSE",
 					"CommentType": 1
 				},
 				{
-					"Row": 35,
+					"Row": 36,
 					"Column": 1,
 					"Comment": "是否显示日历功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
 					"CommentType": 0
 				},
 				{
-					"Row": 35,
+					"Row": 36,
 					"Column": 2,
 					"Comment": "TRUE,FALSE",
 					"CommentType": 1
 				},
 				{
-					"Row": 36,
+					"Row": 37,
 					"Column": 1,
 					"Comment": "是否显示导入功能，如果为FALSE，则相应的ribbon区域和sheet页都会隐藏",
 					"CommentType": 0
 				},
 				{
-					"Row": 36,
+					"Row": 37,
 					"Column": 2,
 					"Comment": "TRUE,FALSE",
 					"CommentType": 1
 				},
 				{
-					"Row": 38,
+					"Row": 39,
 					"Column": 1,
 					"Comment": "位置配置表中的根对象",
 					"CommentType": 0
 				},
 				{
-					"Row": 40,
+					"Row": 41,
 					"Column": 1,
 					"Comment": "注释行背景色，格式为#FFFFFF",
 					"CommentType": 0
 				},
 				{
-					"Row": 41,
+					"Row": 42,
 					"Column": 1,
 					"Comment": "注释行前景色，格式为#FFFFFF",
 					"CommentType": 0
 				},
 				{
-					"Row": 42,
+					"Row": 43,
 					"Column": 1,
 					"Comment": "组合行开启，如果填入G#A，则代表第一列数据中为#G#A的话，该行为组合行的开启",
 					"CommentType": 0
 				},
 				{
-					"Row": 43,
+					"Row": 44,
 					"Column": 1,
 					"Comment": "组合行结束，如果填入G#B，则代表第一列数据中为#G#B的话，该行为组合行的结束",
 					"CommentType": 0
 				},
 				{
-					"Row": 44,
+					"Row": 45,
 					"Column": 1,
 					"Comment": "组合行背景色，格式为#FFFFFF",
 					"CommentType": 0
 				},
 				{
-					"Row": 45,
+					"Row": 46,
 					"Column": 1,
 					"Comment": "组合行前景色，格式为#FFFFFF",
 					"CommentType": 0
 				},
 				{
-					"Row": 47,
+					"Row": 48,
 					"Column": 1,
 					"Comment": "版本号单位的最大长度，例如233.333.1.3，其中最大长度为3",
 					"CommentType": 0
 				},
 				{
-					"Row": 48,
+					"Row": 49,
 					"Column": 1,
 					"Comment": "版本号的位数，例如2.3.1.8的位数为4",
 					"CommentType": 0
@@ -851,6 +1034,19 @@
 				"数据工作簿名称": "PokerCard.xlsx",
 				"数据工作表名称": "PokerCard",
 				"数据ListObject名称": "Cfg_PokerCard"
+			},
+			{
+				"索引": "Property",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": "tbl_表头_Property",
+				"数据工作簿名称": "Property.xlsx",
+				"数据工作表名称": "Cfg_Property",
+				"数据ListObject名称": "Cfg_Property"
 			}
 		]
 	},
@@ -987,6 +1183,21 @@
 				"文件通用数据调用方法": null,
 				"关键字": "PokerCard",
 				"文件名": "PokerCard",
+				"sheet名": null,
+				"后缀名": "txt",
+				"文件编码": "UTF8",
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Property",
+				"父节点": "#Property",
+				"导出文件用途类型": "配置表",
+				"导出文件类型": "txt",
+				"文件通用数据调用方法": null,
+				"关键字": "Property",
+				"文件名": "Property",
 				"sheet名": null,
 				"后缀名": "txt",
 				"文件编码": "UTF8",
@@ -1172,7 +1383,7 @@
 			},
 			{
 				"配置参数名称": "txt自定义表头",
-				"参数值": "字段索引|字段名|表头|表头"
+				"参数值": "字段索引|字段名|表头|字段类型"
 			},
 			{
 				"配置参数名称": "excel自定义表头",
@@ -1189,6 +1400,10 @@
 			{
 				"配置参数名称": "listobject前缀",
 				"参数值": "Cfg_"
+			},
+			{
+				"配置参数名称": "自定义表头列",
+				"参数值": "字段名|表头|字段类型|数据类型|为空是否导出|默认值|分组|转换类型|转换关键字|转换字段|字段描述"
 			},
 			{
 				"配置参数名称": "数据表表头的备注内容",

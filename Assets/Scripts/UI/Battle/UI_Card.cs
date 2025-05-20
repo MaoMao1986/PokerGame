@@ -30,6 +30,13 @@ public class UI_Card : MonoBehaviour
         UICard.sprite = Resources.Load<Sprite>(m_Card.Icon);
     }
 
+    public void ChangeParent(UI_CardGroup p_Parent)
+    {
+        IsSelected = false; // 移动后取消选中状态
+        m_CanSelect = p_Parent.CanSelect;
+        transform.SetParent(p_Parent.transform);
+    }
+
     /// <summary>
     /// 激活或禁用点击事件
     /// </summary>
@@ -51,30 +58,24 @@ public class UI_Card : MonoBehaviour
     /// </summary>
     private void m_OnClick()
     {
-        if (IsSelected)
-        {
-            IsSelected = false;
-            // 下移100像素
-            CardUnSelect();
-            // 
-            //UICardButton.image.color = Color.white;
-            //UICardButton.image.sprite = null; // 移除特效边框
-        }
-        else
-        {
-            IsSelected = true;
-            //UICardButton.image.color = Color.yellow;
-            CardSelect();
-            //UICardButton.image.sprite = Resources.Load<Sprite>("UI/UI/waifaguang1"); // 添加特效边框
-        }
+        IsSelected = !IsSelected;
+        Select(IsSelected);
     }
 
     /// <summary>
     /// 卡牌选中时的效果
     /// </summary>
-    public void CardSelect()
+    public void Select(bool p_Select)
     {
-        UICardButton.transform.position += new Vector3(0, 50, 0);
+        if (p_Select)
+        {
+            UICardButton.transform.position += new Vector3(0, 50, 0);
+        }
+        else
+        {
+            UICardButton.transform.position -= new Vector3(0, 50, 0);
+        }
+        
     }
 
     /// <summary>
@@ -82,7 +83,7 @@ public class UI_Card : MonoBehaviour
     /// </summary>
     public void CardUnSelect()
     {
-        UICardButton.transform.position -= new Vector3(0, 50, 0);
+        
     }
 
     /// <summary>

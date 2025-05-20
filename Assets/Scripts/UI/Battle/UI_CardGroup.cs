@@ -8,12 +8,13 @@ public class UI_CardGroup : MonoBehaviour
 {
     public GameObject Prefab_UICard;
     private List<GameObject> m_CardList;
-    private bool m_CanSelect = false; // 是否可以选择
+    public bool CanSelect = false; // 是否可以选择
 
     public void InitData(List<Card> p_CardList, bool p_CanSelect = false)
     {
+        DestroyCards();
         m_CardList = new();
-        m_CanSelect = p_CanSelect;
+        CanSelect = p_CanSelect;
         AddCards(p_CardList);
     }
 
@@ -35,7 +36,7 @@ public class UI_CardGroup : MonoBehaviour
         {
             GameObject t_Cell = Instantiate(Prefab_UICard, transform);
             UI_Card t_Script = t_Cell.GetComponent<UI_Card>();
-            t_Script.InitData(t_Card, m_CanSelect);
+            t_Script.InitData(t_Card, CanSelect);
             m_CardList.Add(t_Cell);
         }
     }
@@ -57,7 +58,11 @@ public class UI_CardGroup : MonoBehaviour
     public void DestroyCards(List<GameObject> p_Cards = null)
     {
         List<GameObject> t_Cards = p_Cards ?? m_CardList;
-        foreach (var t_Card in t_Cards)
+        if(t_Cards == null)
+        {
+            return;
+        }
+        foreach (var t_Card in t_Cards.ToArray())
         {
             m_CardList.Remove(t_Card);
             Destroy(t_Card);
@@ -71,8 +76,7 @@ public class UI_CardGroup : MonoBehaviour
         foreach (var t_Card in p_Cards)
         {
             m_CardList.Add(t_Card);
-            t_Card.GetComponent<UI_Card>().IsSelected = false; // 移动后取消选中状态
-            t_Card.transform.SetParent(transform);
+            t_Card.GetComponent<UI_Card>().ChangeParent(this);
         }
     }
 

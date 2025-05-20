@@ -6,7 +6,7 @@ public class Card : IComparable<Card>
     {
         get
         {
-            DRPokercard t_Row = CfgTableMgr.GetRow<DRPokercard>(ID);
+            DRPokercard t_Row = ConfigManager.GetRow<DRPokercard>(ID);
             return "UI/Card/" + t_Row.Icon;
         }
     }
