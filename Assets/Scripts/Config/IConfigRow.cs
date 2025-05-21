@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// 
+/// </summary>
 public interface IConfigRow
 {
     string Id { get; }

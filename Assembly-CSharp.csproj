@@ -61,9 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Logic\DeckManager\Deck.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property\MaxProperty.cs" />
     <Compile Include="Assets\Scripts\Entity\Reward\Reward.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property\LimitedProperty.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\BattleBuff.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\RandomManager.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\BattlePropertys.cs" />
@@ -71,7 +69,6 @@
     <Compile Include="Assets\Scripts\Entity\Reward\RewardEntity.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightUnit.cs" />
     <Compile Include="Assets\Scripts\Logic\CardSystem\Card.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\SimpleFightPropertys.cs" />
     <Compile Include="Assets\Scripts\Config\Txt\DRPokercard.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Random.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\BuffController.cs" />
@@ -80,7 +77,6 @@
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightPlayer.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Card.cs" />
     <Compile Include="Assets\Scripts\Const\ConstVariables.cs" />
-    <Compile Include="Assets\Scripts\Entity\Manager\ConfigManagerEx.cs" />
     <Compile Include="Assets\Scripts\Config\IConfigRow.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\Auto_EconomyPropertys.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Enemy.cs" />
@@ -88,18 +84,18 @@
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\FightPropertys.cs" />
     <Compile Include="Assets\Scripts\Entity\Random\RandomLogic.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\Enum\AutoEnum_Property.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\ImpactSystem\SubImpact\BattleImpact_1.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\BattleSimpleTeam.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\Buff.cs" />
     <Compile Include="Assets\Scripts\UI\Start\GameStart.cs" />
+    <Compile Include="Assets\Scripts\Entity\Manager\Auto_ConfigManager.cs" />
     <Compile Include="Assets\Scripts\Helper\NumberHelper.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\EconomyPropertys.cs" />
     <Compile Include="Assets\Scripts\Logic\CardSystem\PokerHandEvaluator.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property\CurrentProperty.cs" />
     <Compile Include="Assets\Scripts\Helper\RandomHelper.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\UI_Card.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property\Property.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\Base\Skill.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\AttackSkill.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Character.cs" />
@@ -107,12 +103,13 @@
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\BattleUnit.cs" />
     <Compile Include="Assets\Scripts\Config\Txt\DRProperty.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\Auto_BattlePropertys.cs" />
-    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\Propertys.cs" />
     <Compile Include="Assets\Scripts\Logic\DeckManager\HandCards.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Player.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\ActiveSkillController.cs" />
     <Compile Include="Assets\Scripts\Logic\DeckManager\CardCollection.cs" />
+    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\ImpactSystem\BattleImpact.cs" />
+    <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Table\PokerCard.txt" />

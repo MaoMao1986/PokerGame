@@ -3,10 +3,25 @@
 /// </summary>
 public class DRPokercard : IConfigRow
 {
+	/// <summary>
+	/// id
+	/// </summary>
 	public string Id {get; private set;}
+	/// <summary>
+	/// 花色
+	/// </summary>
 	public Enum_CardSuit Suit {get; private set;}
+	/// <summary>
+	/// 大小
+	/// </summary>
 	public Enum_CardRank Rank {get; private set;}
+	/// <summary>
+	/// 名称
+	/// </summary>
 	public string Name {get; private set;}
+	/// <summary>
+	/// 图片资源
+	/// </summary>
 	public string Icon {get; private set;}
 
 	public void ParseDataRow(string[] p_dataRowString, string[] p_Type)

@@ -26,13 +26,14 @@ def CreateConfigCS(txtFilePath,csFilePath):
     typeArray = {"int":"TransToInt","string":"TransToString","bool":"TransToBool","double":"TransToDouble","int[]":"TransToIntArray","string[]":"TransToStringArray","bool[]":"TransToBoolArray","double[]":"TransToDoubleArray","int[,]":"TransToIntArray2","string[,]":"TransToStringArray2","bool[,]":"TransToBoolArray2","double[,]":"TransToDoubleArray2"}
     EnumData = Project.EnumFile
     for file in File.GetFiles(txtFilePath,"txt"):
-        titles = File.GetLines(file,2,4)
-        fieldName = titles[0].split("\t")
-        fieldType = titles[1].split("\t")
+        titles = File.GetLines(file,1,2,4)
+        fieldDesc = titles[0].split("\t")
+        fieldName = titles[1].split("\t")
+        fieldType = titles[2].split("\t")
         if len(fieldName) != len(fieldType):
-            Log.WriteError("fieldName:{0}",True,len(fieldName))
-            Log.WriteError("fieldType:{0}",True,len(fieldType))
-            Log.WriteError("{0}文件的第2行字段配置和第4行数据类型配置的列数量不相等",True,file)
+            Log.WriteError("fieldName:" + len(fieldName),True)
+            Log.WriteError("fieldType:" + len(fieldType),True)
+            Log.WriteError(file + "文件的第2行字段配置和第4行数据类型配置的列数量不相等",True)
         fullname = File.GetFullName(file)
         name = File.GetFileName(file)
         fileContent = ""
@@ -42,6 +43,14 @@ def CreateConfigCS(txtFilePath,csFilePath):
         fileContent += "public class " + "DR" + name.title() + " : IConfigRow\n"
         fileContent += "{\n"
         
+        def WriteProperty(desc,name,type):
+            returnString = ""
+            returnString += "\t/// <summary>\n"
+            returnString += "\t/// " + desc + "\n"
+            returnString += "\t/// </summary>\n"
+            returnString += "\tpublic " + type + " " + name + " {get; private set;}\n"
+            return returnString
+        
         #循环写入字段
         for i in range(len(fieldType)):
             if not (fieldType[i] in typeArray):
@@ -49,9 +58,9 @@ def CreateConfigCS(txtFilePath,csFilePath):
                     Log.WriteError("{0}文件的第4行数据类型字段的第{1}列{2}配置错误，无该类型",True,file,str(i),fieldType[i])
                 else:
                     t_EnumType = EnumData.GetCodeName(fieldType[i])
-                    fileContent += "\tpublic " + t_EnumType + " " + fieldName[i].title() + " {get; private set;}\n"
+                    fileContent += WriteProperty(fieldDesc[i],fieldName[i].title(),t_EnumType)
             else:
-                fileContent += "\tpublic " + fieldType[i] + " " + fieldName[i].title() + " {get; private set;}\n"
+                fileContent += WriteProperty(fieldDesc[i],fieldName[i].title(),fieldType[i])
         
         fileContent += "\n"
         fileContent += "\tpublic void ParseDataRow(string[] p_dataRowString, string[] p_Type)\n"
@@ -72,7 +81,7 @@ def CreateConfigCS(txtFilePath,csFilePath):
         Log.WriteSuccess("生成" + csFilePath + "DR" + name.title() + ".cs" + "成功",True)
         
 def CreateConfigMainCS(txtFilePath):
-    configMainCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Manager\\ConfigManagerEx.cs"
+    configMainCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Manager\\Auto_ConfigManager.cs"
     
     fileContent = ""
     fileContent += "/// <summary>\n"
