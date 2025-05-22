@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.UIElements;
 
-public class BattleUnitTeam
+public class FightingTeamBase
 {
     /// <summary>
     /// 战队的位置和单位信息，A队位置从1、2、3等，B队位置从-1、-2、-3等
@@ -49,9 +49,9 @@ public class BattleUnitTeam
     /// 根据玩家数据创建战队信息
     /// </summary>
     /// <returns></returns>
-    public static BattleUnitTeam NewPlayer(EmBattle_TeamType p_Type)
+    public static FightingTeamBase NewPlayer(EmBattle_TeamType p_Type)
     {
-        BattleUnitTeam t_Team = new();
+        FightingTeamBase t_Team = new();
         int t_Index = 1;
         int t_Side = 1;
         if(p_Type == EmBattle_TeamType.TeamB)
@@ -73,9 +73,9 @@ public class BattleUnitTeam
     /// </summary>
     /// <param name="p_Id"></param>
     /// <returns></returns>
-    public static BattleUnitTeam NewMonster(int p_Id, EmBattle_TeamType p_Type = EmBattle_TeamType.TeamB)
+    public static FightingTeamBase NewMonster(int p_Id, EmBattle_TeamType p_Type = EmBattle_TeamType.TeamB)
     {
-        BattleUnitTeam t_Team = new();
+        FightingTeamBase t_Team = new();
         int t_Index = 1;
         int t_Side = 1;
         if (p_Type == EmBattle_TeamType.TeamB)

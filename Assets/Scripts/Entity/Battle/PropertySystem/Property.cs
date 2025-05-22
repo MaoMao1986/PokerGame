@@ -1,4 +1,3 @@
-using Sheet1;
 using System;
 using TMPro.EditorUtilities;
 using Unity.VisualScripting;
@@ -17,6 +16,7 @@ public class Property
     public Func<int> OnValueSeted { get; set; } = null;
     public Func<int> GetMaxFunction { get; set; } = null;
     public Func<int> GetMinFunction { get; set; } = null;
+    public Func<int> GetValidValueFunction { get; set; } = null;
 
     #region New
     /// <summary>
@@ -29,6 +29,20 @@ public class Property
         Property t_Property = new();
         t_Property.Id = p_Id;
         t_Property.Value = ConfigManager.GetRow<DRProperty>(p_Id).Initvalue;
+        return t_Property;
+    }
+
+    /// <summary>
+    /// 根据属性id和初始值初始化新属性
+    /// </summary>
+    /// <param name="p_Id"></param>
+    /// <param name="p_Value"></param>
+    /// <returns></returns>
+    public static Property New(string p_Id, int p_Value)
+    {
+        Property t_Property = new();
+        t_Property.Id = p_Id;
+        t_Property.Value = p_Value;
         return t_Property;
     }
     #endregion
@@ -47,10 +61,12 @@ public class Property
         string t_DisplayType = ConfigManager.GetRow<DRProperty>(p_Id).Displaytype;
         if (string.IsNullOrEmpty(t_DisplayType))
         {
+            // 显示类型为空，默认显示
             t_Return = t_Value.ToString("G29");
         }
         else
         {
+            // 按照目标格式显示
             t_Return = t_Value.ToString(t_DisplayType);
         }
         return t_Return;
@@ -78,7 +94,8 @@ public class Property
             OnValueReduced = OnValueReduced,
             OnValueSeted = OnValueSeted,
             GetMaxFunction = GetMaxFunction,
-            GetMinFunction = GetMinFunction
+            GetMinFunction = GetMinFunction,
+            GetValidValueFunction =  GetValidValueFunction
         };
         return t_Property;
     }
@@ -313,6 +330,18 @@ public class Property
             }
         }
         return t_Result;
+    }
+    #endregion
+
+    #region GetVaildValue
+    public int GetValidValue()
+    {
+        int t_ValidValue = Value;
+        if(GetValidValueFunction != null)
+        {
+            t_ValidValue = GetValidValueFunction.Invoke();
+        }
+        return t_ValidValue;
     }
     #endregion
 }

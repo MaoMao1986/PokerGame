@@ -1,0 +1,5 @@
+id	最小攻击	最大攻击	防	血	蓝	其他属性
+id	minAtk	maxAtk	def	HP	MP	others
+c	c	c	c	c	c	c
+string	int	int	int	int	int	int[,]
+1	95	105	10	1000	100	300:1

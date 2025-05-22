@@ -4,33 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class FightMonster : FightUnit
+public class FightMonster : FightingUnitBase
 {
     public int MonsterId;
 
-    public override string Name 
-    {
-        get
-        {
-            if(MonsterId <= 0) { return ""; }
-            DRBattleUnit t_Row = ConfigManager.GetRow<DRBattleUnit>(MonsterId);
-            DRBattleDisplay t_Display = ConfigManager.GetRow<DRBattleDisplay>(t_Row.displayId);
-            return t_Display.name;
-        }
-    }
-
-    public override string Icon
-    {
-        get
-        {
-            if (MonsterId <= 0) { return ""; }
-            DRBattleUnit t_Row = ConfigManager.GetRow<DRBattleUnit>(MonsterId);
-            DRBattleDisplay t_Display = ConfigManager.GetRow<DRBattleDisplay>(t_Row.displayId);
-            return t_Display.icon;
-        }
-    }
-
-    public static FightMonster New(int p_Id, int p_Position)
+    public static FightMonster New(string p_Id)
     {
         DRBattleUnit t_Row = ConfigManager.GetRow<DRBattleUnit>(p_Id);
         FightMonster t_Unit = new()

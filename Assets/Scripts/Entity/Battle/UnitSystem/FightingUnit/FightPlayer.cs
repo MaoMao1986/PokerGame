@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class FightPlayer : FightUnit
+public class FightPlayer : FightingUnitBase
 {
     public override string Name 
     { 

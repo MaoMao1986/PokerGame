@@ -9,60 +9,69 @@
 #m_PythonScope.SetVariable("Reward", RewardController.GetInstance());
 
 
-def CreatePropertyFile():
+def CreatePropertyFile(p_Array):
+    
+    t_MD_PropertyAssist = MapDataInfos.ReadOnly("辅助_属性分组")
     t_MD_Property = MapDataInfos.ReadOnly("Property")
     
-    m_CreatePropertyEnumFile(t_MD_Property)
-    
-    m_CreatePropertyUnitFile("战斗", t_MD_Property)
-    m_CreatePropertyUnitFile("经济", t_MD_Property)
+    for t_id in t_MD_PropertyAssist.DataData.GetRowKeyList():
+        t_DataGroupString = t_MD_PropertyAssist.DataData.GetData(t_id,"数据分组")
+        t_FileName = t_MD_PropertyAssist.DataData.GetData(t_id,"文件名")
+        t_ClassName = t_MD_PropertyAssist.DataData.GetData(t_id,"类名")
+        t_FileDesc = t_MD_PropertyAssist.DataData.GetData(t_id,"说明")
+        t_DataGroupList = t_MD_Property.DataData.GetRowListByGroup(DataTrans.ListString(t_DataGroupString.split("|")))
+        m_CreatePropertyUnitFile(t_ClassName, t_FileName, t_DataGroupList, t_FileDesc)
+        m_CreatePropertyCodeFile(t_ClassName, t_FileName, t_FileDesc)
   
-#生成属性枚举相关文件  
-def m_CreatePropertyEnumFile(p_Md):       
-    t_idList = p_Md.DataData.GetRowKeyList()
-    #生成枚举文件
-    propertyEnumCSPath = ProjectPath + "\\..\\..\\Assets\\Script\\Enum\\Auto_EnumProperty.cs"
-    fileContent = ""
-    fileContent += "/// <summary>\n"
-    fileContent += "/// 属性枚举，工具自动生成，勿手动修改\n"
-    fileContent += "/// </summary>\n"
-    fileContent += "public enum EmProperty\n"
-    fileContent += "{\n"
-    for t_id in t_idList:
-        fileContent += "\t" + str(p_Md.DataData.GetData(t_id,"枚举名称")) + " = " + str(p_Md.DataData.GetData(t_id,"id")) + ",\n"
-    fileContent += "}\n"
-    File.Write(propertyEnumCSPath,fileContent)
-    Log.WriteSuccess("生成" + propertyEnumCSPath + "成功")    
+#生成属性组中代码继承的文件（如果文件不存在则生成，如果存在，则跳过）
+def m_CreatePropertyCodeFile(p_ClassName, p_FileName, p_FileDesc):
+    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\" + p_FileName + "Propertys.cs"
+    if not File.Exists(propertyUnitCSPath):
+        fileContent = "using System.Collections.Generic;\n\n\n"
+        fileContent += "/// <summary>\n"
+        fileContent += "/// " + p_ClassName + "属性组代码逻辑\n"
+        fileContent += "/// " + p_FileDesc + "\n"
+        fileContent += "/// </summary>\n"
+        fileContent += "public partial class " + p_ClassName + "Propertys : Propertys\n"
+        fileContent += "{\n"
+        
+        fileContent += "\tpublic override void InitAllProperty()\n"
+        fileContent += "\t{\n"
+        fileContent += "\t\t// 初始化属性字典\n"
+        fileContent += "\t\tInitPropertyList();\n"
+        fileContent += "\t\t\n"
+        fileContent += "\t\t// 待实现，各个属性的事件回调\n"
+        fileContent += "\t\t//PhyRes.GetMaxFunction = () =>\n"
+        fileContent += "\t\t//{\n"
+        fileContent += "\t\t//\treturn PhyRes.GetConfigMax() + PhyResMax.GetValid();\n"
+        fileContent += "\t\t//};\n"
+        fileContent += "\t\t\n"
+        fileContent += "\t}\n"
+        
+        fileContent += "}\n"
+        File.Write(propertyUnitCSPath,fileContent)
+        Log.WriteSuccess("生成" + propertyUnitCSPath + "成功")
     
-#生成属性对象相关文件
-def m_CreatePropertyUnitFile(p_Name, p_Md):
-    t_Name = p_Name
-    t_Type = ""
-    if(p_Name == "战斗"):
-        t_Type = "Battle"
-    if(p_Name == "经济"):
-        t_Type = "Economy"
+    
+#生成属性组中枚举属性的文件
+def m_CreatePropertyUnitFile(p_ClassName, p_FileName, p_IdList, p_FileDesc):
+    t_MD_Property = MapDataInfos.ReadOnly("Property")
 
-    t_idList = p_Md.DataData.GetRowKeyList()
     #生成属性组的所有属性
-    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Script\\Logic\\Entity\\Propertys\\Auto_" + t_Type + "Propertys.cs"
+    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\Auto_" + p_FileName + "Propertys.cs"
     fileContent = "using System.Collections.Generic;\n\n\n"
     fileContent += "/// <summary>\n"
-    fileContent += "/// " + t_Name + "属性列表，工具自动生成，勿手动修改\n"
+    fileContent += "/// " + p_ClassName + "属性列表，工具自动生成，勿手动修改\n"
+    fileContent += "/// " + p_FileDesc + "\n"
     fileContent += "/// </summary>\n"
-    fileContent += "public partial class " + t_Type + "Propertys\n"
+    fileContent += "public partial class " + p_ClassName + "Propertys\n"
     fileContent += "{\n"
-    for t_id in t_idList:
-        if p_Md.DataData.GetData(t_id,"类型") == t_Name:
-            fileContent += "\t/// <summary>\n"
-            fileContent += "\t/// " + str(p_Md.DataData.GetData(t_id,"显示名称")) + "\n"
-            fileContent += "\t/// </summary>\n"
-            className = ""
-            if str(p_Md.DataData.GetData(t_id,"子类型")) == "上限":
-                className = "LimitedProperty"
-            else:
-                className = "Property"
-            fileContent += "\tpublic " + className + " " + str(p_Md.DataData.GetData(t_id,"枚举名称")) + " { get; set; } = " + className + ".New(" + t_id + ");\n"
+    for t_id in p_IdList:
+        t_PropertyName = t_MD_Property.DataData.GetData(t_id,"枚举名称")
+        fileContent += "\t/// <summary>\n"
+        fileContent += "\t/// " + str(t_MD_Property.DataData.GetData(t_id,"显示名称")) + "\n"
+        fileContent += "\t/// </summary>\n"
+        fileContent += "\tpublic Property " + str(t_PropertyName) + " { get; set; } = Property.New(\"" + t_id + "\");\n"
     
     #枚举和属性对应的字典
     fileContent += "\t\n"
@@ -70,9 +79,9 @@ def m_CreatePropertyUnitFile(p_Name, p_Md):
     fileContent += "\t{\n"
     fileContent += "\t\tPropertyList = new()\n"
     fileContent += "\t\t{\n"
-    for t_id in t_idList:
-        if p_Md.DataData.GetData(t_id,"类型") == t_Name:
-            fileContent += "\t\t\t{" + t_id + " , " + str(p_Md.DataData.GetData(t_id,"枚举名称")) + "},\n"
+    for t_id in p_IdList:
+        t_PropertyName = t_MD_Property.DataData.GetData(t_id,"枚举名称")
+        fileContent += "\t\t\t{\"" + t_id + "\" , " + str(t_PropertyName) + "},\n"
     fileContent += "\t\t};\n"
     fileContent += "\t}\n"
                 

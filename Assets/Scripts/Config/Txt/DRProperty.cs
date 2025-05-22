@@ -24,11 +24,11 @@ public class DRProperty : IConfigRow
 	/// </summary>
 	public int Initvalue {get; private set;}
 	/// <summary>
-	/// 生效值
+	/// 显示生效值
 	/// </summary>
 	public int Validvalue {get; private set;}
 	/// <summary>
-	/// 格式
+	/// 显示格式
 	/// </summary>
 	public string Displaytype {get; private set;}
 	/// <summary>

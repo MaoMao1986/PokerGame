@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 
 /// <summary>
-/// Battle属性列表，工具自动生成，勿手动修改
-/// 可以参与战斗的单位身上的属性组，主要是养成结果
+/// Fighting属性列表，工具自动生成，勿手动修改
+/// 在战斗中使用的属性组，主要和战斗属性不同的点在于会多一些当前属性，例如当前血量，当前蓝量等
 /// </summary>
-public partial class BattlePropertys
+public partial class FightingPropertys
 {
 	/// <summary>
 	/// 生命
@@ -15,6 +15,14 @@ public partial class BattlePropertys
 	/// 法力
 	/// </summary>
 	public Property Mp { get; set; } = Property.New("2");
+	/// <summary>
+	/// 当前生命
+	/// </summary>
+	public Property CurrentHp { get; set; } = Property.New("10");
+	/// <summary>
+	/// 当前法力
+	/// </summary>
+	public Property CurrentMp { get; set; } = Property.New("11");
 	/// <summary>
 	/// 最小攻击
 	/// </summary>
@@ -230,6 +238,8 @@ public partial class BattlePropertys
 		{
 			{"1" , Hp},
 			{"2" , Mp},
+			{"10" , CurrentHp},
+			{"11" , CurrentMp},
 			{"100" , AtkMin},
 			{"101" , AtkMax},
 			{"103" , Def},

@@ -1,0 +1,7 @@
+id	名称	图标
+id	name	icon
+c	c	c
+string	string	string
+1	玩家	shangdianheji_jinglingshangdian
+2	怪1	guai01
+3	怪2	guai02
