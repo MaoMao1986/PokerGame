@@ -1,5 +1,5 @@
 id	外观id	属性id	普攻	主动技能序列	被动技能列表
-id	外观id	属性id	普攻	主动技能序列	被动技能列表
+id	display	property	normalSkill	activeSkillList	negativeSkillList
 c	c	c	c	c	c
 string	string	string	string	string[]	string[]
 1	1	1	1		

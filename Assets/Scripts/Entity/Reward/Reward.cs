@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Reward
 {
-    public EmReward_Type Type;
-    public int Id;
+    public Enum_RewardType Type;
+    public string Id;
     public int Num;
 }

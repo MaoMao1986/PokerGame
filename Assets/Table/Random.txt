@@ -1,0 +1,5 @@
+ID	掉率模式	掉落配置
+id	randomType	randomConfig
+c	c	c
+string	tbl_枚举_随机模式	string[,]
+101	1	2:1:10:10:10000|2:1:10:10:10000|2:1:10:10:10000

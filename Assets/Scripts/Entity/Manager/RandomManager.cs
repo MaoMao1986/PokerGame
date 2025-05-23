@@ -1,12 +1,12 @@
 ﻿using System;
 
-public sealed class RandomController
+public sealed class RandomManager
 {
     private static System.Random m_Random = new System.Random((int)DateTime.Now.Ticks);
-    private static readonly RandomController instance = new RandomController();
-    private RandomController() { }
+    private static readonly RandomManager instance = new RandomManager();
+    private RandomManager() { }
 
-    public static RandomController GetInstance()
+    public static RandomManager GetInstance()
     {
         return instance;
     }

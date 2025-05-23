@@ -5,35 +5,25 @@ using System.Collections.Generic;
 /// Fighting属性组代码逻辑
 /// 在战斗中使用的属性组，主要和战斗属性不同的点在于会多一些当前属性，例如当前血量，当前蓝量等
 /// </summary>
-public partial class FightingPropertys : Propertys
+public partial class FightingPropertys : Propertys, IPropertysOthers
 {
-	public override void InitAllProperty()
-	{
-		// 初始化属性字典
-		InitPropertyList();
-		
-		// 待实现，各个属性的事件回调
-		//PhyRes.GetMaxFunction = () =>
-		//{
-		//	return PhyRes.GetConfigMax() + PhyResMax.GetValid();
-		//};
-		
-	}
-
-	public void InitFromBattlePropertys(BattlePropertys p_BattlePropertys)
+    public override void InitPropertyData()
     {
-        Copy(p_BattlePropertys);
-
         // 按照HP初始化当前HP
-		CurrentHp.Set(p_BattlePropertys.Hp.GetValidValue());
-		CurrentHp.GetMaxFunction = () =>
+        CurrentHp.Set(Hp.GetValidValue());
+
+        // 按照MP初始化当前MP
+        CurrentMp.Set(Mp.GetValidValue());
+    }
+
+    public override void InitPropertyEvent()
+	{
+        CurrentHp.GetMaxFunction = () =>
         {
             return Hp.GetValidValue();
         };
-
-        // 按照MP初始化当前MP
-		CurrentMp.Set(p_BattlePropertys.Mp.GetValidValue());
-		CurrentMp.GetMaxFunction = () =>
+        
+        CurrentMp.GetMaxFunction = () =>
         {
             return Mp.GetValidValue();
         };
@@ -73,5 +63,20 @@ public partial class FightingPropertys : Propertys
         {
             return EarthRes.GetMax() + EarthResMax.GetValidValue();
         };
+    }
+
+	public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
+    {
+        // 初始化属性列表
+        InitPropertyList();
+
+        // 初始化属性数据
+        Copy(p_Propertys);
+
+        // 初始化当前属性数据
+        InitPropertyData();
+
+        // 初始化属性事件
+        InitPropertyEvent();
     }
 }

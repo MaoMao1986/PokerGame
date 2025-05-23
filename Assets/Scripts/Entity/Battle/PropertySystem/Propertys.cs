@@ -9,15 +9,27 @@ public abstract class Propertys
 {
     public string Id;
     public Dictionary<string, Property> PropertyList { get; set; } = new();
-    public abstract void InitPropertyList();
-    public abstract void InitAllProperty();
+    
     public delegate void PropertyChangedEventHandler(string p_Id = "");
     public PropertyChangedEventHandler PropertyChangedEvent;
+
+    /// <summary>
+    /// 初始化属性列表
+    /// </summary>
+    public abstract void InitPropertyList();
+    /// <summary>
+    /// 初始化属性事件
+    /// </summary>
+    public abstract void InitPropertyEvent();
+    /// <summary>
+    /// 初始化属性数据
+    /// </summary>
+    public abstract void InitPropertyData();
 
     public static T New<T>() where T : Propertys, new()
     {
         T t_Propertys = new();
-        t_Propertys.InitAllProperty();
+        t_Propertys.InitPropertyList();
         return t_Propertys;
     }
 
@@ -29,6 +41,7 @@ public abstract class Propertys
         }
         return null;
     }
+
     #region 属性组对象计算
 
     #region Copy
@@ -56,7 +69,7 @@ public abstract class Propertys
     {
         foreach (string t_Id in PropertyList.Keys)
         {
-            SetOtherSum(t_Id, p_Propertys);
+            Copy(t_Id, p_Propertys);
         }
     }
     #endregion

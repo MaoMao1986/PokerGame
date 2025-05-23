@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BattleBuff
+public class BattleBuff: BuffBase
 {
     
 }

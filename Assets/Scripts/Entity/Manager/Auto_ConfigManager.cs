@@ -5,7 +5,11 @@ public static partial class ConfigManager
 {
 	public static void LoadConfig()
 	{
+		LoadData<DRFightingdisplay>("FightingDisplay.txt");
+		LoadData<DRFightingproperty>("FightingProperty.txt");
+		LoadData<DRFightingunit>("FightingUnit.txt");
 		LoadData<DRPokercard>("PokerCard.txt");
 		LoadData<DRProperty>("Property.txt");
+		LoadData<DRRandom>("Random.txt");
 	}
 }

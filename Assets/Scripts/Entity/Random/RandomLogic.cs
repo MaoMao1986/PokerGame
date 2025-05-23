@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 using System.Linq;
-using static UnityEditor.Progress;
 
 public static class RandomLogic
 {
-    public static Dictionary<string, Reward> m_RewardList;
+    public static Dictionary<Tuple<Enum_RewardType, string>, Reward> m_RewardList;
 
-    public static List<Reward> RandomReward(int p_Id, int p_Num = 1)
+    public static List<Reward> RandomReward(string p_Id, int p_Num = 1)
     {
-        m_RewardList = new Dictionary<string, Reward>();
+        m_RewardList = new();
         for (int i = 1; i <= p_Num; i++)
         {
             m_RandomLogic(p_Id);
@@ -18,59 +16,70 @@ public static class RandomLogic
         return m_RewardList.Values.ToList();
     }
 
-    private static void m_RandomLogic(int p_LootId)
+    private static void m_RandomLogic(string p_LootId)
     {
         DRRandom t_Row = ConfigManager.GetRow<DRRandom>(p_LootId);
-        EmRandom_Type t_Type = (EmRandom_Type)t_Row.type;
-        int[,] t_ConfigList = t_Row.config;
+        string[,] t_ConfigList = t_Row.Randomconfig;
 
-        switch (t_Type)
+        switch (t_Row.Randomtype)
         {
-            case EmRandom_Type.Probility:
+            case Enum_RandomType.Probility:
                 {
                     for (int i=0;i<t_ConfigList.GetUpperBound(0);i++)
                     {
-                        if (RandomManager.GetRandom(1, 10000) <= t_ConfigList[i,4])
+                        Enum_RewardType t_RewardType = (Enum_RewardType)Convert.ToInt32(t_ConfigList[i, 0]);
+                        string t_RewardId = t_ConfigList[i, 1];
+                        int t_RewardMin = Convert.ToInt32(t_ConfigList[i, 2]);
+                        int t_RewardMax = Convert.ToInt32(t_ConfigList[i, 3]);
+                        int t_RewardWeight = Convert.ToInt32(t_ConfigList[i, 4]);
+                        if (RandomManager.GetRandom(1, 10000) <= t_RewardWeight)
                         {
-                            int t_Num = RandomManager.GetRandom(t_ConfigList[i, 2], t_ConfigList[i, 3]);
-                            if ((EmReward_Type)t_ConfigList[i, 0] == EmReward_Type.RandomGroup)
+                            int t_Num = RandomManager.GetRandom(t_RewardMin, t_RewardMax);
+                            if (t_RewardType == Enum_RewardType.RandomGroup)
                             {
                                 for(int j = 0; j < t_Num; j++)
                                 {
-                                    m_RandomLogic(t_ConfigList[i, 1]);
+                                    m_RandomLogic(t_RewardId);
                                 }
                             }
                             else
                             {
-                                Reward t_Reward = new Reward();
-                                t_Reward.Type = (EmReward_Type)t_ConfigList[i, 0];
-                                t_Reward.Id = t_ConfigList[i, 1];
-                                t_Reward.Num = t_Num;
+                                Reward t_Reward = new()
+                                {
+                                    Type = t_RewardType,
+                                    Id = t_RewardId,
+                                    Num = t_Num
+                                };
                                 m_AddReward(t_Reward);
                             }
                         }
                     }
                 }
                 break;
-            case EmRandom_Type.Weight:
+            case Enum_RandomType.Weight:
                 {
                     int t_TotalWeight = 0;
                     for (int i = 0; i < t_ConfigList.GetUpperBound(0); i++)
                     {
-                        t_TotalWeight += t_ConfigList[i, 4];
+                        t_TotalWeight += Convert.ToInt32(t_ConfigList[i, 4]);
                     }
                     int t_RandomNum = RandomManager.GetRandom(1, t_TotalWeight);
 
                     for (int i = 0; i < t_ConfigList.GetUpperBound(0); i++)
                     {
-                        if (t_RandomNum > t_ConfigList[i,4])
+                        Enum_RewardType t_RewardType = (Enum_RewardType)Convert.ToInt32(t_ConfigList[i, 0]);
+                        string t_RewardId = t_ConfigList[i, 1];
+                        int t_RewardMin = Convert.ToInt32(t_ConfigList[i, 2]);
+                        int t_RewardMax = Convert.ToInt32(t_ConfigList[i, 3]);
+                        int t_RewardWeight = Convert.ToInt32(t_ConfigList[i, 4]);
+                        if (t_RandomNum > t_RewardWeight)
                         {
-                            t_RandomNum = t_RandomNum - t_ConfigList[i, 4];
+                            t_RandomNum = t_RandomNum - t_RewardWeight;
                         }
                         else
                         {
-                            int t_Num = RandomManager.GetRandom(t_ConfigList[i, 2], t_ConfigList[i, 3]);
-                            if ((EmReward_Type)t_ConfigList[i, 0] == EmReward_Type.RandomGroup)
+                            int t_Num = RandomManager.GetRandom(t_RewardMin, t_RewardMax);
+                            if (t_RewardType == Enum_RewardType.RandomGroup)
                             {
                                 for (int j = 0; j < t_Num; j++)
                                 {
@@ -79,10 +88,12 @@ public static class RandomLogic
                             }
                             else
                             {
-                                Reward t_Reward = new Reward();
-                                t_Reward.Type = (EmReward_Type)t_ConfigList[i, 0];
-                                t_Reward.Id = t_ConfigList[i, 1];
-                                t_Reward.Num = t_Num;
+                                Reward t_Reward = new()
+                                {
+                                    Type = t_RewardType,
+                                    Id = t_RewardId,
+                                    Num = t_Num
+                                };
                                 m_AddReward(t_Reward);
                             }
                             break;
@@ -95,7 +106,7 @@ public static class RandomLogic
 
     private static void m_AddReward(Reward p_Reward)
     {
-        string t_Key = p_Reward.Type.ToString() + Settings.UnderLine + p_Reward.Id.ToString();
+         Tuple<Enum_RewardType, string> t_Key = Tuple.Create(p_Reward.Type, p_Reward.Id);
         if (m_RewardList.ContainsKey(t_Key))
         {
             m_RewardList[t_Key].Num += p_Reward.Num;
