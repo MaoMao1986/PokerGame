@@ -76,6 +76,7 @@
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightingUnit\FightingUnitBase.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Card.cs" />
     <Compile Include="Assets\Scripts\Const\ConstVariables.cs" />
+    <Compile Include="Assets\Scripts\Helper\CardHelper.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightingUnit\FightingUnitDisplay.cs" />
     <Compile Include="Assets\Scripts\Config\IConfigRow.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Enemy.cs" />

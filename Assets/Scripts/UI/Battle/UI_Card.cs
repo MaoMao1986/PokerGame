@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Card : MonoBehaviour
@@ -9,6 +10,21 @@ public class UI_Card : MonoBehaviour
     public Image UICard;
     public Image UICardLight;
     private bool m_CanSelect = false; // 是否可以选择
+    public bool CanSelect
+    {
+        get
+        {
+            return m_CanSelect;
+        }
+        set
+        {
+            if (m_CanSelect != value)
+            {
+                m_CanSelect = value;
+                ActiveOnClick(m_CanSelect);
+            }
+        }
+    }
     private Card m_Card;
     public bool IsSelected { get; set; } = false;
     public Card Card { get { return m_Card; } }
@@ -18,15 +34,6 @@ public class UI_Card : MonoBehaviour
         m_Card = p_Card;
         m_Card.UICard = this;
         m_CanSelect = p_CanSelect;
-        if (m_CanSelect)
-        {
-            // 如果可以选择，添加点击事件
-            ActiveOnClick(true);
-        }
-        else
-        {
-            ActiveOnClick(false);
-        }
         UICard.sprite = Resources.Load<Sprite>(m_Card.Icon);
     }
 
@@ -84,6 +91,16 @@ public class UI_Card : MonoBehaviour
     public void CardUnSelect()
     {
         
+    }
+
+    public void SetDraggable(bool p_CanDrag = true)
+    {
+        // 禁用拖拽（如果有DragHandler脚本）
+        var dragHandler = GetComponent<Collider2D>();
+        if (dragHandler != null)
+        {
+            dragHandler.enabled = p_CanDrag;
+        }
     }
 
     /// <summary>
