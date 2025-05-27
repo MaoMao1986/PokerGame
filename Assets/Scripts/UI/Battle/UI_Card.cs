@@ -85,14 +85,6 @@ public class UI_Card : MonoBehaviour
         
     }
 
-    /// <summary>
-    /// 卡牌取消选中时的效果
-    /// </summary>
-    public void CardUnSelect()
-    {
-        
-    }
-
     public void SetDraggable(bool p_CanDrag = true)
     {
         // 禁用拖拽（如果有DragHandler脚本）
@@ -106,13 +98,8 @@ public class UI_Card : MonoBehaviour
     /// <summary>
     /// 卡牌特效边框
     /// </summary>
-    public void CardLight()
+    public void CardLight(bool p_Light = true)
     {
         UICardLight.transform.gameObject.SetActive(true);
-    }
-
-    public void CardUnLight()
-    {
-        UICardLight.transform.gameObject.SetActive(false);
     }
 }

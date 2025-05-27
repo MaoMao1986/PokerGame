@@ -10,10 +10,10 @@ public class Property
     /// 存储的属性值，该值为保存的值，并非运算时的值，例如实际值为90，但上限为75，那么保存的时候还是保存90，但运算时用75
     /// </summary>
     public  int Value { get; private set; }
-    public Func<int> OnValueChanged { get; set; } = null;
-    public Func<int> OnValueAdded { get; set; } = null;
-    public Func<int> OnValueReduced { get; set; } = null;
-    public Func<int> OnValueSeted { get; set; } = null;
+    public Action<Property> OnValueChanged { get; set; } = null;
+    public Action<Property> OnValueAdded { get; set; } = null;
+    public Action<Property> OnValueReduced { get; set; } = null;
+    public Action<Property> OnValueSeted { get; set; } = null;
     public Func<int> GetMaxFunction { get; set; } = null;
     public Func<int> GetMinFunction { get; set; } = null;
     public Func<int> GetValidValueFunction { get; set; } = null;
@@ -145,8 +145,8 @@ public class Property
         p_Changed = 0;
         if (p_AddedValue != 0)
         {
-            if (OnValueAdded != null) { p_Added = OnValueAdded.Invoke(); }
-            if (OnValueChanged != null) { p_Changed = OnValueChanged.Invoke(); }
+            OnValueAdded?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return t_Result;
     }
@@ -156,8 +156,8 @@ public class Property
         bool t_Result = m_Add(p_Value, out p_AddedValue);
         if (p_AddedValue != 0)
         {
-            OnValueAdded?.Invoke();
-            OnValueChanged?.Invoke();
+            OnValueAdded?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return t_Result;
     }
@@ -206,8 +206,8 @@ public class Property
         p_Changed = 0;
         if (p_ReduceValue != 0)
         {
-            if (OnValueReduced != null) { p_Reduced = OnValueReduced.Invoke(); }
-            if (OnValueChanged != null) { p_Changed = OnValueChanged.Invoke(); }
+            OnValueReduced?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return t_Result;
     }
@@ -221,8 +221,8 @@ public class Property
         bool t_Result = m_Reduce(p_Value, out p_ReduceValue);
         if (p_ReduceValue != 0)
         {
-            OnValueReduced?.Invoke();
-            OnValueChanged?.Invoke();
+            OnValueReduced?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return p_Value;
     }
@@ -268,8 +268,8 @@ public class Property
         p_Changed = 0;
         if (Value != t_Value)
         {
-            if (OnValueSeted != null) { p_Seted = OnValueSeted.Invoke(); }
-            if (OnValueChanged != null) { p_Changed = OnValueChanged.Invoke(); }
+            OnValueSeted?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return t_Result;
     }
@@ -284,8 +284,8 @@ public class Property
         bool t_Result = m_Set(p_Value);
         if (Value != t_Value)
         {
-            OnValueSeted?.Invoke();
-            OnValueChanged?.Invoke();
+            OnValueSeted?.Invoke(this);
+            OnValueChanged?.Invoke(this);
         }
         return t_Result;
     }

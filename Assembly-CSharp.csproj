@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Config\Txt\DRPokercard.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Random.cs" />
     <Compile Include="Assets\Scripts\UI\Battle\UI_CardGroup.cs" />
+    <Compile Include="Assets\Scripts\UI\Battle\UI_BattleTeam.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightingUnit\FightingUnitBase.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Card.cs" />
     <Compile Include="Assets\Scripts\Const\ConstVariables.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scripts\Entity\Manager\BattleManager.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Property.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\ConfigManager.cs" />
+    <Compile Include="Assets\Scripts\UI\IUIStruct.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\ImpactSystem\SubImpact\BattleImpact_1.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\BuffBase.cs" />
     <Compile Include="Assets\Scripts\UI\Start\GameStart.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Assets\Scripts\Entity\Battle\UnitSystem\FightingUnit\BattleUser.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\Auto_BattlePropertys.cs" />
     <Compile Include="Assets\Scripts\Logic\DeckManager\HandCards.cs" />
+    <Compile Include="Assets\Scripts\UI\Battle\UI_BattleUnit.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Player.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\ActiveSkillController.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\IPropertysConfig.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Assets\Scripts\Logic\DeckManager\CardCollection.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Property.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\ImpactSystem\BattleImpact.cs" />
+    <Compile Include="Assets\Scripts\UI\Battle\UI_Slider.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys.cs" />
   </ItemGroup>
   <ItemGroup>

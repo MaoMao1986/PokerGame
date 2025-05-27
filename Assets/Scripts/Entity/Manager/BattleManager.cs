@@ -30,18 +30,25 @@ public class BattleManager : MonoBehaviour
     private CardCollection PublicCards;
     private BattleUser Player;
     private BattleUser Enemy;
+
     public GameObject HandCardGroup;
     public GameObject PublicCardGroup;
     public GameObject DawnCardGroup;
+    public GameObject DropCardDeckGroup;
     public GameObject CardDeckGroup;
+
     private UI_CardGroup m_HandCardGroup;
     private UI_CardGroup m_PublicCardGroup;
     private UI_CardGroup m_DawnCardGroup;
     private UI_CardGroup m_CardDeckGroup;
+    private UI_CardGroup m_DropCardDeckGroup;
+
     public Button DawnCard;
     public Button DropCard;
     public Button Reset;
     public Button RemoveLight;
+    public Button DropDeckBack;
+
     public TextMeshProUGUI CardType;
     public TextMeshProUGUI LeftCardNum;
     public TextMeshProUGUI CurrentRound;
@@ -107,6 +114,7 @@ public class BattleManager : MonoBehaviour
         m_HandCardGroup = HandCardGroup.GetComponent<UI_CardGroup>();
         m_DawnCardGroup = DawnCardGroup.GetComponent<UI_CardGroup>();
         m_CardDeckGroup = CardDeckGroup.GetComponent<UI_CardGroup>();
+        m_DropCardDeckGroup = DropCardDeckGroup.GetComponent<UI_CardGroup>();
 
         DropCard.onClick.AddListener(m_DropCardOnClick);
         Reset.onClick.AddListener(m_ResetOnClick);
@@ -151,11 +159,11 @@ public class BattleManager : MonoBehaviour
     {
         foreach (var t_Card in m_DawnCardGroup.GetCardDatas())
         {
-            t_Card?.CardUnLight();
+            t_Card?.CardLight(false);
         }
         foreach (var t_Card in m_PublicCardGroup.GetCardDatas())
         {
-            t_Card?.CardUnLight();
+            t_Card?.CardLight(false);
         }
     }
 
@@ -220,6 +228,7 @@ public class BattleManager : MonoBehaviour
 
         List<Card> t_DawnCards = m_DawnCardGroup.GetCardDatas().GetCardLists();
         List<Card> t_PublicCards = m_PublicCardGroup.GetCardDatas().GetCardLists();
+
         // 2. 结合公共牌判定牌型（假设TexasPokerRule是牌型判定工具类）
         var (t_Type, t_MatchedCards) = PokerHandEvaluator.EvaluateHand(t_DawnCards, t_PublicCards);
         foreach (var t_Card in t_MatchedCards.Keys)
