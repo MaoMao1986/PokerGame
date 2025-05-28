@@ -4,9 +4,9 @@ using System.Linq;
 public class Deck
 {
     // 活跃牌堆：当前可抽取的卡牌队列
-    private List<Card> m_ActiveCardList = new();
+    private List<Poker> m_ActiveCardList = new();
     // 弃牌堆：已使用卡牌的临时存放栈（先进后出）
-    private Stack<Card> m_DiscardPile = new();
+    private Stack<Poker> m_DiscardPile = new();
 
     /// <summary>
     /// 初始化标准牌堆（排除大小王）
@@ -14,8 +14,8 @@ public class Deck
     public void InitializeBaseDeck()
     {
         // 加上大小王
-        m_ActiveCardList.Add(new Card(Enum_CardSuit.Joker, Enum_CardRank.BigJoker));
-        m_ActiveCardList.Add(new Card(Enum_CardSuit.Joker, Enum_CardRank.LittleJoker));
+        m_ActiveCardList.Add(new Poker(Enum_CardSuit.Joker, Enum_CardRank.BigJoker));
+        m_ActiveCardList.Add(new Poker(Enum_CardSuit.Joker, Enum_CardRank.LittleJoker));
 
         foreach (Enum_CardSuit t_Suit in System.Enum.GetValues(typeof(Enum_CardSuit)))
         {
@@ -25,7 +25,7 @@ public class Deck
                 {
                     if(t_Rank != Enum_CardRank.LittleJoker && t_Rank != Enum_CardRank.BigJoker)
                     {
-                        m_ActiveCardList.Add(new Card(t_Suit, t_Rank));
+                        m_ActiveCardList.Add(new Poker(t_Suit, t_Rank));
                     }
                 }
             }
@@ -42,9 +42,9 @@ public class Deck
     /// </summary>
     /// <param name="p_Count">需要抽取的卡牌数量</param>
     /// <returns>成功抽取的卡牌列表（可能少于请求数量）</returns>
-    public List<Card> DrawCards(int p_Count)
+    public List<Poker> DrawCards(int p_Count)
     {
-        List<Card> t_Drawn = new();
+        List<Poker> t_Drawn = new();
         var t_Random = new System.Random();
         for (int i = 1; i <= p_Count; i++)
         {
@@ -62,7 +62,7 @@ public class Deck
     /// 弃牌处理：将使用后的卡牌转为公共牌存入弃牌堆
     /// </summary>
     /// <param name="p_Cards">需要弃置的卡牌集合</param>
-    public void DiscardCards(IEnumerable<Card> p_Cards)
+    public void DiscardCards(IEnumerable<Poker> p_Cards)
     {
         
     }

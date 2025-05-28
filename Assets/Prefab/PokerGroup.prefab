@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7735654391484972742}
   - component: {fileID: -8655678866155227615}
   m_Layer: 5
-  m_Name: CardGroup
+  m_Name: PokerGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,4 +75,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808a2290f5e669b48af39e5817b3719b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab_UICard: {fileID: 337897025202387731, guid: 53482fd4a0140d3429999f12dd205b31, type: 3}
+  m_Prefab_UIPoker: {fileID: 337897025202387731, guid: 53482fd4a0140d3429999f12dd205b31, type: 3}
+  m_FlySpeed: 300
+  m_DelayBetweenCards: 0.5

@@ -6,16 +6,16 @@ using Unity.VisualScripting;
 
 public static class PokerHandEvaluator
 {
-    public static (Enum_PokerHandType Type, Dictionary<Card, Card> MatchedCards) EvaluateHand(List<Card> p_Cards, List<Card> p_PublicCards = null)
+    public static (Enum_PokerHandType Type, Dictionary<Poker, Poker> MatchedCards) EvaluateHand(List<Poker> p_Cards, List<Poker> p_PublicCards = null)
     {
         // 如果有公共牌，则将其与手牌合并
-        List<Card> t_Cards = p_PublicCards == null ? p_Cards : p_Cards.Concat(p_PublicCards).ToList();
+        List<Poker> t_Cards = p_PublicCards == null ? p_Cards : p_Cards.Concat(p_PublicCards).ToList();
 
         // 将所有牌分为王牌和非王牌，并按大小排序，并按花色分类
-        (List<Card> t_RegularCards, List<Card> t_JokerCards) = m_SplitAndSortCards(t_Cards);
+        (List<Poker> t_RegularCards, List<Poker> t_JokerCards) = m_SplitAndSortCards(t_Cards);
 
         // 牌型判断逻辑
-        Dictionary<Card, Card> t_MatchedCards;
+        Dictionary<Poker, Poker> t_MatchedCards;
         if (m_IsRoyalFlush(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.RoyalFlush, t_MatchedCards);
         if (m_IsStraightFlush(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.StraightFlush, t_MatchedCards);
         if (m_IsFourOfAKind(t_RegularCards, out t_MatchedCards, t_JokerCards)) return (Enum_PokerHandType.FourOfAKind, t_MatchedCards);
@@ -37,11 +37,11 @@ public static class PokerHandEvaluator
     /// <param name="p_Cards"></param>
     /// <param name="p_TransCards"></param>
     /// <returns></returns>
-    private static bool m_IsRoyalFlush(List<Card> p_Cards, out Dictionary<Card,Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsRoyalFlush(List<Poker> p_Cards, out Dictionary<Poker,Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetSingleStraightFlush(Enum_CardRank.Ace);
+        List<List<Poker>> t_TargetList = m_GetSingleStraightFlush(Enum_CardRank.Ace);
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target,5);
@@ -57,11 +57,11 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsStraightFlush(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsStraightFlush(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetAllStraightFlush();
+        List<List<Poker>> t_TargetList = m_GetAllStraightFlush();
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target,5);
@@ -77,7 +77,7 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsFlush(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsFlush(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
@@ -97,11 +97,11 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsStraight(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsStraight(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetAllSuit();
+        List<List<Poker>> t_TargetList = m_GetAllSuit();
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target, 5);
@@ -117,11 +117,11 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsFourOfAKind(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsFourOfAKind(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetAllFour();
+        List<List<Poker>> t_TargetList = m_GetAllFour();
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target, 4);
@@ -137,7 +137,7 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsFullHouse(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsFullHouse(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         return m_IsTwoKind(p_Cards, 3, 2, out p_MatchedCards, p_JokerCards);
     }
@@ -147,11 +147,11 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsThreeOfAKind(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsThreeOfAKind(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetAllFour();
+        List<List<Poker>> t_TargetList = m_GetAllFour();
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target, 3);
@@ -167,12 +167,12 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsTwoPairs(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsTwoPairs(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         return m_IsTwoKind(p_Cards, 2, 2, out p_MatchedCards, p_JokerCards);
     }
 
-    private static bool m_IsTwoKind(List<Card> p_Cards,int p_Number1, int p_Number2, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsTwoKind(List<Poker> p_Cards,int p_Number1, int p_Number2, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  将p_Cards按Card.Rank分类，然后转化成List<Enum_CardRank>，并按大小排序
@@ -198,11 +198,11 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static bool m_IsOnePair(List<Card> p_Cards, out Dictionary<Card, Card> p_MatchedCards, List<Card> p_JokerCards = null)
+    private static bool m_IsOnePair(List<Poker> p_Cards, out Dictionary<Poker, Poker> p_MatchedCards, List<Poker> p_JokerCards = null)
     {
         bool t_Result = false;
         //  遍历每种目标
-        List<List<Card>> t_TargetList = m_GetAllFour();
+        List<List<Poker>> t_TargetList = m_GetAllFour();
         foreach (var t_Target in t_TargetList)
         {
             m_MatchTargets<m_MatchTargetCard> t_TargetArray = m_MatchTargets<m_MatchTargetCard>.GetCardTargets(t_Target, 2);
@@ -219,7 +219,7 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static Dictionary<Enum_CardSuit, List<Card>> m_ClassifySuitAndSortCards(List<Card> p_Cards)
+    private static Dictionary<Enum_CardSuit, List<Poker>> m_ClassifySuitAndSortCards(List<Poker> p_Cards)
     {
         return p_Cards
             .GroupBy(c => c.Suit)
@@ -234,7 +234,7 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static Dictionary<Enum_CardRank, List<Card>> m_ClassifyRankAndSortCards(List<Card> p_Cards)
+    private static Dictionary<Enum_CardRank, List<Poker>> m_ClassifyRankAndSortCards(List<Poker> p_Cards)
     {
         return p_Cards
             .GroupBy(c => c.Rank)
@@ -249,7 +249,7 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Cards"></param>
     /// <returns></returns>
-    private static (List<Card> Regular, List<Card> Jokers) m_SplitAndSortCards(List<Card> p_Cards)
+    private static (List<Poker> Regular, List<Poker> Jokers) m_SplitAndSortCards(List<Poker> p_Cards)
     {
         // 分离普通牌和王牌
         var t_Regular = p_Cards.Where(c =>c.Suit != Enum_CardSuit.Joker)
@@ -272,19 +272,19 @@ public static class PokerHandEvaluator
     /// <param name="p_Regulars"></param>
     /// <param name="p_Jokers"></param>
     /// <returns></returns>
-    private static (bool Matched, Dictionary<Card, Card> ResultCards) m_CheckTarget(m_MatchTargets<m_MatchTargetCard> p_Target, List<Card> p_Regulars, List<Card> p_Jokers = null)
+    private static (bool Matched, Dictionary<Poker, Poker> ResultCards) m_CheckTarget(m_MatchTargets<m_MatchTargetCard> p_Target, List<Poker> p_Regulars, List<Poker> p_Jokers = null)
     {
         bool t_Result = true;
-        Dictionary<Card, Card> t_MatchedCards = new();
+        Dictionary<Poker, Poker> t_MatchedCards = new();
         int t_JokerIndex = 0;
 
         foreach (var t_List in p_Target.Targets)
         {
-            List<Card> t_Target = t_List.TargetCards.OrderByDescending(c => c).ToList();
-            Dictionary<Card, Card> t_SubMatchedCards = new();
+            List<Poker> t_Target = t_List.TargetCards.OrderByDescending(c => c).ToList();
+            Dictionary<Poker, Poker> t_SubMatchedCards = new();
             foreach (var t_Card in t_Target)
             {
-                List<Card> t_Temp = p_Regulars.Where(t => (t.Rank == t_Card.Rank) && (t.Suit == t_Card.Suit)).ToList();
+                List<Poker> t_Temp = p_Regulars.Where(t => (t.Rank == t_Card.Rank) && (t.Suit == t_Card.Suit)).ToList();
                 if (t_Temp.Count() > 0)
                 {
                     t_SubMatchedCards.Add(t_Temp[0], null);
@@ -327,20 +327,20 @@ public static class PokerHandEvaluator
     /// <param name="p_Regulars"></param>
     /// <param name="p_Jokers"></param>
     /// <returns></returns>
-    private static (bool Matched, Dictionary<Card, Card> ResultCards) m_CheckTarget(m_MatchTargets<m_MatchTargetEnum> p_Target, List<Card> p_Regulars, List<Card> p_Jokers = null)
+    private static (bool Matched, Dictionary<Poker, Poker> ResultCards) m_CheckTarget(m_MatchTargets<m_MatchTargetEnum> p_Target, List<Poker> p_Regulars, List<Poker> p_Jokers = null)
     {
         bool t_Result = true;
-        Dictionary<Card, Card> t_MatchedCards = new();
+        Dictionary<Poker, Poker> t_MatchedCards = new();
         
         int t_JokerIndex = 0;
 
         foreach(var t_List in p_Target.Targets)
         {
             List<Enum_CardRank> t_Target = t_List.TargetRanks.OrderByDescending(c => c).ToList();
-            Dictionary<Card, Card> t_SubMatchedCards = new();
+            Dictionary<Poker, Poker> t_SubMatchedCards = new();
             foreach (var t_CardRank in t_Target)
             {
-                List<Card> t_Temp = p_Regulars.Where(t => t.Rank == t_CardRank).ToList();
+                List<Poker> t_Temp = p_Regulars.Where(t => t.Rank == t_CardRank).ToList();
                 if (t_Temp.Count() > 0)
                 {
                     t_SubMatchedCards.Add(t_Temp[0], null);
@@ -352,7 +352,7 @@ public static class PokerHandEvaluator
                     // 使用大王（替代任意牌），如果是小王，则替代10以下
                     if ((p_Jokers[t_JokerIndex].Rank == Enum_CardRank.BigJoker) || (p_Jokers[t_JokerIndex].Rank == Enum_CardRank.LittleJoker && (int)t_CardRank <= 10))
                     {
-                        t_SubMatchedCards.Add(p_Jokers[t_JokerIndex], new Card(Enum_CardSuit.Spades, t_CardRank));
+                        t_SubMatchedCards.Add(p_Jokers[t_JokerIndex], new Poker(Enum_CardSuit.Spades, t_CardRank));
                         t_JokerIndex++;
                     }
                 }
@@ -424,9 +424,9 @@ public static class PokerHandEvaluator
     /// 获取所有花色的所有牌
     /// </summary>
     /// <returns></returns>
-    private static List<List<Card>> m_GetAllSuit()
+    private static List<List<Poker>> m_GetAllSuit()
     {
-        List<List<Card>> t_Cards = new();
+        List<List<Poker>> t_Cards = new();
         for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
         {
             var t_Suit = (Enum_CardSuit)i;
@@ -441,9 +441,9 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Suit"></param>
     /// <returns></returns>
-    private static List<Card> m_GetSingleSuit(Enum_CardSuit p_Suit)
+    private static List<Poker> m_GetSingleSuit(Enum_CardSuit p_Suit)
     {
-        List<Card> t_Cards = new();
+        List<Poker> t_Cards = new();
         for (int i = (int)Enum_CardRank.Ace; i >= (int)Enum_CardRank.Two; i--)
         {
             var t_Rank = (Enum_CardRank)i;
@@ -456,9 +456,9 @@ public static class PokerHandEvaluator
     /// 获取所有四条的匹配库
     /// </summary>
     /// <returns></returns>
-    private static List<List<Card>> m_GetAllFour()
+    private static List<List<Poker>> m_GetAllFour()
     {
-        var t_Cards = new List<List<Card>>();
+        var t_Cards = new List<List<Poker>>();
         // 生成该花色所有可能的顺子组合
         for (int i = (int)Enum_CardRank.Ace; i >= (int)Enum_CardRank.Five; i--)
         {
@@ -473,9 +473,9 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Rank"></param>
     /// <returns></returns>
-    private static List<Card> m_GetSingleFour(Enum_CardRank p_Rank)
+    private static List<Poker> m_GetSingleFour(Enum_CardRank p_Rank)
     {
-        List<Card> t_Cards = new();
+        List<Poker> t_Cards = new();
         for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
         {
             var t_Suit = (Enum_CardSuit)i;
@@ -488,9 +488,9 @@ public static class PokerHandEvaluator
     /// 生成所有可能的同花顺组合
     /// </summary>
     /// <returns></returns>
-    private static List<List<Card>> m_GetAllStraightFlush()
+    private static List<List<Poker>> m_GetAllStraightFlush()
     {
-        var t_Cards = new List<List<Card>>();
+        var t_Cards = new List<List<Poker>>();
         // 生成该花色所有可能的顺子组合
         for(int i=(int)Enum_CardRank.Ace;i>= (int)Enum_CardRank.Five; i--)
         {
@@ -505,19 +505,19 @@ public static class PokerHandEvaluator
     /// </summary>
     /// <param name="p_Rank"></param>
     /// <returns></returns>
-    private static List<List<Card>> m_GetSingleStraightFlush(Enum_CardRank p_Rank)
+    private static List<List<Poker>> m_GetSingleStraightFlush(Enum_CardRank p_Rank)
     {
-        var t_Cards = new List<List<Card>>();
+        var t_Cards = new List<List<Poker>>();
         int t_Rank = (int)p_Rank;
         if(t_Rank >= (int)Enum_CardRank.Six && t_Rank <= (int)Enum_CardRank.Ace)
         {
             for (int i = (int)Enum_CardSuit.Spades ; i >= (int)Enum_CardSuit.Diamonds; i--)
             {
-                var t_List = new List<Card>();
+                var t_List = new List<Poker>();
                 var t_Suit = (Enum_CardSuit)i;
                 for (int j = 0; j < 5; j++)
                 {
-                    t_List.Add(new Card(t_Suit, (Enum_CardRank)(t_Rank - j)));
+                    t_List.Add(new Poker(t_Suit, (Enum_CardRank)(t_Rank - j)));
                 }
                 t_Cards.Add(t_List);
             }
@@ -527,7 +527,7 @@ public static class PokerHandEvaluator
             for (int i = (int)Enum_CardSuit.Spades; i >= (int)Enum_CardSuit.Diamonds; i--)
             {
                 var t_Suit = (Enum_CardSuit)i;
-                t_Cards.Add(new List<Card> {
+                t_Cards.Add(new List<Poker> {
                     new(t_Suit, Enum_CardRank.Ace),
                     new(t_Suit, Enum_CardRank.Five),
                     new(t_Suit, Enum_CardRank.Four),
@@ -552,7 +552,7 @@ public static class PokerHandEvaluator
     /// <typeparam name="T"></typeparam>
     private class m_MatchTargetCard : m_MatchTarget 
     {
-        public List<Card> TargetCards { get; set; }
+        public List<Poker> TargetCards { get; set; }
     }
 
     private class m_MatchTargetEnum : m_MatchTarget
@@ -568,7 +568,7 @@ public static class PokerHandEvaluator
     {
         public List<T> Targets { get; set; } = new List<T>();
 
-        public static m_MatchTargets<m_MatchTargetCard> GetCardTargets(List<Card> p_Cards, int p_Number)
+        public static m_MatchTargets<m_MatchTargetCard> GetCardTargets(List<Poker> p_Cards, int p_Number)
         {
             m_MatchTargets<m_MatchTargetCard> t_Targets = new m_MatchTargets<m_MatchTargetCard>();
             m_MatchTargetCard t_Target = new m_MatchTargetCard

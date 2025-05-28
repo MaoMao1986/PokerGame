@@ -1,6 +1,6 @@
 using System;
 
-public class Card : IComparable<Card>
+public class Poker : IComparable<Poker>
 {
     public string Icon
     {
@@ -13,16 +13,15 @@ public class Card : IComparable<Card>
     public string ID { get { return ((int)Suit * 100 + (int)Rank).ToString(); } }
     public Enum_CardSuit Suit { get; private set; }
     public Enum_CardRank Rank { get; private set; }
-    public UI_Card UICard { get; set; }
     public int Attack { get; private set; }
 
-    public Card(Enum_CardSuit p_Suit, Enum_CardRank p_Rank)
+    public Poker(Enum_CardSuit p_Suit, Enum_CardRank p_Rank)
     {
         Suit = p_Suit;
         Rank = p_Rank;
     }
 
-    public int CompareTo(Card p_Other)
+    public int CompareTo(Poker p_Other)
     {
         int t_Compare = 0;
         if (Rank == p_Other.Rank)

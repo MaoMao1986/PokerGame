@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class UISlider : MonoBehaviour
 {
-    public Slider Slider;
-    public TextMeshProUGUI NumberText;
-    public Image BackGround;
-    public Image FontGround;
+    [SerializeField] private Slider m_Slider;
+    [SerializeField] private TextMeshProUGUI m_NumberText;
+    [SerializeField] private Image m_BackGround;
+    [SerializeField] private Image m_FontGround;
 
     /// <summary>
     /// 更新数据
@@ -19,8 +19,8 @@ public class UISlider : MonoBehaviour
     {
         int t_Value = p_Pro.Value;
         if (t_Value < 0) { t_Value = 0; }
-        Slider.maxValue = (float)p_Pro.GetMax();
-        Slider.value = (float)t_Value;
-        NumberText.text = $"{t_Value} / {p_Pro.GetMax()}";
+        m_Slider.maxValue = (float)p_Pro.GetMax();
+        m_Slider.value = (float)t_Value;
+        m_NumberText.text = $"{t_Value} / {p_Pro.GetMax()}";
     }
 }

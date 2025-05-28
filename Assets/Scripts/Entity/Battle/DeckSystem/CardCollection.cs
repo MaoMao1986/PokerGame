@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 public class CardCollection
 {
-    private List<Card> m_Cards;
+    private List<Poker> m_Cards;
 }

@@ -9,7 +9,7 @@ public abstract class FightingUnitBase
     /// <summary>
     /// 战外属性的复制数据
     /// </summary>
-    public BattlePropertys BattlePropertys { get; set; } = new();
+    private BattlePropertys m_BattlePropertys { get; set; } = new();
 
     /// <summary>
     /// 是否已死亡，死亡状态下不能进行任何操作，且无法回血或者被加血，除非被复活
@@ -39,19 +39,19 @@ public abstract class FightingUnitBase
     {
         if (string.IsNullOrEmpty(p_Id))
         {
-            FightingPropertys.SetOtherSum(BattlePropertys);
+            FightingPropertys.SetOtherSum(m_BattlePropertys);
         }
         else
         {
-            FightingPropertys.SetOtherSum(p_Id, BattlePropertys);
+            FightingPropertys.SetOtherSum(p_Id, m_BattlePropertys);
         }
     }
 
     public void LoadFromConfig(string p_Id)
     {
         DRFightingunit t_Row = ConfigManager.GetRow<DRFightingunit>(p_Id);
-        BattlePropertys.LoadFromConfig(t_Row.Property);
-        FightingPropertys.LoadFromOtherPropertys(BattlePropertys);
+        m_BattlePropertys.LoadFromConfig(t_Row.Property);
+        FightingPropertys.LoadFromOtherPropertys(m_BattlePropertys);
         Display.LoadFromConfig(t_Row.Display);
     }
 }

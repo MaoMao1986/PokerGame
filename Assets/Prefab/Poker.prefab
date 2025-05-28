@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2613631246398872048}
   - component: {fileID: 8117127934020696419}
   m_Layer: 5
-  m_Name: Card
+  m_Name: Poker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,12 +132,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 337897025202387731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07f9d8916b85ac94e9d70668adcfd226, type: 3}
+  m_Script: {fileID: 11500000, guid: a2eaae2ff942f1e4b88776362aa4c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UICardButton: {fileID: 2613631246398872048}
-  UICard: {fileID: 7417041466805374925}
-  UICardLight: {fileID: 4897680073711755166}
+  m_UIPokerButton: {fileID: 2613631246398872048}
+  m_UIPoker: {fileID: 7417041466805374925}
+  m_UIPokerLight: {fileID: 4897680073711755166}
 --- !u!1 &482813649191030289
 GameObject:
   m_ObjectHideFlags: 0

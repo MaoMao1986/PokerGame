@@ -28,8 +28,6 @@ public class BattleManager : MonoBehaviour
 
     private Deck m_Deck;
     private CardCollection PublicCards;
-    private BattleUser Player;
-    private BattleUser Enemy;
 
     public GameObject HandCardGroup;
     public GameObject PublicCardGroup;
@@ -37,21 +35,23 @@ public class BattleManager : MonoBehaviour
     public GameObject DropCardDeckGroup;
     public GameObject CardDeckGroup;
 
-    private UI_CardGroup m_HandCardGroup;
-    private UI_CardGroup m_PublicCardGroup;
-    private UI_CardGroup m_DawnCardGroup;
-    private UI_CardGroup m_CardDeckGroup;
-    private UI_CardGroup m_DropCardDeckGroup;
+    private UI_PokerGroup m_HandPokerGroup;
+    private UI_PokerGroup m_PublicPokerGroup;
+    private UI_PokerGroup m_DawnPokerGroup;
+    private UI_PokerGroup m_PokerDeckGroup;
+    private UI_PokerGroup m_DropPokerDeckGroup;
 
     public Button DawnCard;
     public Button DropCard;
     public Button Reset;
     public Button RemoveLight;
     public Button DropDeckBack;
+    public Button DropCardUI;
 
     public TextMeshProUGUI CardType;
     public TextMeshProUGUI LeftCardNum;
     public TextMeshProUGUI CurrentRound;
+
     public GameObject CardTypeUI;
 
     void Start() {
@@ -71,7 +71,7 @@ public class BattleManager : MonoBehaviour
 
             // 1. 显示回合UI，允许玩家操作（弃牌是可选按钮，不阻塞流程）
             // uiRoundPanel.Show($"Round {currentRound}");
-            yield return StartCoroutine(PlayerTurnCoroutine()); // 直接进入出牌阶段
+            yield return StartCoroutine(m_PlayerTurnCoroutine()); // 直接进入出牌阶段
 
             // 2. 怪物回合和结束逻辑
             yield return StartCoroutine(MonsterTurnCoroutine());
@@ -110,15 +110,17 @@ public class BattleManager : MonoBehaviour
     {
         currentRound = 1;
 
-        m_PublicCardGroup = PublicCardGroup.GetComponent<UI_CardGroup>();
-        m_HandCardGroup = HandCardGroup.GetComponent<UI_CardGroup>();
-        m_DawnCardGroup = DawnCardGroup.GetComponent<UI_CardGroup>();
-        m_CardDeckGroup = CardDeckGroup.GetComponent<UI_CardGroup>();
-        m_DropCardDeckGroup = DropCardDeckGroup.GetComponent<UI_CardGroup>();
+        m_PublicPokerGroup = PublicCardGroup.GetComponent<UI_PokerGroup>();
+        m_HandPokerGroup = HandCardGroup.GetComponent<UI_PokerGroup>();
+        m_DawnPokerGroup = DawnCardGroup.GetComponent<UI_PokerGroup>();
+        m_PokerDeckGroup = CardDeckGroup.GetComponent<UI_PokerGroup>();
+        m_DropPokerDeckGroup = DropCardDeckGroup.GetComponent<UI_PokerGroup>();
 
         DropCard.onClick.AddListener(m_DropCardOnClick);
         Reset.onClick.AddListener(m_ResetOnClick);
         RemoveLight.onClick.AddListener(m_RemoveLight);
+        DropDeckBack.onClick.AddListener(() => DropCardUI.gameObject.SetActive(true));
+        DropCardUI.onClick.AddListener(() => DropCardUI.gameObject.SetActive(false));
     }
 
     public IEnumerator Test()
@@ -128,13 +130,13 @@ public class BattleManager : MonoBehaviour
         m_Deck.InitializeBaseDeck();
 
         // 初始化出牌区
-        List<Card> t_Blank = new();
-        m_DawnCardGroup.InitData(t_Blank);
-        m_PublicCardGroup.InitData(t_Blank);
-        m_HandCardGroup.InitData(t_Blank, true);
+        List<Poker> t_Blank = new();
+        m_DawnPokerGroup.InitData();
+        m_PublicPokerGroup.InitData();
+        m_HandPokerGroup.InitData(true);
 
         // 初始化公共牌
-        yield return DealingCards(m_PublicCardGroup, 5); 
+        yield return DealingCards(m_PublicPokerGroup, 5); 
 
         //
         CardTypeUI.GetComponent<Button>().onClick.AddListener(m_CloseCardTypeUI);
@@ -157,11 +159,11 @@ public class BattleManager : MonoBehaviour
 
     private void m_RemoveLight()
     {
-        foreach (var t_Card in m_DawnCardGroup.GetCardDatas())
+        foreach (var t_Card in m_DawnPokerGroup.GetCardDatas())
         {
             t_Card?.CardLight(false);
         }
-        foreach (var t_Card in m_PublicCardGroup.GetCardDatas())
+        foreach (var t_Card in m_PublicPokerGroup.GetCardDatas())
         {
             t_Card?.CardLight(false);
         }
@@ -173,15 +175,15 @@ public class BattleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 弃牌按钮点击事件
+    /// 弃牌按钮点击事件，将手牌中的选中牌移动到弃牌区，并重新发牌到手牌区。
     /// </summary>
     private void m_DropCardOnClick()
     {
-        List<UI_Card> t_Cards = m_HandCardGroup.GetCardDatas(true);
-        if (t_Cards.Count > 0)
+        List<UI_Poker> t_Pokers = m_HandPokerGroup.GetCardDatas(true);
+        if (t_Pokers.Count > 0)
         {
-            m_HandCardGroup.DestroyCards(t_Cards);
-            StartCoroutine(DealingCards(m_HandCardGroup, t_Cards.Count));
+            StartCoroutine(m_DropPokerDeckGroup.MovePokers(t_Pokers, DropDeckBack.transform.position));
+            StartCoroutine(DealingCards(m_HandPokerGroup, t_Pokers.Count));
         }
         else
         {
@@ -189,28 +191,38 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DealingCards(UI_CardGroup p_Group, int p_Num)
+    /// <summary>
+    /// 发牌，在牌堆生成牌，然后移动到手牌
+    /// </summary>
+    /// <param name="p_Group"></param>
+    /// <param name="p_Num"></param>
+    /// <returns></returns>
+    private IEnumerator DealingCards(UI_PokerGroup p_Group, int p_Num)
     {
         // 发牌
-        List<Card> t_HandCards = m_Deck.DrawCards(p_Num);
-        List<UI_Card> t_UIHands = m_CardDeckGroup.InitData(t_HandCards);
+        List<Poker> t_HandCards = m_Deck.DrawCards(p_Num);
+        List<UI_Poker> t_UIHands = m_PokerDeckGroup.CreatePoker(t_HandCards);
         m_UpdateLeftCardNum();
-        yield return StartCoroutine(m_CardDeckGroup.MoveToOtherGroup(t_UIHands, p_Group));
+        yield return StartCoroutine(p_Group.MovePokers(t_UIHands));
     } 
 
-    IEnumerator PlayerTurnCoroutine()
+    /// <summary>
+    /// 玩家回合
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator m_PlayerTurnCoroutine()
     {
-        yield return DealingCards(m_HandCardGroup, 5);
+        yield return DealingCards(m_HandPokerGroup, 5);
 
         // 3. 等待玩家出牌（监听"出牌"按钮）
         bool hasPlayed = false;
-        List<UI_Card> selectedCards = null;
+        List<UI_Poker> selectedCards = null;
         DawnCard.onClick.AddListener(() => {
-            if(m_HandCardGroup.GetCardDatas(true).Count < 5) {
+            if(m_HandPokerGroup.GetCardDatas(true).Count < 5) {
                 Debug.Log("请至少选择5张牌出牌");
                 return;
             }
-            selectedCards = m_HandCardGroup.GetCardDatas(true); // 假设玩家选了5张牌
+            selectedCards = m_HandPokerGroup.GetCardDatas(true); // 假设玩家选了5张牌
             hasPlayed = true;
         });
 
@@ -220,20 +232,25 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(ResolvePlayerCards(selectedCards));
     }
 
-    IEnumerator ResolvePlayerCards(List<UI_Card> playedCards)
+    IEnumerator ResolvePlayerCards(List<UI_Poker> playedCards)
     {
         // 1. 移动牌到出牌区域并等待2秒
-        yield return StartCoroutine(m_HandCardGroup.MoveToOtherGroup(m_HandCardGroup.GetCardDatas(true), m_DawnCardGroup));
+        yield return StartCoroutine(m_HandPokerGroup.MovePokers(m_HandPokerGroup.GetCardDatas(true), m_DawnPokerGroup));
         yield return new WaitForSeconds(2f);
 
-        List<Card> t_DawnCards = m_DawnCardGroup.GetCardDatas().GetCardLists();
-        List<Card> t_PublicCards = m_PublicCardGroup.GetCardDatas().GetCardLists();
+        List<Poker> t_DawnCards = m_DawnPokerGroup.GetCardDatas().GetCardLists();
+        List<Poker> t_PublicCards = m_PublicPokerGroup.GetCardDatas().GetCardLists();
 
         // 2. 结合公共牌判定牌型（假设TexasPokerRule是牌型判定工具类）
         var (t_Type, t_MatchedCards) = PokerHandEvaluator.EvaluateHand(t_DawnCards, t_PublicCards);
+        Dictionary<Poker, UI_Poker> t_Pair = m_DawnPokerGroup.GetCardDatas().GetCardPair(m_PublicPokerGroup.GetCardDatas());
+        
         foreach (var t_Card in t_MatchedCards.Keys)
         {
-            t_Card.UICard?.CardLight();
+            if (t_Pair.ContainsKey(t_Card))
+            {
+                t_Pair[t_Card].CardLight();
+            }
         }
         CardType.text = Consts.PokerHandTypeName[t_Type];
         // 让Text可见
@@ -241,10 +258,10 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         CardTypeUI.gameObject.SetActive(false);
 
-        // 3.清理出牌区
-        m_DawnCardGroup.DestroyCards(m_DawnCardGroup.GetCardDatas());
+        // 3.清理出牌区（将出的牌移动到弃牌区）
         m_RemoveLight();
         Debug.Log("清理出牌区和公共牌高亮");
+        yield return m_DawnPokerGroup.MovePokers(m_DawnPokerGroup.GetCardDatas());        
         yield return new WaitForSeconds(2f);
 
         // 4. 释放技能攻击怪物
