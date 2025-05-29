@@ -65,9 +65,11 @@
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\BattleBuff.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\RandomManager.cs" />
     <Compile Include="Assets\Scripts\Config\Txt\DRFightingdisplay.cs" />
+    <Compile Include="Assets\Scripts\UI\Map\UI_Map.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\BattlePropertys.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\BattleActiveSkill.cs" />
     <Compile Include="Assets\Scripts\Entity\Reward\RewardEntity.cs" />
+    <Compile Include="Assets\Scripts\Entity\Map\MapPoint.cs" />
     <Compile Include="Assets\Scripts\Config\Txt\DRPokercard.cs" />
     <Compile Include="Assets\Scripts\Enum\AutoEnum_Random.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PokerSystem\Poker.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Assets\Scripts\Entity\Battle\ImpactSystem\SubImpact\BattleImpact_1.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PokerSystem\PokerHandEvaluator.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\BuffSystem\BuffBase.cs" />
+    <Compile Include="Assets\Scripts\UI\Map\UI_MapPoint.cs" />
     <Compile Include="Assets\Scripts\UI\Start\GameStart.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\PropertySystem\Propertys\FightingPropertys.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\Auto_ConfigManager.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Assets\Scripts\Entity\Battle\SkillSystem\AttackSkill.cs" />
     <Compile Include="Assets\Scripts\Entity\Time\TimeEntity.cs" />
     <Compile Include="Assets\Scripts\Logic\Character\Character.cs" />
+    <Compile Include="Assets\Scripts\Entity\Map\Map.cs" />
     <Compile Include="Assets\Scripts\Entity\Battle\TeamSystem\FightingTeamBase.cs" />
     <Compile Include="Assets\Scripts\Config\Txt\DRProperty.cs" />
     <Compile Include="Assets\Scripts\Entity\Manager\TimeManager.cs" />

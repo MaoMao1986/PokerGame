@@ -29,7 +29,7 @@ public abstract class FightingUnitBase
     /// <summary>
     /// buff管理器
     /// </summary>
-    TimeManager<BuffBase> BuffManager { get; set; } = new();
+    public TimeManager<BuffBase> BuffManager { get; set; } = new();
 
     /// <summary>
     /// 更新属性

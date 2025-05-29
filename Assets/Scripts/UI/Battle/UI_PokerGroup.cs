@@ -11,7 +11,7 @@ public class UI_PokerGroup : MonoBehaviour
     /// <summary>
     /// 扑克飞行速度（单位：像素/秒）
     /// </summary>
-    [SerializeField] private float m_FlySpeed = 300.0f;
+    [SerializeField] private float m_FlySpeed = 1000.0f;
     /// <summary>
     /// 多张扑克一起飞行时，飞行间隔时间（单位：秒）
     /// </summary>
@@ -88,7 +88,7 @@ public class UI_PokerGroup : MonoBehaviour
     /// <param name="p_TargetPos"></param>
     /// <param name="p_IsFlying"></param>
     /// <returns></returns>
-    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, Vector3 p_TargetPos, bool p_IsFlying = true)
+    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, Vector3 p_TargetPos, UI_PokerGroup p_Group = null, bool p_IsFlying = true)
     {
         if (p_UIPokers == null) { yield break; }
         List<Vector3> t_TargetPosList = new();
@@ -96,7 +96,7 @@ public class UI_PokerGroup : MonoBehaviour
         {
             t_TargetPosList.Add(p_TargetPos);
         }
-        yield return MovePokers(p_UIPokers, t_TargetPosList, p_IsFlying);
+        yield return MovePokers(p_UIPokers, t_TargetPosList, p_Group, p_IsFlying);
     }
 
     /// <summary>
@@ -105,10 +105,10 @@ public class UI_PokerGroup : MonoBehaviour
     /// <param name="p_UIPokers"></param>
     /// <param name="p_IsFlying"></param>
     /// <returns></returns>
-    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, bool p_IsFlying = true)
+    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, UI_PokerGroup p_Group = null, bool p_IsFlying = true)
     {
         List<Vector3> t_TargetPosList = m_PreViewPosList(p_UIPokers.Count);
-        yield return MovePokers(p_UIPokers, t_TargetPosList, p_IsFlying);
+        yield return MovePokers(p_UIPokers, t_TargetPosList, p_Group, p_IsFlying);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class UI_PokerGroup : MonoBehaviour
     /// <param name="p_TargetPosList"></param>
     /// <param name="p_IsFlying"></param>
     /// <returns></returns>
-    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, List<Vector3> p_TargetPosList, bool p_IsFlying = true)
+    public IEnumerator MovePokers(List<UI_Poker> p_UIPokers, List<Vector3> p_TargetPosList, UI_PokerGroup p_Group = null, bool p_IsFlying = true)
     {
         if(p_UIPokers == null) { yield break; }
         List<Coroutine> moveCoroutines = new List<Coroutine>();
@@ -153,6 +153,40 @@ public class UI_PokerGroup : MonoBehaviour
         {
             yield return coroutine;
         }
+        m_MovePokerParent(p_UIPokers, p_Group);
+    }
+
+    /// <summary>
+    /// 设置扑克的父对象
+    /// </summary>
+    /// <param name="p_UIPokers"></param>
+    private void m_MovePokerParent(List<UI_Poker> p_UIPokers, UI_PokerGroup p_Group = null)
+    {
+        UI_PokerGroup t_Group = p_Group ?? this;
+        // 所有牌移动完成后，先隐藏所有扑克
+        foreach (var t_Poker in p_UIPokers)
+        {
+            if (t_Poker != null)
+            {
+                t_Poker.gameObject.SetActive(false);
+            }
+        }
+        // 设置所有扑克的父物体为当前对象，隐藏之后再设置是避免设置父物体时触发布局更新导致看起来闪烁
+        foreach (var t_Poker in p_UIPokers)
+        {
+            if (t_Poker != null)
+            {
+                t_Poker.transform.SetParent(t_Group.transform);
+            }
+        }
+        // 设置完之后再显示所有扑克
+        foreach (var t_Poker in p_UIPokers)
+        {
+            if (t_Poker != null)
+            {
+                t_Poker.gameObject.SetActive(true);
+            }
+        }
     }
 
     /// <summary>
@@ -176,7 +210,6 @@ public class UI_PokerGroup : MonoBehaviour
             p_Poker.transform.position = t_Pos; // 直接设置位置
             yield return null; // 等待一帧以确保更新
         }
-        p_Poker.transform.SetParent(transform);
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ public class GameStart : MonoBehaviour
     void Start()
     {
         ConfigManager.LoadConfig();
-        CreateBattleUI();
+        //CreateBattleUI();
     }
 
     // Update is called once per frame

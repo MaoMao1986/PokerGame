@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class UI_BattleTeam : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject m_Prefab_BattleUnit;
 
-    // Update is called once per frame
-    void Update()
+    public UI_BattleUnit Create(FightingUnitBase p_Unit)
     {
-        
-    }
+        GameObject t_Cell = Instantiate(m_Prefab_BattleUnit, transform);
+        UI_BattleUnit t_Script = t_Cell.GetComponent<UI_BattleUnit>();
+        t_Script.InitData(p_Unit);
+        return t_Script;
+    } 
 }

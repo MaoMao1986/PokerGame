@@ -7,52 +7,43 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-    private int m_CurrentRound = 0;
-    private int m_RoundMax = 4;
-    private int currentRound {
-        get 
-        {
-            return m_CurrentRound;
-        }
-        set
-        {
-            if(m_CurrentRound != value)
-            {
-                m_CurrentRoundChange();
-            }
-            m_CurrentRound = value;
-        } 
-    }
-    private bool playerFirst;
-    private bool battleEnded = false;
+    [SerializeField] private GameObject HandCardGroup;
+    [SerializeField] private GameObject PublicCardGroup;
+    [SerializeField] private GameObject DawnCardGroup;
+    [SerializeField] private GameObject DropCardDeckGroup;
+    [SerializeField] private GameObject CardDeckGroup;
+    [SerializeField] private GameObject MonsterTeam;
+    [SerializeField] private GameObject PlayerTeam;
 
-    private Deck m_Deck;
-    private CardCollection PublicCards;
+    [SerializeField] private Button DawnCard;
+    [SerializeField] private Button DropCard;
+    [SerializeField] private Button Reset;
+    [SerializeField] private Button RemoveLight;
+    [SerializeField] private Button DropDeckBack;
+    [SerializeField] private Button DropCardUI;
 
-    public GameObject HandCardGroup;
-    public GameObject PublicCardGroup;
-    public GameObject DawnCardGroup;
-    public GameObject DropCardDeckGroup;
-    public GameObject CardDeckGroup;
+    [SerializeField] private TextMeshProUGUI CardType;
+    [SerializeField] private TextMeshProUGUI LeftCardNum;
+    [SerializeField] private TextMeshProUGUI CurrentRound;
+
+    [SerializeField] private GameObject CardTypeUI;
 
     private UI_PokerGroup m_HandPokerGroup;
     private UI_PokerGroup m_PublicPokerGroup;
     private UI_PokerGroup m_DawnPokerGroup;
     private UI_PokerGroup m_PokerDeckGroup;
     private UI_PokerGroup m_DropPokerDeckGroup;
+    private UI_PokerGroup m_DropCardDeck;
 
-    public Button DawnCard;
-    public Button DropCard;
-    public Button Reset;
-    public Button RemoveLight;
-    public Button DropDeckBack;
-    public Button DropCardUI;
+    private UI_BattleTeam m_MonsterTeam;
+    private UI_BattleTeam m_PlayerTeam;
 
-    public TextMeshProUGUI CardType;
-    public TextMeshProUGUI LeftCardNum;
-    public TextMeshProUGUI CurrentRound;
+    private int m_CurrentRound = 1;
+    private int m_RoundMax = 4;
 
-    public GameObject CardTypeUI;
+    private bool battleEnded = false;
+
+    private Deck m_Deck;
 
     void Start() {
         //InitializeBattle();
@@ -65,9 +56,9 @@ public class BattleManager : MonoBehaviour
         yield return InitializeCards();
 
         // 战斗回合流程
-        while (currentRound <= 4 && !battleEnded)
+        while (m_CurrentRound <= 4 && !battleEnded)
         {
-            Debug.Log($"第 {currentRound} 回合开始");            
+            Debug.Log($"第 {m_CurrentRound} 回合开始");            
 
             // 1. 显示回合UI，允许玩家操作（弃牌是可选按钮，不阻塞流程）
             // uiRoundPanel.Show($"Round {currentRound}");
@@ -77,7 +68,8 @@ public class BattleManager : MonoBehaviour
             yield return StartCoroutine(MonsterTurnCoroutine());
             yield return StartCoroutine(EndRoundCoroutine());
 
-            currentRound++;
+            m_CurrentRound++;
+            m_CurrentRoundChange();
 
             if (CheckBattleEnd())
             {
@@ -108,13 +100,17 @@ public class BattleManager : MonoBehaviour
 
     private void Init()
     {
-        currentRound = 1;
+        m_CurrentRound = 1;
 
         m_PublicPokerGroup = PublicCardGroup.GetComponent<UI_PokerGroup>();
         m_HandPokerGroup = HandCardGroup.GetComponent<UI_PokerGroup>();
         m_DawnPokerGroup = DawnCardGroup.GetComponent<UI_PokerGroup>();
         m_PokerDeckGroup = CardDeckGroup.GetComponent<UI_PokerGroup>();
         m_DropPokerDeckGroup = DropCardDeckGroup.GetComponent<UI_PokerGroup>();
+        m_DropCardDeck = DropDeckBack.gameObject.GetComponent<UI_PokerGroup>();
+
+        m_MonsterTeam = MonsterTeam.GetComponent<UI_BattleTeam>();
+        m_PlayerTeam = PlayerTeam.GetComponent<UI_BattleTeam>();
 
         DropCard.onClick.AddListener(m_DropCardOnClick);
         Reset.onClick.AddListener(m_ResetOnClick);
@@ -182,7 +178,7 @@ public class BattleManager : MonoBehaviour
         List<UI_Poker> t_Pokers = m_HandPokerGroup.GetCardDatas(true);
         if (t_Pokers.Count > 0)
         {
-            StartCoroutine(m_DropPokerDeckGroup.MovePokers(t_Pokers, DropDeckBack.transform.position));
+            StartCoroutine(m_DropCardDeck.MovePokers(t_Pokers, DropDeckBack.transform.position, m_DropPokerDeckGroup));
             StartCoroutine(DealingCards(m_HandPokerGroup, t_Pokers.Count));
         }
         else
@@ -216,32 +212,33 @@ public class BattleManager : MonoBehaviour
 
         // 3. 等待玩家出牌（监听"出牌"按钮）
         bool hasPlayed = false;
-        List<UI_Poker> selectedCards = null;
         DawnCard.onClick.AddListener(() => {
             if(m_HandPokerGroup.GetCardDatas(true).Count < 5) {
                 Debug.Log("请至少选择5张牌出牌");
                 return;
             }
-            selectedCards = m_HandPokerGroup.GetCardDatas(true); // 假设玩家选了5张牌
             hasPlayed = true;
         });
 
         yield return new WaitUntil(() => hasPlayed);
 
         // 4. 处理出牌逻辑
-        yield return StartCoroutine(ResolvePlayerCards(selectedCards));
+        yield return StartCoroutine(ResolvePlayerCards());
     }
 
-    IEnumerator ResolvePlayerCards(List<UI_Poker> playedCards)
+    /// <summary>
+    /// 出牌逻辑处理
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ResolvePlayerCards()
     {
-        // 1. 移动牌到出牌区域并等待2秒
-        yield return StartCoroutine(m_HandPokerGroup.MovePokers(m_HandPokerGroup.GetCardDatas(true), m_DawnPokerGroup));
+        // 1. 出牌，移动牌到出牌区域并等待2秒
+        yield return StartCoroutine(m_DawnPokerGroup.MovePokers(m_HandPokerGroup.GetCardDatas(true), m_DawnPokerGroup));
         yield return new WaitForSeconds(2f);
 
+        // 2. 结合公共牌判定牌型
         List<Poker> t_DawnCards = m_DawnPokerGroup.GetCardDatas().GetCardLists();
         List<Poker> t_PublicCards = m_PublicPokerGroup.GetCardDatas().GetCardLists();
-
-        // 2. 结合公共牌判定牌型（假设TexasPokerRule是牌型判定工具类）
         var (t_Type, t_MatchedCards) = PokerHandEvaluator.EvaluateHand(t_DawnCards, t_PublicCards);
         Dictionary<Poker, UI_Poker> t_Pair = m_DawnPokerGroup.GetCardDatas().GetCardPair(m_PublicPokerGroup.GetCardDatas());
         
@@ -259,22 +256,34 @@ public class BattleManager : MonoBehaviour
         CardTypeUI.gameObject.SetActive(false);
 
         // 3.清理出牌区（将出的牌移动到弃牌区）
-        m_RemoveLight();
-        Debug.Log("清理出牌区和公共牌高亮");
-        yield return m_DawnPokerGroup.MovePokers(m_DawnPokerGroup.GetCardDatas());        
-        yield return new WaitForSeconds(2f);
+        {
+            m_RemoveLight();
+            Debug.Log("清理出牌区和公共牌高亮");
+            List<UI_Poker> t_List = m_DawnPokerGroup.GetCardDatas();
+            yield return m_DropCardDeck.MovePokers(t_List, DropDeckBack.transform.position, m_DropPokerDeckGroup);
+            DropDeckBack.GetComponent<Image>().sprite = Resources.Load<Sprite>( t_List[t_List.Count-1].Poker.Icon);
+            yield return new WaitForSeconds(2f);
+        }
 
         // 4. 释放技能攻击怪物
-        //PlaySkillEffect(handType);
-        Debug.Log("释放技能攻击怪物");
-        yield return new WaitForSeconds(2f); // 等待技能特效完成
+        {
+            //PlaySkillEffect(handType);
+            Debug.Log("释放技能攻击怪物");
+            yield return new WaitForSeconds(2f); // 等待技能特效完成
+        }
 
         // 5. 怪物受击反馈
-        //monster.TakeDamage(handType.Damage);
-        Debug.Log("怪物受击反馈");
-        yield return new WaitForSeconds(2f); // 怪物受击动画
+        {
+            //monster.TakeDamage(handType.Damage);
+            Debug.Log("怪物受击反馈");
+            yield return new WaitForSeconds(2f); // 怪物受击动画
+        }
     }
 
+    /// <summary>
+    /// 怪物回合
+    /// </summary>
+    /// <returns></returns>
     IEnumerator MonsterTurnCoroutine()
     {
         // 1. 怪物直接攻击玩家
@@ -289,6 +298,10 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(2f); // 受击动画
     }
 
+    /// <summary>
+    /// 回合结束动画
+    /// </summary>
+    /// <returns></returns>
     IEnumerator EndRoundCoroutine()
     {
         // 播放回合结束动画
