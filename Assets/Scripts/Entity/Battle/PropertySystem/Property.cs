@@ -28,7 +28,7 @@ public class Property
     {
         Property t_Property = new();
         t_Property.Id = p_Id;
-        t_Property.Value = ConfigManager.GetRow<DRProperty>(p_Id).Initvalue;
+        t_Property.Value = 0;
         return t_Property;
     }
 
@@ -292,7 +292,7 @@ public class Property
 
     private bool m_Set(int p_Value)
     {
-        bool t_Result = false;
+        bool t_Result = true;
         int t_Max = GetMax();
         int t_Min = GetMin();
         if(t_Max < t_Min)
@@ -306,12 +306,12 @@ public class Property
             {
                 case Enum_PropertyLimitSet.Success:
                     Value = p_Value;
-                    t_Result = true;
-                    break;
+                    return true;
                 case Enum_PropertyLimitSet.SetToLimit:
                     Value = t_Max;
-                    t_Result = true;
-                    break;
+                    return true;
+                case Enum_PropertyLimitSet.Faild:
+                    return false;
             }
         }
 
@@ -321,14 +321,15 @@ public class Property
             {
                 case Enum_PropertyLimitSet.Success:
                     Value = p_Value;
-                    t_Result = true;
-                    break;
+                    return true;
                 case Enum_PropertyLimitSet.SetToLimit:
                     Value = t_Min;
-                    t_Result = true;
-                    break;
+                    return true;
+                case Enum_PropertyLimitSet.Faild:
+                    return false;
             }
         }
+        Value = p_Value;
         return t_Result;
     }
     #endregion

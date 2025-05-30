@@ -1,15 +1,11 @@
 using UnityEngine;
 
-public abstract class FightingUnitBase
+public abstract class FightingUnit : UnitBase
 {
     /// <summary>
     /// 战内的汇总数据
     /// </summary>
     public FightingPropertys FightingPropertys { get; set; } = new();
-    /// <summary>
-    /// 战外属性的复制数据
-    /// </summary>
-    private BattlePropertys m_BattlePropertys { get; set; } = new();
 
     /// <summary>
     /// 是否已死亡，死亡状态下不能进行任何操作，且无法回血或者被加血，除非被复活

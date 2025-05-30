@@ -226,7 +226,7 @@ public partial class BattlePropertys
 	
 	public override void InitPropertyList()
 	{
-		PropertyList = new()
+		m_PropertyList = new()
 		{
 			{"1" , Hp},
 			{"2" , Mp},

@@ -8,7 +8,16 @@ using UnityEngine;
 public abstract class Propertys
 {
     public string Id;
-    public Dictionary<string, Property> PropertyList { get; set; } = new();
+    protected Dictionary<string,Property> m_PropertyList = new();
+    public Dictionary<string, Property> PropertyList
+    { 
+        get 
+        { 
+            if(m_PropertyList == null) { InitPropertyList(); }
+            if(m_PropertyList.Count == 0) { InitPropertyList(); }
+            return m_PropertyList; 
+        } 
+    }
     
     public delegate void PropertyChangedEventHandler(string p_Id = "");
     public PropertyChangedEventHandler PropertyChangedEvent;
@@ -43,6 +52,30 @@ public abstract class Propertys
     }
 
     #region 属性组对象计算
+
+    #region 批量设置属性组的属性值
+    /// <summary>
+    /// 将所有属性组的属性值设置为0
+    /// </summary>
+    public void SetValue0()
+    {
+        foreach (string t_Id in PropertyList.Keys)
+        {
+            GetProperty(t_Id).Set(0);
+        }
+    }
+
+    /// <summary>
+    /// 将属性组的所有属性设置为配置表里的初始值
+    /// </summary>
+    public void SetValueInit()
+    {
+        foreach (string t_Id in PropertyList.Keys)
+        {
+            GetProperty(t_Id).Set(ConfigManager.GetRow<DRProperty>(t_Id).Initvalue);
+        }
+    }
+    #endregion
 
     #region Copy
     /// <summary>

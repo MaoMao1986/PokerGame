@@ -9,9 +9,6 @@ public partial class FightingPropertys : Propertys, IPropertysOthers
 {
     public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
     {
-        // 初始化属性列表
-        InitPropertyList();
-
         // 初始化属性数据
         Copy(p_Propertys);
 

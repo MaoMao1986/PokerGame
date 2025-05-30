@@ -10,8 +10,6 @@ public partial class BattlePropertys : Propertys, IConfigLoad, IPropertysOthers
 {
     public void LoadFromConfig(string p_Id)
     {
-        InitPropertyList();
-
         // 读取配置
         DRFightingproperty t_Row = ConfigManager.GetRow<DRFightingproperty>(p_Id);
         if (t_Row != null)
@@ -25,9 +23,10 @@ public partial class BattlePropertys : Propertys, IConfigLoad, IPropertysOthers
             // 设置其他属性
             if (t_Row.Others.Length > 0)
             {
-                for (int i = 0; i < t_Row.Others.Length; i++)
+                for (int i = 0; i < t_Row.Others.GetLength(0); i++)
                 {
-                    GetProperty(t_Row.Others[i, 0].ToString()).Set(t_Row.Others[i, 1]);
+                    Property t_Property = GetProperty(t_Row.Others[i, 0].ToString());
+                    t_Property.Set(t_Row.Others[i, 1]);
                 }
             }
         }
@@ -57,9 +56,6 @@ public partial class BattlePropertys : Propertys, IConfigLoad, IPropertysOthers
 
     public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
     {
-        // 初始化属性列表
-        InitPropertyList();
-
         // 初始化属性数据
         Copy(p_Propertys);
 

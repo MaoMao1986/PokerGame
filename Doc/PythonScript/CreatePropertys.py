@@ -35,17 +35,22 @@ def m_CreatePropertyCodeFile(p_ClassName, p_FileName, p_FileDesc):
         fileContent += "public partial class " + p_ClassName + "Propertys : Propertys\n"
         fileContent += "{\n"
         
-        fileContent += "\tpublic override void InitAllProperty()\n"
+        fileContent += "\t/// <summary>\n"
+        fileContent += "\t/// 初始化属性值（需要特殊处理的，其他的要么按照配置初始化，要么按照其他属性的数值初始化）\n"
+        fileContent += "\t/// 例如【当前生命】的值需要按照【生命】的有效值初始化\n"
+        fileContent += "\t/// </summary>\n"
+        fileContent += "\tpublic override void InitPropertyData()\n"
         fileContent += "\t{\n"
-        fileContent += "\t\t// 初始化属性字典\n"
-        fileContent += "\t\tInitPropertyList();\n"
-        fileContent += "\t\t\n"
-        fileContent += "\t\t// 待实现，各个属性的事件回调\n"
-        fileContent += "\t\t//PhyRes.GetMaxFunction = () =>\n"
-        fileContent += "\t\t//{\n"
-        fileContent += "\t\t//\treturn PhyRes.GetConfigMax() + PhyResMax.GetValid();\n"
-        fileContent += "\t\t//};\n"
-        fileContent += "\t\t\n"
+        fileContent += "\t\n"
+        fileContent += "\t}\n"
+        
+        fileContent += "\t/// <summary>\n"
+        fileContent += "\t/// 初始化属性的事件（需要特殊处理的）\n"
+        fileContent += "\t/// 例如【当前生命】的最大值，需要取【生命】的当前有效值作为最大值\n"
+        fileContent += "\t/// </summary>\n"
+        fileContent += "\tpublic override void InitPropertyEvent()\n"
+        fileContent += "\t{\n"
+        fileContent += "\t\n"
         fileContent += "\t}\n"
         
         fileContent += "}\n"
@@ -71,17 +76,17 @@ def m_CreatePropertyUnitFile(p_ClassName, p_FileName, p_IdList, p_FileDesc):
         fileContent += "\t/// <summary>\n"
         fileContent += "\t/// " + str(t_MD_Property.DataData.GetData(t_id,"显示名称")) + "\n"
         fileContent += "\t/// </summary>\n"
-        fileContent += "\tpublic Property " + str(t_PropertyName) + " { get; set; } = Property.New(\"" + t_id + "\");\n"
+        fileContent += "\tpublic Property " + str(t_PropertyName) + " { get; set; } = Property.New(\"" + t_MD_Property.DataData.GetData(t_id,"id") + "\");\n"
     
     #枚举和属性对应的字典
     fileContent += "\t\n"
     fileContent += "\tpublic override void InitPropertyList()\n"
     fileContent += "\t{\n"
-    fileContent += "\t\tPropertyList = new()\n"
+    fileContent += "\t\tm_PropertyList = new()\n"
     fileContent += "\t\t{\n"
     for t_id in p_IdList:
         t_PropertyName = t_MD_Property.DataData.GetData(t_id,"枚举名称")
-        fileContent += "\t\t\t{\"" + t_id + "\" , " + str(t_PropertyName) + "},\n"
+        fileContent += "\t\t\t{\"" + t_MD_Property.DataData.GetData(t_id,"id") + "\" , " + str(t_PropertyName) + "},\n"
     fileContent += "\t\t};\n"
     fileContent += "\t}\n"
                 

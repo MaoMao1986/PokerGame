@@ -48,6 +48,52 @@ public static partial class ConfigManager
         }
     }
 
+    /// <summary>
+    /// 配置行数
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static int Count<T>() where T : IConfigRow
+    {
+        if (TableExists<T>())
+        {
+            Dictionary<string, IConfigRow> t_Data = GetTable<T>();
+            return t_Data.Count;
+        }
+        else
+        {
+            Debug.LogError($"配置表{typeof(T).ToString()}不存在");
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// 获取最大ID
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static int GetMaxId<T>() where T : IConfigRow
+    {
+        if (TableExists<T>())
+        {
+            Dictionary<string, IConfigRow> t_Data = GetTable<T>();
+            if (t_Data.Count > 0)
+            {
+                return TransToInt(t_Data.Keys.Max());
+            }
+            else
+            {
+                Debug.LogError($"配置表{typeof(T).ToString()}没有数据");
+                return 0;
+            }
+        }
+        else
+        {
+            Debug.LogError($"配置表{typeof(T).ToString()}不存在");
+            return 0;
+        }
+    }
+
     private static bool TableExists<T>()
     {
         if (m_Data.ContainsKey(typeof(T))) { return true; }

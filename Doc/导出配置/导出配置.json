@@ -1722,6 +1722,43 @@
 					"正则表达式": null
 				}
 			]
+		},
+		"tbl_表头_Level": {
+			"Name": "tbl_表头_Level",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "id",
+					"字段名": "id",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "经验上限",
+					"字段名": "ExpMax",
+					"表头": "c",
+					"字段类型": "int",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				}
+			]
 		}
 	},
 	"MapDataDisplayInfos": {
@@ -2354,6 +2391,19 @@
 				"数据工作簿名称": "Random.xlsx",
 				"数据工作表名称": "随机辅助",
 				"数据ListObject名称": "随机辅助"
+			},
+			{
+				"索引": "Level",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": "tbl_表头_Level",
+				"数据工作簿名称": "Level.xlsx",
+				"数据工作表名称": "Cfg_Level",
+				"数据ListObject名称": "Cfg_Level"
 			}
 		]
 	},
@@ -2598,7 +2648,7 @@
 				"文件编码": "UTF8",
 				"文件路径": null,
 				"前置Python": null,
-				"后置Python": null
+				"后置Python": "生成属性"
 			},
 			{
 				"索引": "#######",
@@ -2698,6 +2748,21 @@
 				"文件通用数据调用方法": null,
 				"关键字": "Random",
 				"文件名": "Random",
+				"sheet名": null,
+				"后缀名": "txt",
+				"文件编码": "UTF8",
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Level",
+				"父节点": "#Level",
+				"导出文件用途类型": "配置表",
+				"导出文件类型": "txt",
+				"文件通用数据调用方法": null,
+				"关键字": "Level",
+				"文件名": "Level",
 				"sheet名": null,
 				"后缀名": "txt",
 				"文件编码": "UTF8",

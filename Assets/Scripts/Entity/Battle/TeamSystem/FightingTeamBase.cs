@@ -15,7 +15,7 @@ public class FightingTeamBase
     /// <summary>
     /// 战队的位置和单位信息，A队位置从1、2、3等，B队位置从-1、-2、-3等
     /// </summary>
-    public Dictionary<int,FightingUnitBase> FightUnitList { get; set; } = new();
+    public Dictionary<int,FightingUnit> FightUnitList { get; set; } = new();
 
     public int Count
     {
@@ -32,7 +32,7 @@ public class FightingTeamBase
         {
             bool t_isDead = true;
             if(FightUnitList == null) { return t_isDead; }
-            foreach(FightingUnitBase t_Unit in FightUnitList.Values)
+            foreach(FightingUnit t_Unit in FightUnitList.Values)
             {
                 if(!t_Unit.IsDead)
                 {

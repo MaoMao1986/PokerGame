@@ -11,6 +11,7 @@ public class GameStart : MonoBehaviour
     void Start()
     {
         ConfigManager.LoadConfig();
+        RuntimeData.LoadAll();
         //CreateBattleUI();
     }
 

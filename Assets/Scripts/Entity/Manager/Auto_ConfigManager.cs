@@ -8,6 +8,7 @@ public static partial class ConfigManager
 		LoadData<DRFightingdisplay>("FightingDisplay.txt");
 		LoadData<DRFightingproperty>("FightingProperty.txt");
 		LoadData<DRFightingunit>("FightingUnit.txt");
+		LoadData<DRLevel>("Level.txt");
 		LoadData<DRPokercard>("PokerCard.txt");
 		LoadData<DRProperty>("Property.txt");
 		LoadData<DRRandom>("Random.txt");
