@@ -1,16 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DevelopUnit_PlayerInit : UnitBase
+public class DevelopUnit_PlayerInit : UnitBase, ISaveDataBase
 {
+    ISaveDataBase.DataChangedEventHandler ISaveDataBase.DataChangedEvent{ get; set; }
+
     public override void CalculateBattlePropertys()
     {
         
     }
 
-    public override void Init()
+    public void InitData()
     {
-        Name = "PlayerInit";
+        FileName = "PlayerInit";
         m_BattlePropertys.SetValueInit();
+    }
+
+    void ISaveDataBase.InitData()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void ISaveDataBase.InitEvent()
+    {
+        throw new System.NotImplementedException();
     }
 }

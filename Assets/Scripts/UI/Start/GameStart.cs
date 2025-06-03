@@ -7,11 +7,16 @@ public class GameStart : MonoBehaviour
     public GameObject Prefab_UIBattle;
     public GameObject Bg;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         ConfigManager.LoadConfig();
         RuntimeData.LoadAll();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
         //CreateBattleUI();
     }
 

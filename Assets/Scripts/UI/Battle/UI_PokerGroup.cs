@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_PokerGroup : MonoBehaviour
+public class UI_PokerGroup : MonoBehaviour, IUI_Struct
 {
     [SerializeField] private GameObject m_Prefab_UIPoker;
     /// <summary>
@@ -27,6 +27,21 @@ public class UI_PokerGroup : MonoBehaviour
     {
         DestroyPoker();
         m_CanSelect = p_CanSelect;
+    }
+
+    public void InitData()
+    {
+        DestroyPoker();
+    }
+
+    public void UpdateData()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Destroy()
+    {
+        throw new NotImplementedException();
     }
     #endregion
 

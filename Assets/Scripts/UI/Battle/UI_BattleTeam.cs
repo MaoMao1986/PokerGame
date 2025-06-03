@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_BattleTeam : MonoBehaviour
+public class UI_BattleTeam : MonoBehaviour, IUI_Struct
 {
     [SerializeField] private GameObject m_Prefab_BattleUnit;
 
@@ -12,5 +12,20 @@ public class UI_BattleTeam : MonoBehaviour
         UI_BattleUnit t_Script = t_Cell.GetComponent<UI_BattleUnit>();
         t_Script.InitData(p_Unit);
         return t_Script;
-    } 
+    }
+
+    public void Destroy()
+    {
+        
+    }
+
+    public void InitData()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UpdateData()
+    {
+        throw new System.NotImplementedException();
+    }
 }

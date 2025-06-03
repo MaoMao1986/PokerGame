@@ -1,0 +1,37 @@
+﻿{
+	"IconId": "1",
+	"PlayerLevel": {
+		"PlayerOtherPropertys": {
+			"Id": null,
+			"PropertyChangedEvent": null,
+			"Lv": {
+				"Id": "10000",
+				"Value": 1
+			},
+			"CurrentExp": {
+				"Id": "10001",
+				"Value": 0
+			},
+			"ExpMax": {
+				"Id": "10002",
+				"Value": 1000
+			},
+			"CurrentEnergy": {
+				"Id": "10010",
+				"Value": 100
+			},
+			"EnergyMax": {
+				"Id": "10011",
+				"Value": 100
+			}
+		},
+		"Name": "Player Level",
+		"FileName": "PlayerLevel"
+	},
+	"PlayerInit": {
+		"Name": null,
+		"FileName": "PlayerInit"
+	},
+	"Name": "Player Name",
+	"FileName": "Player"
+}

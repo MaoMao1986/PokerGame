@@ -273,10 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9ded0279dffce468325cc4338290b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slider: {fileID: 2714463257404415968}
-  NumberText: {fileID: 6408745842064979532}
-  BackGround: {fileID: 8964205867685021153}
-  FontGround: {fileID: 5890720938224130472}
+  m_Slider: {fileID: 2714463257404415968}
+  m_NumberText: {fileID: 6408745842064979532}
+  m_BackGround: {fileID: 8964205867685021153}
+  m_FontGround: {fileID: 5890720938224130472}
 --- !u!1 &5680540919527122637
 GameObject:
   m_ObjectHideFlags: 0

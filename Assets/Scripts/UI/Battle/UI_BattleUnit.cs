@@ -4,27 +4,37 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_BattleUnit : MonoBehaviour, IUIStruct
+public class UI_BattleUnit : MonoBehaviour, IUI_Struct
 {
-    public Image Head;
-    public TextMeshProUGUI Name;
-    public GameObject HpSlider;
-    public UISlider HpScript;
-    FightingUnit FightingUnit;
+    [SerializeField] private Image Head;
+    [SerializeField] private TextMeshProUGUI Name;
+    [SerializeField] private GameObject HpSlider;
+    private UI_Slider m_HpScript;
+    public FightingUnit FightingUnit;
 
     public void Destroy()
     {
-        FightingUnit.FightingPropertys.CurrentHp.OnValueChanged -= HpScript.UpdateData;
+        FightingUnit.FightingPropertys.CurrentHp.OnValueChanged -= m_HpScript.UpdateData;
     }
 
     public void InitData(FightingUnit p_FightingUnit)
     {
         FightingUnit = p_FightingUnit;
+        InitData();
+    }
+
+    public void InitData()
+    {
         Head.sprite = Resources.Load<Sprite>(FightingUnit.Display.Icon);
         Name.text = FightingUnit.Display.Name;
-        HpScript = HpSlider.GetComponent<UISlider>();
-        HpScript.UpdateData(FightingUnit.FightingPropertys.CurrentHp);
+        m_HpScript = HpSlider.GetComponent<UI_Slider>();
+        m_HpScript.UpdateData(FightingUnit.FightingPropertys.CurrentHp);
 
-        FightingUnit.FightingPropertys.CurrentHp.OnValueChanged += HpScript.UpdateData;
+        FightingUnit.FightingPropertys.CurrentHp.OnValueChanged += m_HpScript.UpdateData;
+    }
+
+    public void UpdateData()
+    {
+        
     }
 }

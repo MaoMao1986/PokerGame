@@ -25,14 +25,14 @@ def CreatePropertyFile(p_Array):
   
 #生成属性组中代码继承的文件（如果文件不存在则生成，如果存在，则跳过）
 def m_CreatePropertyCodeFile(p_ClassName, p_FileName, p_FileDesc):
-    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\" + p_FileName + "Propertys.cs"
+    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\" + p_FileName + "Pros.cs"
     if not File.Exists(propertyUnitCSPath):
         fileContent = "using System.Collections.Generic;\n\n\n"
         fileContent += "/// <summary>\n"
         fileContent += "/// " + p_ClassName + "属性组代码逻辑\n"
         fileContent += "/// " + p_FileDesc + "\n"
         fileContent += "/// </summary>\n"
-        fileContent += "public partial class " + p_ClassName + "Propertys : Propertys\n"
+        fileContent += "public partial class " + p_ClassName + "Pros : Propertys\n"
         fileContent += "{\n"
         
         fileContent += "\t/// <summary>\n"
@@ -63,13 +63,13 @@ def m_CreatePropertyUnitFile(p_ClassName, p_FileName, p_IdList, p_FileDesc):
     t_MD_Property = MapDataInfos.ReadOnly("Property")
 
     #生成属性组的所有属性
-    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\Auto_" + p_FileName + "Propertys.cs"
+    propertyUnitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Battle\\PropertySystem\\Propertys\\Auto_" + p_FileName + "Pros.cs"
     fileContent = "using System.Collections.Generic;\n\n\n"
     fileContent += "/// <summary>\n"
     fileContent += "/// " + p_ClassName + "属性列表，工具自动生成，勿手动修改\n"
     fileContent += "/// " + p_FileDesc + "\n"
     fileContent += "/// </summary>\n"
-    fileContent += "public partial class " + p_ClassName + "Propertys\n"
+    fileContent += "public partial class " + p_ClassName + "Pros\n"
     fileContent += "{\n"
     for t_id in p_IdList:
         t_PropertyName = t_MD_Property.DataData.GetData(t_id,"枚举名称")

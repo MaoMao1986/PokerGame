@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public abstract class FightingUnit : UnitBase
+public class FightingUnit : UnitBase
 {
     /// <summary>
     /// 战内的汇总数据
     /// </summary>
-    public FightingPropertys FightingPropertys { get; set; } = new();
+    public FightPros FightingPropertys { get; set; } = new();
 
     /// <summary>
     /// 是否已死亡，死亡状态下不能进行任何操作，且无法回血或者被加血，除非被复活
@@ -28,6 +28,27 @@ public abstract class FightingUnit : UnitBase
     public TimeManager<BuffBase> BuffManager { get; set; } = new();
 
     /// <summary>
+    /// 从配置中加载战斗单位
+    /// </summary>
+    /// <param name="p_Id"></param>
+    /// <returns></returns>
+    public static FightingUnit LoadConfig(string p_Id)
+    {
+        FightingUnit t_Unit = new();
+        DRFightingunit t_Row = ConfigManager.GetRow<DRFightingunit>(p_Id);
+        t_Unit.m_BattlePropertys = BattlePros.LoadConfig(t_Row.Property);
+        t_Unit.FightingPropertys.LoadFromOtherPropertys(t_Unit.m_BattlePropertys);
+        t_Unit.Display = FightingUnitDisplay.LoadConfig(t_Row.Display);
+        return t_Unit;
+    }
+
+    public override void CalculateBattlePropertys()
+    {
+        throw new System.NotImplementedException();
+    }
+
+
+    /// <summary>
     /// 更新属性
     /// </summary>
     /// <param name="p_Id"></param>
@@ -43,11 +64,5 @@ public abstract class FightingUnit : UnitBase
         }
     }
 
-    public void LoadFromConfig(string p_Id)
-    {
-        DRFightingunit t_Row = ConfigManager.GetRow<DRFightingunit>(p_Id);
-        m_BattlePropertys.LoadFromConfig(t_Row.Property);
-        FightingPropertys.LoadFromOtherPropertys(m_BattlePropertys);
-        Display.LoadFromConfig(t_Row.Display);
-    }
+    
 }

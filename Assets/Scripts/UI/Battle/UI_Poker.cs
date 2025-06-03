@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Poker : MonoBehaviour
+public class UI_Poker : MonoBehaviour, IUI_Struct
 {
     [SerializeField] private Button m_UIPokerButton;
     [SerializeField] private Image m_UIPoker;
@@ -91,5 +91,20 @@ public class UI_Poker : MonoBehaviour
     public void CardLight(bool p_Light = true)
     {
         m_UIPokerLight.transform.gameObject.SetActive(p_Light);
+    }
+
+    public void InitData()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateData()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Destroy()
+    {
+        throw new NotImplementedException();
     }
 }

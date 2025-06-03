@@ -4,12 +4,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISlider : MonoBehaviour
+public class UI_Slider : MonoBehaviour, IUI_Struct
 {
     [SerializeField] private Slider m_Slider;
     [SerializeField] private TextMeshProUGUI m_NumberText;
     [SerializeField] private Image m_BackGround;
     [SerializeField] private Image m_FontGround;
+
+    public void Destroy()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InitData()
+    {
+        throw new System.NotImplementedException();
+    }
 
     /// <summary>
     /// 更新数据
@@ -22,5 +32,10 @@ public class UISlider : MonoBehaviour
         m_Slider.maxValue = (float)p_Pro.GetMax();
         m_Slider.value = (float)t_Value;
         m_NumberText.text = $"{t_Value} / {p_Pro.GetMax()}";
+    }
+
+    public void UpdateData()
+    {
+        
     }
 }

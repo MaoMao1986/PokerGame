@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ public abstract class Propertys
 {
     public string Id;
     protected Dictionary<string,Property> m_PropertyList = new();
+    [JsonIgnore]
     public Dictionary<string, Property> PropertyList
     { 
         get 
@@ -18,22 +20,11 @@ public abstract class Propertys
             return m_PropertyList; 
         } 
     }
-    
-    public delegate void PropertyChangedEventHandler(string p_Id = "");
-    public PropertyChangedEventHandler PropertyChangedEvent;
 
     /// <summary>
     /// 初始化属性列表
     /// </summary>
     public abstract void InitPropertyList();
-    /// <summary>
-    /// 初始化属性事件
-    /// </summary>
-    public abstract void InitPropertyEvent();
-    /// <summary>
-    /// 初始化属性数据
-    /// </summary>
-    public abstract void InitPropertyData();
 
     public static T New<T>() where T : Propertys, new()
     {

@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DevelopUnit_PlayerLevel : UnitBase
+public class DevelopUnit_PlayerLevel : UnitBase, ISaveDataBase
 {
-    PlayerOtherPropertys PlayerOtherPropertys { get; set; } = new PlayerOtherPropertys();
+    public PlayerPros PlayerPros { get; set; } = new PlayerPros();
+    public ISaveDataBase.DataChangedEventHandler DataChangedEvent { get; set; }
 
     public override void CalculateBattlePropertys()
     {
-        m_BattlePropertys.LoadFromConfig(PlayerOtherPropertys.Lv.GetValidValue().ToString());
+        m_BattlePropertys = BattlePros.LoadConfig(PlayerPros.Lv.GetValidValue().ToString());
     }
 
-    public override void Init()
+    public void InitData()
     {
-        Name = "PlayerLevel";
-        PlayerOtherPropertys.Init();
+        FileName = "PlayerLevel";
+        Name  = "Player Level"; // 可以根据需要设置玩家名称
+        PlayerPros.Init();
         CalculateBattlePropertys();
+    }
+
+    public void InitEvent()
+    {
+        throw new System.NotImplementedException();
     }
 }

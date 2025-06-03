@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IUI_Struct
 {
     private RectTransform m_RectTransform;
     private Canvas m_Canvas;
@@ -53,59 +53,18 @@ public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         
     }
 
+    public void InitData()
+    {
+        throw new NotImplementedException();
+    }
 
-    //public void OnDrag(PointerEventData eventData)
-    //{
-    //    transform.position = Input.mousePosition;
-    //    transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-    //    UICellItem drag = eventData.pointerEnter.GetComponent<UICellItem>();
-    //    //if (drag != null && drag.transform != transform)
-    //    //{
-    //    //    transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-    //    //}
-    //}
+    public void UpdateData()
+    {
+        throw new NotImplementedException();
+    }
 
-    //public void OnEndDrag(PointerEventData eventData)
-    //{
-    //    UICellItem drag = eventData.pointerEnter.GetComponent<UICellItem>();
-    //    if (drag != null && drag.transform != transform)
-    //    {
-    //        if (drag.ItemId != ItemId)
-    //        {
-    //            Transform parent = drag.transform.parent;
-    //            Vector3 position = drag.transform.localPosition;
-    //            drag.transform.parent = beginParent;
-    //            drag.transform.localPosition = beginPosition;
-    //            transform.parent = parent;
-    //            transform.localPosition = position;
-    //            transform.localScale = Vector3.one;
-    //        }
-    //        else
-    //        {
-    //            DRItem t_Row = CfgTableMgr.GetRow<DRItem>(ItemId);
-    //            if (string.IsNullOrEmpty(t_Row.nextId.ToString()) || t_Row.nextId <= 0)
-    //            {
-    //                transform.parent = beginParent;
-    //                transform.localPosition = beginPosition;
-    //                transform.localScale = Vector3.one;
-    //                Debug.Log("已合成到最大等级");
-    //            }
-    //            else
-    //            {
-    //                Destroy(gameObject);
-    //                ItemState t_State = new ItemState();
-    //                t_State.Id = t_Row.nextId;
-    //                t_State.State = EmItem_State.Unlock;
-    //                drag.Show(t_State);
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        transform.parent = beginParent;
-    //        transform.localPosition = beginPosition;
-    //        transform.localScale = Vector3.one;
-    //    }
-    //    ItemIcon.raycastTarget = true;
-    //}
+    public void Destroy()
+    {
+        throw new NotImplementedException();
+    }
 }

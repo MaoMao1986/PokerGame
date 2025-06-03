@@ -8,28 +8,25 @@ public static class RuntimeData
 
     public static void LoadAll()
     {
-        Player = Load<DevelopUnit_Player>("Player");
+        Player.Load("Player");
     }
-
-
 
     /// <summary>
     /// 读取数据
     /// </summary>
     /// <param name="p_Path"></param>
     /// <returns></returns>
-    public static T Load<T>(string p_Name) where T: ISaveData, new()
+    public static void Load<T>(this T p_Data, string p_Name) where T: ISaveData, new()
     {
         string t_Path = GetSaveDataPath(p_Name);
         //文件路径不存在则跳出
         if (!System.IO.File.Exists(t_Path))
         {
-            T t_ReturnObject = new();
-            t_ReturnObject.Init();
-            return t_ReturnObject;
+            p_Data = new();
+            p_Data.InitData();
+            p_Data.SaveToJson();
         }
-        T t_Obejct = JsonConvert.DeserializeObject<T>(System.IO.File.ReadAllText(t_Path, Encoding.Default));
-        return t_Obejct;
+        JsonConvert.PopulateObject(System.IO.File.ReadAllText(t_Path, Encoding.Default), p_Data);
     }
 
     /// <summary>
