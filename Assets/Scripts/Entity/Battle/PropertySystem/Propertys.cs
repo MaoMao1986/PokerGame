@@ -50,20 +50,30 @@ public abstract class Propertys
     /// </summary>
     public void SetValue0()
     {
-        foreach (string t_Id in PropertyList.Keys)
+        List<string> t_List = PropertyList.Keys.ToList();
+        foreach (string t_Id in t_List)
         {
-            GetProperty(t_Id).Set(0);
+            Property t_Property = GetProperty(t_Id);
+            if (string.IsNullOrEmpty(t_Property.Id))
+            {
+                PropertyList[t_Id].InitProperty(t_Id, 0);
+            }
         }
     }
 
     /// <summary>
-    /// 将属性组的所有属性设置为配置表里的初始值
+    /// 将属性组的所有属性设置为配置表里的初始值（p_NullSet=true代表如果属性为空才设置，否则直接覆盖之前的值）
     /// </summary>
     public void SetValueInit()
     {
-        foreach (string t_Id in PropertyList.Keys)
+        List<string> t_List = PropertyList.Keys.ToList();
+        foreach (string t_Id in t_List)
         {
-            GetProperty(t_Id).Set(ConfigManager.GetRow<DRProperty>(t_Id).Initvalue);
+            Property t_Property = GetProperty(t_Id);
+            if(string.IsNullOrEmpty(t_Property.Id))
+            {
+                PropertyList[t_Id].InitProperty(t_Id, ConfigManager.GetRow<DRProperty>(t_Id).Initvalue);
+            }
         }
     }
     #endregion

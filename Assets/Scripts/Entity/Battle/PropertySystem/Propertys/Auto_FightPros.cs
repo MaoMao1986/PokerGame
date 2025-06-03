@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 
 /// <summary>
-/// Fighting属性列表，工具自动生成，勿手动修改
+/// Fight属性列表，工具自动生成，勿手动修改
 /// 在战斗中使用的属性组，主要和战斗属性不同的点在于会多一些当前属性，例如当前血量，当前蓝量等
 /// </summary>
 public partial class FightPros
@@ -10,227 +10,227 @@ public partial class FightPros
 	/// <summary>
 	/// 生命
 	/// </summary>
-	public Property Hp { get; set; } = Property.New("1");
+	public Property Hp { get; set; } = new();
 	/// <summary>
 	/// 法力
 	/// </summary>
-	public Property Mp { get; set; } = Property.New("2");
+	public Property Mp { get; set; } = new();
 	/// <summary>
 	/// 当前生命
 	/// </summary>
-	public Property CurrentHp { get; set; } = Property.New("10");
+	public Property CurrentHp { get; set; } = new();
 	/// <summary>
 	/// 当前法力
 	/// </summary>
-	public Property CurrentMp { get; set; } = Property.New("11");
+	public Property CurrentMp { get; set; } = new();
 	/// <summary>
 	/// 最小攻击
 	/// </summary>
-	public Property AtkMin { get; set; } = Property.New("100");
+	public Property AtkMin { get; set; } = new();
 	/// <summary>
 	/// 最大攻击
 	/// </summary>
-	public Property AtkMax { get; set; } = Property.New("101");
+	public Property AtkMax { get; set; } = new();
 	/// <summary>
 	/// 防御
 	/// </summary>
-	public Property Def { get; set; } = Property.New("103");
+	public Property Def { get; set; } = new();
 	/// <summary>
 	/// 坚韧概率
 	/// </summary>
-	public Property DefMultPro { get; set; } = Property.New("104");
+	public Property DefMultPro { get; set; } = new();
 	/// <summary>
 	/// 坚韧倍率
 	/// </summary>
-	public Property DefMult { get; set; } = Property.New("105");
+	public Property DefMult { get; set; } = new();
 	/// <summary>
 	/// 致命一击
 	/// </summary>
-	public Property FatalAtk { get; set; } = Property.New("106");
+	public Property FatalAtk { get; set; } = new();
 	/// <summary>
 	/// 出手速度
 	/// </summary>
-	public Property AttackSpeed { get; set; } = Property.New("107");
+	public Property AttackSpeed { get; set; } = new();
 	/// <summary>
 	/// 增加伤害
 	/// </summary>
-	public Property DmgAdd { get; set; } = Property.New("200");
+	public Property DmgAdd { get; set; } = new();
 	/// <summary>
 	/// 减少伤害
 	/// </summary>
-	public Property DmgReduce { get; set; } = Property.New("201");
+	public Property DmgReduce { get; set; } = new();
 	/// <summary>
 	/// 增加伤害百分比
 	/// </summary>
-	public Property DmgAddPercent { get; set; } = Property.New("202");
+	public Property DmgAddPercent { get; set; } = new();
 	/// <summary>
 	/// 减少伤害百分比
 	/// </summary>
-	public Property DmgReducePercent { get; set; } = Property.New("203");
+	public Property DmgReducePercent { get; set; } = new();
 	/// <summary>
 	/// 命中
 	/// </summary>
-	public Property Hit { get; set; } = Property.New("300");
+	public Property Hit { get; set; } = new();
 	/// <summary>
 	/// 闪避
 	/// </summary>
-	public Property Dodge { get; set; } = Property.New("301");
+	public Property Dodge { get; set; } = new();
 	/// <summary>
 	/// 暴击
 	/// </summary>
-	public Property Critical { get; set; } = Property.New("400");
+	public Property Critical { get; set; } = new();
 	/// <summary>
 	/// 韧性
 	/// </summary>
-	public Property Tough { get; set; } = Property.New("401");
+	public Property Tough { get; set; } = new();
 	/// <summary>
 	/// 暴击倍率
 	/// </summary>
-	public Property CriticalMult { get; set; } = Property.New("402");
+	public Property CriticalMult { get; set; } = new();
 	/// <summary>
 	/// 生命恢复速度
 	/// </summary>
-	public Property HpRestore { get; set; } = Property.New("500");
+	public Property HpRestore { get; set; } = new();
 	/// <summary>
 	/// 生命恢复速度百分比
 	/// </summary>
-	public Property HpRestorePercent { get; set; } = Property.New("501");
+	public Property HpRestorePercent { get; set; } = new();
 	/// <summary>
 	/// 降低生命恢复速度
 	/// </summary>
-	public Property ReduceHpRestore { get; set; } = Property.New("502");
+	public Property ReduceHpRestore { get; set; } = new();
 	/// <summary>
 	/// 降低生命恢复速度百分比
 	/// </summary>
-	public Property ReduceHpRestorePercent { get; set; } = Property.New("503");
+	public Property ReduceHpRestorePercent { get; set; } = new();
 	/// <summary>
 	/// 法力恢复速度
 	/// </summary>
-	public Property MpRestore { get; set; } = Property.New("508");
+	public Property MpRestore { get; set; } = new();
 	/// <summary>
 	/// 法力恢复速度百分比
 	/// </summary>
-	public Property MpRestorePercent { get; set; } = Property.New("509");
+	public Property MpRestorePercent { get; set; } = new();
 	/// <summary>
 	/// 降低法力恢复速度
 	/// </summary>
-	public Property ReduceMpRestore { get; set; } = Property.New("510");
+	public Property ReduceMpRestore { get; set; } = new();
 	/// <summary>
 	/// 降低法力恢复速度百分比
 	/// </summary>
-	public Property ReduceMpRestorePercent { get; set; } = Property.New("511");
+	public Property ReduceMpRestorePercent { get; set; } = new();
 	/// <summary>
 	/// 降低法力消耗
 	/// </summary>
-	public Property ReduceMpCost { get; set; } = Property.New("600");
+	public Property ReduceMpCost { get; set; } = new();
 	/// <summary>
 	/// 降低法力消耗百分比
 	/// </summary>
-	public Property ReduceMpCostPercent { get; set; } = Property.New("601");
+	public Property ReduceMpCostPercent { get; set; } = new();
 	/// <summary>
 	/// 增加法力消耗
 	/// </summary>
-	public Property AddMpCost { get; set; } = Property.New("602");
+	public Property AddMpCost { get; set; } = new();
 	/// <summary>
 	/// 增加法力消耗百分比
 	/// </summary>
-	public Property AddMpCostPercent { get; set; } = Property.New("603");
+	public Property AddMpCostPercent { get; set; } = new();
 	/// <summary>
 	/// 物理伤害百分比
 	/// </summary>
-	public Property PhyPercent { get; set; } = Property.New("700");
+	public Property PhyPercent { get; set; } = new();
 	/// <summary>
 	/// 物理抗性
 	/// </summary>
-	public Property PhyRes { get; set; } = Property.New("701");
+	public Property PhyRes { get; set; } = new();
 	/// <summary>
 	/// 物理抗性上限
 	/// </summary>
-	public Property PhyResMax { get; set; } = Property.New("702");
+	public Property PhyResMax { get; set; } = new();
 	/// <summary>
 	/// 降低敌人物理抗性
 	/// </summary>
-	public Property ReducePhyRes { get; set; } = Property.New("703");
+	public Property ReducePhyRes { get; set; } = new();
 	/// <summary>
 	/// 金系伤害百分比
 	/// </summary>
-	public Property GoldPercent { get; set; } = Property.New("800");
+	public Property GoldPercent { get; set; } = new();
 	/// <summary>
 	/// 金系抗性
 	/// </summary>
-	public Property GoldRes { get; set; } = Property.New("801");
+	public Property GoldRes { get; set; } = new();
 	/// <summary>
 	/// 金系抗性上限
 	/// </summary>
-	public Property GoldResMax { get; set; } = Property.New("802");
+	public Property GoldResMax { get; set; } = new();
 	/// <summary>
 	/// 降低金系抗性
 	/// </summary>
-	public Property ReduceGoldRes { get; set; } = Property.New("803");
+	public Property ReduceGoldRes { get; set; } = new();
 	/// <summary>
 	/// 木系伤害百分比
 	/// </summary>
-	public Property WoodPercent { get; set; } = Property.New("900");
+	public Property WoodPercent { get; set; } = new();
 	/// <summary>
 	/// 木系抗性
 	/// </summary>
-	public Property WoodRes { get; set; } = Property.New("901");
+	public Property WoodRes { get; set; } = new();
 	/// <summary>
 	/// 木系抗性上限
 	/// </summary>
-	public Property WoodResMax { get; set; } = Property.New("902");
+	public Property WoodResMax { get; set; } = new();
 	/// <summary>
 	/// 降低木系抗性
 	/// </summary>
-	public Property ReduceWoodRes { get; set; } = Property.New("903");
+	public Property ReduceWoodRes { get; set; } = new();
 	/// <summary>
 	/// 水系伤害百分比
 	/// </summary>
-	public Property WaterPercent { get; set; } = Property.New("1000");
+	public Property WaterPercent { get; set; } = new();
 	/// <summary>
 	/// 水系抗性
 	/// </summary>
-	public Property WaterRes { get; set; } = Property.New("1001");
+	public Property WaterRes { get; set; } = new();
 	/// <summary>
 	/// 水系抗性上限
 	/// </summary>
-	public Property WaterResMax { get; set; } = Property.New("1002");
+	public Property WaterResMax { get; set; } = new();
 	/// <summary>
 	/// 降低水系抗性
 	/// </summary>
-	public Property ReduceWaterRes { get; set; } = Property.New("1003");
+	public Property ReduceWaterRes { get; set; } = new();
 	/// <summary>
 	/// 火系伤害百分比
 	/// </summary>
-	public Property FirePercent { get; set; } = Property.New("1100");
+	public Property FirePercent { get; set; } = new();
 	/// <summary>
 	/// 火系抗性
 	/// </summary>
-	public Property FireRes { get; set; } = Property.New("1101");
+	public Property FireRes { get; set; } = new();
 	/// <summary>
 	/// 火系抗性上限
 	/// </summary>
-	public Property FireResMax { get; set; } = Property.New("1102");
+	public Property FireResMax { get; set; } = new();
 	/// <summary>
 	/// 降低火系抗性
 	/// </summary>
-	public Property ReduceFireRes { get; set; } = Property.New("1103");
+	public Property ReduceFireRes { get; set; } = new();
 	/// <summary>
 	/// 土系伤害百分比
 	/// </summary>
-	public Property EarthPercent { get; set; } = Property.New("1200");
+	public Property EarthPercent { get; set; } = new();
 	/// <summary>
 	/// 土系抗性
 	/// </summary>
-	public Property EarthRes { get; set; } = Property.New("1201");
+	public Property EarthRes { get; set; } = new();
 	/// <summary>
 	/// 土系抗性上限
 	/// </summary>
-	public Property EarthResMax { get; set; } = Property.New("1202");
+	public Property EarthResMax { get; set; } = new();
 	/// <summary>
 	/// 降低土系抗性
 	/// </summary>
-	public Property ReduceEarthRes { get; set; } = Property.New("1203");
+	public Property ReduceEarthRes { get; set; } = new();
 	
 	public override void InitPropertyList()
 	{

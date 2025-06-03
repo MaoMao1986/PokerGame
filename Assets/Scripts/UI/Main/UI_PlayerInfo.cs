@@ -23,7 +23,7 @@ public class UI_PlayerInfo : MonoBehaviour, IUI_Struct
 
     public void UpdateData()
     {
-        DevelopUnit_Player t_Player = RuntimeData.Player;
+        DU_Player t_Player = RuntimeData.Player;
         m_PlayerLevel.text = "Lv : " + t_Player.PlayerLevel.PlayerPros.Lv.GetValidValue().ToString();
         m_PlayerName.text = t_Player.Name;
         UI_Slider t_Slider = m_ExpSlider.GetComponent<UI_Slider>();

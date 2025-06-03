@@ -6,15 +6,12 @@ using UnityEngine;
 /// </summary>
 public partial class PlayerPros : Propertys, ISaveDataBase
 {
-    public ISaveDataBase.DataChangedEventHandler DataChangedEvent { get; set; }
+    public DataChangedEventHandler DataChangedEvent { get; set; }
 
-    public void Init()
+    public void CreateNew()
     {
-        // 初始化当前属性数据
-        InitData();
-
-        // 初始化属性事件
-        InitEvent();
+        SetValueInit();
+        CurrentEnergy.Set(EnergyMax.GetValidValue());
     }
 
     /// <summary>
@@ -24,11 +21,9 @@ public partial class PlayerPros : Propertys, ISaveDataBase
     public void InitData()
 	{
         SetValueInit();
-
-        ExpMax.Set(LoadExpMaxFromConfig(Lv.GetValidValue().ToString()));
-
-		CurrentEnergy.Set(EnergyMax.GetValidValue());
-	}
+        // 初始化事件
+        InitEvent();
+    }
 	/// <summary>
 	/// 初始化属性的事件（需要特殊处理的）
 	/// 例如【当前生命】的最大值，需要取【生命】的当前有效值作为最大值
@@ -42,19 +37,12 @@ public partial class PlayerPros : Propertys, ISaveDataBase
 
         CurrentExp.GetMaxFunction = () =>
         {
-            return ExpMax.GetValidValue();
+            return LoadExpMaxFromConfig(Lv.GetValidValue().ToString());
         };
 
         Lv.GetMaxFunction = () =>
         {
             return ConfigManager.GetMaxId<DRLevel>();
-        };
-
-		Lv.OnValueChanged += (p_Id) =>
-        {
-            ExpMax.Set(LoadExpMaxFromConfig(Lv.Value.ToString()));
-            // 等级变化时，触发属性变化事件
-            DataChangedEvent?.Invoke();
         };
 
         CurrentExp.OnValueAdded += (p_Id) =>
@@ -78,11 +66,14 @@ public partial class PlayerPros : Propertys, ISaveDataBase
         return t_Row.Expmax;
     }
 
+    /// <summary>
+    /// 更新等级和经验值
+    /// </summary>
     public void UpDateLvAndExp()
     {
         int t_Level = Lv.GetValidValue();
         int t_Exp = CurrentExp.GetValidValue();
-        int t_ReducedExp = ExpMax.GetValidValue();
+        int t_ReducedExp = LoadExpMaxFromConfig(t_Level.ToString());
         int t_MaxExp = 0;
         int t_AddLv = 0;
         if(t_Exp >= (t_ReducedExp + t_MaxExp) && t_Level < Lv.GetMax())

@@ -60,6 +60,5 @@ string	string	string	string	int	int	string	int	tbl_枚举_属性超限处理	int
 1203	ReduceEarthRes	降低土系抗性		300	10000	###.##	0	0		0	降低敌人土系抗性
 10000	Lv	等级		1	1		1	2	100	2	等级
 10001	CurrentExp	经验		0	1		0	0		0	经验
-10002	ExpMax	经验上限		100	1		0	0		0	经验上限
 10010	CurrentEnergy	体力		100	1		0	1		0	体力
 10011	EnergyMax	体力上限		100	1		0	0		0	体力上限

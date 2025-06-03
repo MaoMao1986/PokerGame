@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FightingUnit : UnitBase
+public class FightingUnit : UnitBase,IConfigLoad
 {
     /// <summary>
     /// 战内的汇总数据
@@ -32,14 +32,12 @@ public class FightingUnit : UnitBase
     /// </summary>
     /// <param name="p_Id"></param>
     /// <returns></returns>
-    public static FightingUnit LoadConfig(string p_Id)
+    public void LoadConfig(string p_Id)
     {
-        FightingUnit t_Unit = new();
         DRFightingunit t_Row = ConfigManager.GetRow<DRFightingunit>(p_Id);
-        t_Unit.m_BattlePropertys = BattlePros.LoadConfig(t_Row.Property);
-        t_Unit.FightingPropertys.LoadFromOtherPropertys(t_Unit.m_BattlePropertys);
-        t_Unit.Display = FightingUnitDisplay.LoadConfig(t_Row.Display);
-        return t_Unit;
+        m_BattlePropertys.LoadConfig(t_Row.Property);
+        FightingPropertys.LoadFromOtherPropertys(m_BattlePropertys);
+        Display.LoadConfig(t_Row.Display);
     }
 
     public override void CalculateBattlePropertys()

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public static class RuntimeData
 {
-    public static DevelopUnit_Player Player { get; set; }
+    public static DU_Player Player { get; set; }
 
     public static void LoadAll()
     {
-        Player.Load("Player");
+        Player = new(); Player.LoadFromJson();
     }
 
     /// <summary>
@@ -22,11 +22,14 @@ public static class RuntimeData
         //文件路径不存在则跳出
         if (!System.IO.File.Exists(t_Path))
         {
-            p_Data = new();
-            p_Data.InitData();
+            p_Data.CreateNew();
             p_Data.SaveToJson();
         }
-        JsonConvert.PopulateObject(System.IO.File.ReadAllText(t_Path, Encoding.Default), p_Data);
+        else
+        {
+            JsonConvert.PopulateObject(System.IO.File.ReadAllText(t_Path, Encoding.Default), p_Data);
+            p_Data.InitData();
+        }
     }
 
     /// <summary>

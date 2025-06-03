@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
 using System;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Property
@@ -10,23 +8,30 @@ public class Property
     /// <summary>
     /// 存储的属性值，该值为保存的值，并非运算时的值，例如实际值为90，但上限为75，那么保存的时候还是保存90，但运算时用75
     /// </summary>
+    [JsonProperty("Value")]
     public  int Value { get; private set; }
-    [JsonIgnore]
-    public Action<Property> OnValueChanged { get; set; } = null;
-    [JsonIgnore]
-    public Action<Property> OnValueAdded { get; set; } = null;
-    [JsonIgnore]
-    public Action<Property> OnValueReduced { get; set; } = null;
-    [JsonIgnore]
-    public Action<Property> OnValueSeted { get; set; } = null;
-    [JsonIgnore]
-    public Func<int> GetMaxFunction { get; set; } = null;
-    [JsonIgnore] 
-    public Func<int> GetMinFunction { get; set; } = null;
-    [JsonIgnore] 
-    public Func<int> GetValidValueFunction { get; set; } = null;
+
+    [JsonIgnore] public Action<Property> OnValueChanged { get; set; } = null;
+
+    [JsonIgnore] public Action<Property> OnValueAdded { get; set; } = null;
+
+    [JsonIgnore] public Action<Property> OnValueReduced { get; set; } = null;
+
+    [JsonIgnore] public Action<Property> OnValueSeted { get; set; } = null;
+
+    [JsonIgnore] public Func<int> GetMaxFunction { get; set; } = null;
+
+    [JsonIgnore] public Func<int> GetMinFunction { get; set; } = null;
+
+    [JsonIgnore] public Func<int> GetValidValueFunction { get; set; } = null;
 
     #region New
+    public void InitProperty(string p_Id, int p_Value)
+    {
+        Id = p_Id;
+        Value = p_Value;
+    }
+
     /// <summary>
     /// 根据属性id初始化新属性
     /// </summary>

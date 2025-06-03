@@ -10,10 +10,6 @@ public abstract class UnitBase
     [JsonIgnore]
     protected BattlePros m_BattlePropertys { get; set; } = new BattlePros();
     public string Name { get; set; }
-    /// <summary>
-    /// 名称
-    /// </summary>
-    public string FileName { get; set; }
     [JsonIgnore]
     /// <summary>
     /// 子对象集合

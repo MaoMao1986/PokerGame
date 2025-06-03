@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public partial class FightPros : Propertys, ISaveDataBase
 {
-    public ISaveDataBase.DataChangedEventHandler DataChangedEvent { get; set; }
+    public DataChangedEventHandler DataChangedEvent { get; set; }
 
     public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
     {
@@ -16,9 +16,6 @@ public partial class FightPros : Propertys, ISaveDataBase
 
         // 初始化当前属性数据
         InitData();
-
-        // 初始化属性事件
-        InitEvent();
     }
 
     public void InitData()
@@ -28,6 +25,10 @@ public partial class FightPros : Propertys, ISaveDataBase
 
         // 按照MP初始化当前MP
         CurrentMp.Set(Mp.GetValidValue());
+
+
+        // 初始化事件
+        InitEvent();
     }
 
     public void InitEvent()
@@ -41,5 +42,12 @@ public partial class FightPros : Propertys, ISaveDataBase
         {
             return Mp.GetValidValue();
         };
+    }
+
+    public void CreateNew()
+    {
+        SetValue0();
+
+        InitData();
     }
 }

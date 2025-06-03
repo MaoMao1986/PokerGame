@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 
 /// <summary>
-/// PlayerOther属性列表，工具自动生成，勿手动修改
+/// Player属性列表，工具自动生成，勿手动修改
 /// 角色身上的其他经济属性，例如等级，经验之类的
 /// </summary>
 public partial class PlayerPros
@@ -10,23 +10,19 @@ public partial class PlayerPros
 	/// <summary>
 	/// 等级
 	/// </summary>
-	public Property Lv { get; set; } = Property.New("10000");
+	public Property Lv { get; set; } = new();
 	/// <summary>
 	/// 经验
 	/// </summary>
-	public Property CurrentExp { get; set; } = Property.New("10001");
-	/// <summary>
-	/// 经验上限
-	/// </summary>
-	public Property ExpMax { get; set; } = Property.New("10002");
+	public Property CurrentExp { get; set; } = new();
 	/// <summary>
 	/// 体力
 	/// </summary>
-	public Property CurrentEnergy { get; set; } = Property.New("10010");
+	public Property CurrentEnergy { get; set; } = new();
 	/// <summary>
 	/// 体力上限
 	/// </summary>
-	public Property EnergyMax { get; set; } = Property.New("10011");
+	public Property EnergyMax { get; set; } = new();
 	
 	public override void InitPropertyList()
 	{
@@ -34,7 +30,6 @@ public partial class PlayerPros
 		{
 			{"10000" , Lv},
 			{"10001" , CurrentExp},
-			{"10002" , ExpMax},
 			{"10010" , CurrentEnergy},
 			{"10011" , EnergyMax},
 		};
