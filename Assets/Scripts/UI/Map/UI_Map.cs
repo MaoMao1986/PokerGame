@@ -6,6 +6,12 @@ using UnityEngine.EventSystems;
 
 public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IUI_Struct
 {
+    [SerializeField] private GameObject m_PointLayer;
+    [SerializeField] private GameObject m_LineLayer;
+    [SerializeField] private GameObject m_Prefab_MapPoint;
+    private string m_MapId = "1";
+    private Dictionary<string, UI_MapPoint> m_PointList = new();
+
     private RectTransform m_RectTransform;
     private Canvas m_Canvas;
     private Vector2 m_OriginalPosition;
@@ -15,6 +21,20 @@ public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
         m_RectTransform = GetComponent<RectTransform>();
         m_Canvas = GetComponentInParent<Canvas>(); // 获取所在的 Canvas
         m_OriginalPosition = m_RectTransform.anchoredPosition;
+    }
+
+    private void Start()
+    {
+        DRMap t_MapRow = ConfigManager.GetRow<DRMap>(m_MapId);
+        foreach(var t_PointId in t_MapRow.Pointlist)
+        {
+            DRMappoint t_PointRow = ConfigManager.GetRow<DRMappoint>(t_PointId);
+            Vector2 t_Position = new((float)t_PointRow.X, (float)t_PointRow.Y);
+            Quaternion t_Rotation = m_PointLayer.transform.rotation;
+            GameObject t_Point = Instantiate(m_Prefab_MapPoint, t_Position, t_Rotation, m_PointLayer.transform);
+            UI_MapPoint t_UIMapPoint = t_Point.GetComponent<UI_MapPoint>();
+            m_PointList.Add(t_PointId, t_UIMapPoint);
+        }
     }
 
     // 开始拖拽时调用

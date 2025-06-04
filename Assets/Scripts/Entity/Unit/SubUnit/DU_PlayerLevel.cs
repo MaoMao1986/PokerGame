@@ -18,6 +18,8 @@ public partial class DU_PlayerLevel : UnitBase, ISaveDataBase
 
     public void InitEvent()
     {
+        
+
         // ¼àÌýÊôÐÔ±ä»¯
         PlayerPros.Lv.OnValueChanged += (p_Id) =>
         {

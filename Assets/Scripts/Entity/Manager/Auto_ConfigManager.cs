@@ -9,6 +9,9 @@ public static partial class ConfigManager
 		LoadData<DRFightingproperty>("FightingProperty.txt");
 		LoadData<DRFightingunit>("FightingUnit.txt");
 		LoadData<DRLevel>("Level.txt");
+		LoadData<DRMap>("Map.txt");
+		LoadData<DRMappoint>("MapPoint.txt");
+		LoadData<DRPointprefix>("PointPrefix.txt");
 		LoadData<DRPokercard>("PokerCard.txt");
 		LoadData<DRProperty>("Property.txt");
 		LoadData<DRRandom>("Random.txt");

@@ -28,7 +28,7 @@ public static class RuntimeData
         else
         {
             JsonConvert.PopulateObject(System.IO.File.ReadAllText(t_Path, Encoding.Default), p_Data);
-            p_Data.InitData();
+            p_Data.Init();
         }
     }
 
