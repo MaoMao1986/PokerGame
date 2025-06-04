@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3808851593717100595}
   - component: {fileID: 9147597169421481431}
+  - component: {fileID: 3256374776696223950}
   m_Layer: 5
   m_Name: UnitTeam
   m_TagString: Untagged
@@ -62,3 +63,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!222 &3256374776696223950
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876607973677231344}
+  m_CullTransparentMesh: 1

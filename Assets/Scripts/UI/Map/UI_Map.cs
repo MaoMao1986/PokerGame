@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IUI_Struct
 {
     [SerializeField] private GameObject m_PointLayer;
     [SerializeField] private GameObject m_LineLayer;
     [SerializeField] private GameObject m_Prefab_MapPoint;
+    [SerializeField] private GameObject m_Prefab_MapPointLine;
     private string m_MapId = "1";
     private Dictionary<string, UI_MapPoint> m_PointList = new();
 
@@ -26,6 +28,8 @@ public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
     private void Start()
     {
         DRMap t_MapRow = ConfigManager.GetRow<DRMap>(m_MapId);
+
+        // 初始化完所有地图点
         foreach(var t_PointId in t_MapRow.Pointlist)
         {
             DRMappoint t_PointRow = ConfigManager.GetRow<DRMappoint>(t_PointId);
@@ -34,6 +38,31 @@ public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             GameObject t_Point = Instantiate(m_Prefab_MapPoint, t_Position, t_Rotation, m_PointLayer.transform);
             UI_MapPoint t_UIMapPoint = t_Point.GetComponent<UI_MapPoint>();
             m_PointList.Add(t_PointId, t_UIMapPoint);
+        }
+
+        // 创建地图点连线
+        foreach (var t_PointId in t_MapRow.Pointlist)
+        {
+            DRMappoint t_PointRow = ConfigManager.GetRow<DRMappoint>(t_PointId);
+            GameObject t_Point = m_PointList[t_PointId].gameObject;
+
+            foreach(var t_PrefixPointId in t_PointRow.Prefixpoints)
+            {
+                DRPointprefix t_PrefixPointRow = ConfigManager.GetRow<DRPointprefix>(t_PrefixPointId);
+                string t_PrefixId = t_PrefixPointRow.Prefixpoint;
+                int t_Lv = t_PrefixPointRow.Lv;
+                GameObject t_PrefixPoint = m_PointList[t_PrefixId].gameObject;
+                GameObject t_Line = Instantiate(m_Prefab_MapPointLine, m_LineLayer.transform);
+                UI_MapPointLine t_Script = t_Line.GetComponent<UI_MapPointLine>();
+                if (t_Script != null)
+                {
+                    t_Script.UpdateLine(t_PrefixPoint, t_Point , 5 , t_Lv);
+                }
+                else
+                {
+                    Debug.LogError("UI_MapPointLine script not found on the prefab.");
+                }
+            }
         }
     }
 

@@ -80,6 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7266166423761370318}
   - component: {fileID: 1856168988751896783}
+  - component: {fileID: 480627942817235421}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
@@ -103,8 +104,8 @@ RectTransform:
   - {fileID: 1905280841675609569}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: -200, y: 0}
   m_SizeDelta: {x: 10000, y: 5000}
   m_Pivot: {x: 0, y: 0.5}
@@ -123,3 +124,12 @@ MonoBehaviour:
   m_PointLayer: {fileID: 2831732476333394961}
   m_LineLayer: {fileID: 682498477373818629}
   m_Prefab_MapPoint: {fileID: 3902367374555447249, guid: 2c042762a5ed9e84288c4d0689ee8161, type: 3}
+  m_Prefab_MapPointLine: {fileID: 4889359820166547572, guid: 7ac474ad4836ce747be16971eef0743d, type: 3}
+--- !u!222 &480627942817235421
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4573966111521790501}
+  m_CullTransparentMesh: 1

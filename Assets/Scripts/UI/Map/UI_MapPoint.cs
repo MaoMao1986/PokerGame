@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UI_MapPoint : MonoBehaviour, IUI_Struct
 {
     [SerializeField] private Button m_Picture;
-    [SerializeField] private TextMeshProUGUI m_Name;
+    [SerializeField] private TextMeshProUGUI m_PointName;
     [SerializeField] private Image m_Type;
     [SerializeField] private TextMeshProUGUI m_Lv;
 
