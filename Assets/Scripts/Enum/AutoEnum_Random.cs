@@ -25,7 +25,7 @@ public enum Enum_RewardType
 	/// </summary>
 	RandomGroup = 1,
 	/// <summary>
-	/// 道具
+	/// 属性
 	/// </summary>
-	Item = 2
+	Property = 2
 }

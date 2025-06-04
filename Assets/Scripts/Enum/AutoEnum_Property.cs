@@ -18,3 +18,18 @@ public enum Enum_PropertyLimitSet
 	/// </summary>
 	SetToLimit = 2
 }
+
+/// <summary>
+/// 属性初始化的时候取值
+/// </summary>
+public enum Enum_PropertyInitType
+{
+	/// <summary>
+	/// 属性初始化值为0
+	/// </summary>
+	Zero = 0,
+	/// <summary>
+	/// 属性初始化值为属性表中配置的初始化值
+	/// </summary>
+	InitValue = 1
+}

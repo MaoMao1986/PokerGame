@@ -32,6 +32,14 @@ public class Property
         Value = p_Value;
     }
 
+    public static Property New(string p_Id, Enum_PropertyInitType p_Type)
+    {
+        Property t_Property = new();
+        t_Property.Id = p_Id;
+        t_Property.Value = p_Type == Enum_PropertyInitType.Zero ? 0 : ConfigManager.GetRow<DRProperty>(p_Id).Initvalue;
+        return t_Property;
+    }
+
     /// <summary>
     /// 根据属性id初始化新属性
     /// </summary>

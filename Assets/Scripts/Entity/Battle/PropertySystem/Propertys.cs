@@ -9,30 +9,29 @@ using UnityEngine;
 public abstract class Propertys
 {
     public string Id;
-    protected Dictionary<string,Property> m_PropertyList = new();
-    [JsonIgnore]
-    public Dictionary<string, Property> PropertyList
-    { 
-        get 
-        { 
-            if(m_PropertyList == null) { InitPropertyList(); }
-            if(m_PropertyList.Count == 0) { InitPropertyList(); }
-            return m_PropertyList; 
-        } 
-    }
+    public Dictionary<string, Property> PropertyList { get; set; } = new();
 
     /// <summary>
     /// 初始化属性列表
     /// </summary>
-    public abstract void InitPropertyList();
+    public abstract void InitPropertyList(Enum_PropertyInitType p_Type = Enum_PropertyInitType.Zero);
 
-    public static T New<T>() where T : Propertys, new()
+    /// <summary>
+    /// 给属性组设置一个默认的属性（如果已经存在则不覆盖）<br/>
+    /// </summary>
+    /// <param name="p_Id"></param>
+    /// <param name="p_Property"></param>
+    protected void m_InitDefault(string p_Id, Property p_Property)
     {
-        T t_Propertys = new();
-        t_Propertys.InitPropertyList();
-        return t_Propertys;
+        if (!PropertyList.ContainsKey(p_Id)) { PropertyList.Add(p_Id, p_Property); return; }
+        if (PropertyList[p_Id] == null) { PropertyList[p_Id] = p_Property; }
     }
 
+    /// <summary>
+    /// 获取属性
+    /// </summary>
+    /// <param name="p_Id"></param>
+    /// <returns></returns>
     public Property GetProperty(string p_Id)
     {
         if (PropertyList.ContainsKey(p_Id))
@@ -43,40 +42,6 @@ public abstract class Propertys
     }
 
     #region 属性组对象计算
-
-    #region 批量设置属性组的属性值
-    /// <summary>
-    /// 将所有属性组的属性值设置为0
-    /// </summary>
-    public void SetValue0()
-    {
-        List<string> t_List = PropertyList.Keys.ToList();
-        foreach (string t_Id in t_List)
-        {
-            Property t_Property = GetProperty(t_Id);
-            if (string.IsNullOrEmpty(t_Property.Id))
-            {
-                PropertyList[t_Id].InitProperty(t_Id, 0);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 将属性组的所有属性设置为配置表里的初始值（p_NullSet=true代表如果属性为空才设置，否则直接覆盖之前的值）
-    /// </summary>
-    public void SetValueInit()
-    {
-        List<string> t_List = PropertyList.Keys.ToList();
-        foreach (string t_Id in t_List)
-        {
-            Property t_Property = GetProperty(t_Id);
-            if(string.IsNullOrEmpty(t_Property.Id))
-            {
-                PropertyList[t_Id].InitProperty(t_Id, ConfigManager.GetRow<DRProperty>(t_Id).Initvalue);
-            }
-        }
-    }
-    #endregion
 
     #region Copy
     /// <summary>

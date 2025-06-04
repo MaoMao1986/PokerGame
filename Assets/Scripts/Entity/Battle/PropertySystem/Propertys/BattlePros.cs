@@ -32,27 +32,16 @@ public partial class BattlePros : Propertys, ISaveDataBase, IConfigLoad
                 }
             }
         }
-
-        // 初始化其他补充属性
-        InitData();
     }
 
     public void InitData()
     {
         // 初始化其他属性
 
-
-        // 初始化事件
-        InitEvent();
     }
 
     public void InitEvent()
 	{
 		
 	}
-
-    public void CreateNew()
-    {
-        
-    }
 }

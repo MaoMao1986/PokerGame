@@ -5,7 +5,6 @@ public delegate void DataChangedEventHandler();
 
 public interface ISaveDataBase
 {
-    public void CreateNew();
     public void InitData();
     public void InitEvent();
     public DataChangedEventHandler DataChangedEvent { get; set; }

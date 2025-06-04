@@ -1,12 +1,7 @@
 using UnityEngine;
 
-public class FightingUnit : UnitBase,IConfigLoad
+public partial class FightingUnit : UnitBase, ISaveDataBase, IConfigLoad
 {
-    /// <summary>
-    /// 战内的汇总数据
-    /// </summary>
-    public FightPros FightingPropertys { get; set; } = new();
-
     /// <summary>
     /// 是否已死亡，死亡状态下不能进行任何操作，且无法回血或者被加血，除非被复活
     /// </summary>
@@ -26,6 +21,7 @@ public class FightingUnit : UnitBase,IConfigLoad
     /// buff管理器
     /// </summary>
     public TimeManager<BuffBase> BuffManager { get; set; } = new();
+    public DataChangedEventHandler DataChangedEvent { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     /// <summary>
     /// 从配置中加载战斗单位
@@ -42,7 +38,7 @@ public class FightingUnit : UnitBase,IConfigLoad
 
     public override void CalculateBattlePropertys()
     {
-        throw new System.NotImplementedException();
+        
     }
 
 
@@ -62,5 +58,13 @@ public class FightingUnit : UnitBase,IConfigLoad
         }
     }
 
-    
+    public void InitData()
+    {
+        
+    }
+
+    public void InitEvent()
+    {
+        
+    }
 }

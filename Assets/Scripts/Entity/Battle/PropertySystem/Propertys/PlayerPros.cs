@@ -8,21 +8,13 @@ public partial class PlayerPros : Propertys, ISaveDataBase
 {
     public DataChangedEventHandler DataChangedEvent { get; set; }
 
-    public void CreateNew()
-    {
-        SetValueInit();
-        CurrentEnergy.Set(EnergyMax.GetValidValue());
-    }
-
     /// <summary>
     /// 初始化属性值（需要特殊处理的，其他的要么按照配置初始化，要么按照其他属性的数值初始化）
     /// 例如【当前生命】的值需要按照【生命】的有效值初始化
     /// </summary>
     public void InitData()
 	{
-        SetValueInit();
-        // 初始化事件
-        InitEvent();
+
     }
 	/// <summary>
 	/// 初始化属性的事件（需要特殊处理的）

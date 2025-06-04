@@ -9,15 +9,6 @@ public partial class FightPros : Propertys, ISaveDataBase
 {
     public DataChangedEventHandler DataChangedEvent { get; set; }
 
-    public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
-    {
-        // 初始化属性数据
-        Copy(p_Propertys);
-
-        // 初始化当前属性数据
-        InitData();
-    }
-
     public void InitData()
     {
         // 按照HP初始化当前HP
@@ -25,10 +16,6 @@ public partial class FightPros : Propertys, ISaveDataBase
 
         // 按照MP初始化当前MP
         CurrentMp.Set(Mp.GetValidValue());
-
-
-        // 初始化事件
-        InitEvent();
     }
 
     public void InitEvent()
@@ -44,10 +31,14 @@ public partial class FightPros : Propertys, ISaveDataBase
         };
     }
 
-    public void CreateNew()
+    public void LoadFromOtherPropertys<T>(T p_Propertys) where T : Propertys
     {
-        SetValue0();
+        InitPropertyList();
 
+        // 初始化属性数据
+        Copy(p_Propertys);
+
+        // 初始化当前属性数据
         InitData();
     }
 }

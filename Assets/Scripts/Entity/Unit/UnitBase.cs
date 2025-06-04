@@ -8,7 +8,7 @@ public abstract class UnitBase
     /// 养成的战斗属性集合
     /// </summary>
     [JsonIgnore]
-    protected BattlePros m_BattlePropertys { get; set; } = new BattlePros();
+    protected BattlePros m_BattlePropertys { get; set; }
     public string Name { get; set; }
     [JsonIgnore]
     /// <summary>
@@ -20,6 +20,7 @@ public abstract class UnitBase
     /// 属性计算
     /// </summary>
     public abstract void CalculateBattlePropertys();
+    public abstract void Init();
 
     /// <summary>
     /// 计算战斗属性的函数（将子对象的所有属性全加起来）

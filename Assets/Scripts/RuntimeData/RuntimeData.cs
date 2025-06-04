@@ -16,13 +16,13 @@ public static class RuntimeData
     /// </summary>
     /// <param name="p_Path"></param>
     /// <returns></returns>
-    public static void Load<T>(this T p_Data, string p_Name) where T: ISaveData, new()
+    public static void Load<T>(this T p_Data, string p_Name) where T: UnitBase, ISaveData, new()
     {
         string t_Path = GetSaveDataPath(p_Name);
         //文件路径不存在则跳出
         if (!System.IO.File.Exists(t_Path))
         {
-            p_Data.CreateNew();
+            p_Data.Init();
             p_Data.SaveToJson();
         }
         else

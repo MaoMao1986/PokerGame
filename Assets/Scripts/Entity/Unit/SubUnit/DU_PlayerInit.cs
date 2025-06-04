@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DU_PlayerInit : UnitBase, ISaveDataBase
+public partial class DU_PlayerInit : UnitBase, ISaveDataBase
 {
     public DataChangedEventHandler DataChangedEvent{ get; set; }
 
@@ -10,16 +10,9 @@ public class DU_PlayerInit : UnitBase, ISaveDataBase
         
     }
 
-    public void CreateNew()
-    {
-        Name = "PlayerInit";
-        InitData();
-    }
-
     public void InitData()
     {
-        m_BattlePropertys.SetValueInit();
-        InitEvent();
+        Name = "PlayerInit";
     }
 
     public void InitEvent()
