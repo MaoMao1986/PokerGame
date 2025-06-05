@@ -15,8 +15,8 @@ public partial class DU_PlayerInit
 		
 		// 初始化属性列表
 		{
-			m_BattlePropertys ??= new();
-			m_BattlePropertys.InitPropertyList(Enum_PropertyInitType.InitValue);
+			BattlePropertys ??= new();
+			BattlePropertys.InitPropertyList(Enum_PropertyInitType.InitValue);
 			
 		}
 		

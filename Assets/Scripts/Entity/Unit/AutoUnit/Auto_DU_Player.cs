@@ -35,8 +35,8 @@ public partial class DU_Player
 		
 		// 初始化属性列表
 		{
-			m_BattlePropertys ??= new();
-			m_BattlePropertys.InitPropertyList();
+			BattlePropertys ??= new();
+			BattlePropertys.InitPropertyList();
 			
 		}
 		

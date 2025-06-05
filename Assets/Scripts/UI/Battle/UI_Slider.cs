@@ -34,6 +34,19 @@ public class UI_Slider : MonoBehaviour, IUI_Struct
         m_NumberText.text = $"{t_Value} / {p_Pro.GetMax()}";
     }
 
+    /// <summary>
+    /// 更新数据
+    /// </summary>
+    /// <param name="p_Value"></param>
+    /// <param name="p_MaxValue"></param>
+    public void UpdateData(float p_Value, float p_MaxValue)
+    {
+        if (p_Value < 0) { p_Value = 0; }
+        m_Slider.maxValue = p_MaxValue;
+        m_Slider.value = p_Value;
+        m_NumberText.text = $"{p_Value} / {p_MaxValue}";
+    }
+
     public void UpdateData()
     {
         

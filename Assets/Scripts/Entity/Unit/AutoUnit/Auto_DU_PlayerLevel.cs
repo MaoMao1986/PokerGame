@@ -19,8 +19,8 @@ public partial class DU_PlayerLevel
 		
 		// 初始化属性列表
 		{
-			m_BattlePropertys ??= new();
-			m_BattlePropertys.InitPropertyList();
+			BattlePropertys ??= new();
+			BattlePropertys.InitPropertyList();
 			
 			PlayerPros ??= new();
 			PlayerPros.InitPropertyList(Enum_PropertyInitType.InitValue);

@@ -31,8 +31,8 @@ public partial class FightingUnit : UnitBase, ISaveDataBase, IConfigLoad
     public void LoadConfig(string p_Id)
     {
         DRFightingunit t_Row = ConfigManager.GetRow<DRFightingunit>(p_Id);
-        m_BattlePropertys.LoadConfig(t_Row.Property);
-        FightingPropertys.LoadFromOtherPropertys(m_BattlePropertys);
+        BattlePropertys.LoadConfig(t_Row.Property);
+        FightingPropertys.LoadFromOtherPropertys(BattlePropertys);
         Display.LoadConfig(t_Row.Display);
     }
 
@@ -50,11 +50,11 @@ public partial class FightingUnit : UnitBase, ISaveDataBase, IConfigLoad
     {
         if (string.IsNullOrEmpty(p_Id))
         {
-            FightingPropertys.SetOtherSum(m_BattlePropertys);
+            FightingPropertys.SetOtherSum(BattlePropertys);
         }
         else
         {
-            FightingPropertys.SetOtherSum(p_Id, m_BattlePropertys);
+            FightingPropertys.SetOtherSum(p_Id, BattlePropertys);
         }
     }
 

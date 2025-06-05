@@ -8,7 +8,7 @@ public partial class DU_PlayerLevel : UnitBase, ISaveDataBase
 
     public override void CalculateBattlePropertys()
     {
-        m_BattlePropertys.LoadConfig(PlayerPros.Lv.GetValidValue().ToString());
+        BattlePropertys.LoadConfig(PlayerPros.Lv.GetValidValue().ToString());
     }
 
     public void InitData()

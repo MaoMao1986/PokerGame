@@ -22,8 +22,8 @@ public partial class FightingUnit
 			FightingPropertys ??= new();
 			FightingPropertys.InitPropertyList();
 			
-			m_BattlePropertys ??= new();
-			m_BattlePropertys.InitPropertyList();
+			BattlePropertys ??= new();
+			BattlePropertys.InitPropertyList();
 			
 		}
 		
