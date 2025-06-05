@@ -189,7 +189,7 @@ public class Property
         p_AddValue = 0;
         int t_Max = GetMax();
 
-        if (Value + p_AddValue <= t_Max)
+        if (Value + p_Value <= t_Max)
         {
             Value += p_Value;
             p_AddValue = p_Value;
@@ -254,7 +254,7 @@ public class Property
         p_ReduceValue = 0;
         int t_Min = GetMin();
 
-        if (Value - p_ReduceValue > t_Min)
+        if (Value - p_Value > t_Min)
         {
             Value -= p_Value;
             p_ReduceValue = p_Value;

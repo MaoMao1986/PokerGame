@@ -163,6 +163,9 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
         
         fileContent += "\t\n"
     
+    # 事件触发方法
+    fileContent += "\tpublic void RaiseDataChanged() => DataChangedEvent?.Invoke();\n"
+    
     
     #枚举和属性对应的字典
     fileContent += "\t\n"
@@ -176,22 +179,29 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
     if p_UnitList != "":
         fileContent += "\t\t// 初始化子对象\n"
         fileContent += "\t\t{\n"
+        t_Index = 1
         for t_id in t_UnitList:
+            if t_Index != 1:
+                fileContent += "\t\t\t\n"
+            t_Index += 1
             t_ClassName = t_MD_Unit.DataData.GetData(t_id,"类名")
             t_VariableName = t_MD_Unit.DataData.GetData(t_id,"变量名")
             t_Desc = t_MD_Unit.DataData.GetData(t_id,"说明")
             fileContent += "\t\t\t" + t_VariableName +" ??= new();\n"
             fileContent += "\t\t\t" + t_VariableName +".Init();\n"
             fileContent += "\t\t\tDevelopUnitList.Add(" + t_VariableName + ".Name, " + t_VariableName + ");\n"
-            fileContent += "\t\t\t\n"
         fileContent += "\t\t}\n"
+        fileContent += "\t\t\n"
     
     #初始化属性列表
     if p_PropertyList != "":
-        fileContent += "\t\t\n"
         fileContent += "\t\t// 初始化属性列表\n"
         fileContent += "\t\t{\n"
+        t_Index = 1
         for t_id in t_PropertyList:
+            if t_Index != 1:
+                fileContent += "\t\t\t\n"
+            t_Index += 1
             t_ClassName = t_MD_PropertyAssist.DataData.GetData(t_MD_PropertysObject.DataData.GetData(t_id,"所属属性类型"), "类名")
             t_VariableName = t_MD_PropertysObject.DataData.GetData(t_id,"变量名")
             t_Type = t_MD_PropertysObject.DataData.GetData(t_id,"类型")
@@ -202,14 +212,44 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
                 fileContent += "\t\t\t" + t_VariableName + ".InitPropertyList(Enum_PropertyInitType.InitValue);\n"
             else:
                 fileContent += "\t\t\t" + t_VariableName + ".InitPropertyList();\n"
-            fileContent += "\t\t\t\n"
         fileContent += "\t\t}\n"
+        fileContent += "\t\t\n"
     
     #调用初始化属性值和事件
-    fileContent += "\t\t\n"
     fileContent += "\t\tInitData();\n"
+    fileContent += "\t\t\n"
+    fileContent += "\t\t // 先计算属性，之后再增加属性变化的事件\n"
     fileContent += "\t\tCalculateBattlePropertys();\n"
-    fileContent += "\t\tInitEvent();\n"
+    fileContent += "\t\t\n"
+    
+    fileContent += "\t\tInitEvent();\n"  
+    fileContent += "\t\t\n"
+    
+    fileContent += "\t\t// 嵌套事件触发（子对象改变触发父对象改变）\n"
+    fileContent += "\t\tDataChangedEvent += CalculateBattlePropertys;\n"
+    fileContent += "\t\t\n"
+    
+    #嵌套事件触发（属性组改变触发父对象改变）
+    if p_PropertyList != "":
+        fileContent += "\t\t// 属性组的改变事件挂上父对象的改变事件\n"
+        fileContent += "\t\t{\n"
+        for t_id in t_PropertyList:
+            t_VariableName = t_MD_PropertysObject.DataData.GetData(t_id,"变量名")
+            t_isShow = t_MD_PropertysObject.DataData.GetData(t_id,"是否声明")
+            if t_isShow == "" :
+                fileContent += "\t\t\t" + t_VariableName +".DataChangedEvent += RaiseDataChanged;\n"
+        fileContent += "\t\t}\n"
+        fileContent += "\t\t\n"
+        
+    #嵌套事件触发（子对象改变触发父对象改变）
+    if p_UnitList != "":
+        fileContent += "\t\t// 子对象的改变事件挂上父对象的改变事件\n"
+        fileContent += "\t\t{\n"
+        for t_id in t_UnitList:
+            t_VariableName = t_MD_Unit.DataData.GetData(t_id,"变量名")
+            fileContent += "\t\t\t" + t_VariableName +".DataChangedEvent += RaiseDataChanged;\n"
+        fileContent += "\t\t}\n"
+        fileContent += "\t\t\n"    
     
     fileContent += "\t}\n"                
     fileContent += "}\n"

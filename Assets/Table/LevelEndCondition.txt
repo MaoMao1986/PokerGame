@@ -1,0 +1,5 @@
+id	胜负	条件类型	条件参数列表
+id	result	conditionType	paramList
+c	c	c	c
+string	tbl_枚举_关卡胜负类型	int	string[]
+1	0	0	

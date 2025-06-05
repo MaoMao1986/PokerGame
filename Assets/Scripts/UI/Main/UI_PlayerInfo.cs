@@ -17,6 +17,18 @@ public class UI_PlayerInfo : MonoBehaviour, IUI_Struct
     void Start()
     {
         m_PropertyButton.onClick.AddListener(m_PropertyButtonClick);
+
+        DU_Player t_Player = RuntimeData.Player;
+
+        DRFightingdisplay t_Row = ConfigManager.GetRow<DRFightingdisplay>(t_Player.IconId);
+        m_HeadIcon.sprite = Resources.Load<Sprite>("UI/Head/" + t_Row.Icon);
+        m_PlayerName.text = t_Player.Name;
+
+        if (m_ExpSlider.TryGetComponent<UI_Slider>(out var t_Slider))
+        {
+            t_Slider.UpdateData(t_Player.PlayerLevel.PlayerPros.CurrentExp);
+            t_Player.PlayerLevel.PlayerPros.CurrentExp.OnValueChanged += UpdateData;
+        }
     }
 
     private void m_PropertyButtonClick()
@@ -45,17 +57,7 @@ public class UI_PlayerInfo : MonoBehaviour, IUI_Struct
 
     public void UpdateData()
     {
-        DU_Player t_Player = RuntimeData.Player;
-        m_PlayerLevel.text = "Lv : " + t_Player.PlayerLevel.PlayerPros.Lv.GetValidValue().ToString();
-        m_PlayerName.text = t_Player.Name;
-        UI_Slider t_Slider = m_ExpSlider.GetComponent<UI_Slider>();
-        if(t_Slider != null)
-        {
-            t_Slider.UpdateData(t_Player.PlayerLevel.PlayerPros.CurrentExp);
-            t_Player.PlayerLevel.PlayerPros.CurrentExp.OnValueChanged += UpdateData;
-        }
-        DRFightingdisplay t_Row = ConfigManager.GetRow<DRFightingdisplay>(t_Player.IconId);
-        m_HeadIcon.sprite = Resources.Load<Sprite>("UI/Head/" + t_Row.Icon);
+        
     }
 
     public void UpdateData(Property p_Pro)

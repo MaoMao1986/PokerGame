@@ -34,12 +34,17 @@ public partial class PlayerPros : Propertys, ISaveDataBase
 
         Lv.GetMaxFunction = () =>
         {
-            return ConfigManager.GetMaxId<DRLevel>();
+            return ConfigManager.GetMaxId<DRPlayerlv>();
         };
 
         CurrentExp.OnValueAdded += (p_Id) =>
         {
             UpDateLvAndExp();
+        };
+
+        Lv.OnValueChanged += (p_Id) =>
+        {
+            DataChangedEvent?.Invoke();
         };
 	}
 
@@ -49,7 +54,7 @@ public partial class PlayerPros : Propertys, ISaveDataBase
     /// <param name="p_Id"></param>
 	public int LoadExpMaxFromConfig(string p_Id)
     {
-        DRLevel t_Row = ConfigManager.GetRow<DRLevel>(p_Id);
+        DRPlayerlv t_Row = ConfigManager.GetRow<DRPlayerlv>(p_Id);
         if (t_Row == null)
         {
             Debug.LogError($"LoadExpMaxFromConfig: Cannot find DRLevel with ID {p_Id}");
@@ -74,7 +79,7 @@ public partial class PlayerPros : Propertys, ISaveDataBase
             {
                 t_AddLv++;
                 t_ReducedExp += t_MaxExp;
-                t_MaxExp = ConfigManager.GetRow<DRLevel>((t_Level + t_AddLv).ToString()).Expmax;
+                t_MaxExp = ConfigManager.GetRow<DRPlayerlv>((t_Level + t_AddLv).ToString()).Expmax;
             }
             Lv.Add(t_AddLv,out int t_AddValue);
             CurrentExp.Reduce(t_ReducedExp, out int t_RedeceValue);

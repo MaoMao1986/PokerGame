@@ -321,6 +321,57 @@
 					"代码描述": "属性初始化值为属性表中配置的初始化值"
 				}
 			]
+		},
+		"tbl_枚举_关卡胜负类型": {
+			"Name": "tbl_枚举_关卡胜负类型",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "胜利",
+					"枚举值": "0",
+					"代码名": "Success",
+					"代码描述": "胜利",
+					"转换类型": "枚举值",
+					"转换关键字": "tbl_枚举_关卡胜利类型",
+					"转换字段": null
+				},
+				{
+					"枚举名称": "失败",
+					"枚举值": "1",
+					"代码名": "Faild",
+					"代码描述": "失败",
+					"转换类型": "枚举值",
+					"转换关键字": "tbl_枚举_关卡失败类型",
+					"转换字段": null
+				}
+			]
+		},
+		"tbl_枚举_关卡胜利类型": {
+			"Name": "tbl_枚举_关卡胜利类型",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "击杀所有敌人",
+					"枚举值": "0",
+					"代码名": "KillAllMonster",
+					"代码描述": "击杀所有敌人"
+				}
+			]
+		},
+		"tbl_枚举_关卡失败类型": {
+			"Name": "tbl_枚举_关卡失败类型",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_枚举格式化配置",
+			"DataTable": [
+				{
+					"枚举名称": "己方全部阵亡",
+					"枚举值": "0",
+					"代码名": "SelfAllDead",
+					"代码描述": "己方全部阵亡"
+				}
+			]
 		}
 	},
 	"TitleDatas": {
@@ -1742,8 +1793,8 @@
 				}
 			]
 		},
-		"tbl_表头_Level": {
-			"Name": "tbl_表头_Level",
+		"tbl_表头_PlayerLv": {
+			"Name": "tbl_表头_PlayerLv",
 			"AutoIndex": false,
 			"DisplayInfoKey": "tbl_System_表头格式化配置",
 			"DataTable": [
@@ -2009,6 +2060,170 @@
 					"正则表达式": null
 				}
 			]
+		},
+		"tbl_表头_Level": {
+			"Name": "tbl_表头_Level",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "id",
+					"字段名": "id",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "怪物列表",
+					"字段名": "monsterList",
+					"表头": "c",
+					"字段类型": "string[]",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "数据表",
+					"转换关键字": "连接[1=|]",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "额外胜利条件",
+					"字段名": "successCondition",
+					"表头": "c",
+					"字段类型": "string[]",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "数据表",
+					"转换关键字": "连接[1=|]",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "额外失败条件",
+					"字段名": "faildCondition",
+					"表头": "c",
+					"字段类型": "string[]",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "数据表",
+					"转换关键字": "连接[1=|]",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "首杀奖励",
+					"字段名": "firstKillReward",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "配置表",
+					"转换关键字": "Random",
+					"转换字段": "ID",
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "奖励",
+					"字段名": "reward",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "配置表",
+					"转换关键字": "Random",
+					"转换字段": "ID",
+					"字段描述": null,
+					"正则表达式": null
+				}
+			]
+		},
+		"tbl_表头_LevelEndCondition": {
+			"Name": "tbl_表头_LevelEndCondition",
+			"AutoIndex": false,
+			"DisplayInfoKey": "tbl_System_表头格式化配置",
+			"DataTable": [
+				{
+					"字段索引": "id",
+					"字段名": "id",
+					"表头": "c",
+					"字段类型": "string",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "胜负",
+					"字段名": "result",
+					"表头": "c",
+					"字段类型": "tbl_枚举_关卡胜负类型",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "枚举值",
+					"转换关键字": "tbl_枚举_关卡胜负类型",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "条件类型",
+					"字段名": "conditionType",
+					"表头": "c",
+					"字段类型": "int",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": "二级转换",
+					"转换关键字": "胜负",
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				},
+				{
+					"字段索引": "条件参数列表",
+					"字段名": "paramList",
+					"表头": "c",
+					"字段类型": "string[]",
+					"数据类型": null,
+					"为空是否导出": null,
+					"默认值": null,
+					"分组": null,
+					"转换类型": null,
+					"转换关键字": null,
+					"转换字段": null,
+					"字段描述": null,
+					"正则表达式": null
+				}
+			]
 		}
 	},
 	"MapDataDisplayInfos": {
@@ -2078,7 +2293,7 @@
 				{
 					"Row": 10,
 					"Column": 1,
-					"Comment": "导出配置表完成后调用的Python文件，一般可搭配按照配置表生成程序代码等逻辑",
+					"Comment": "将文件生成到工程中的python文件的关键字",
 					"CommentType": 0
 				},
 				{
@@ -2643,17 +2858,17 @@
 				"数据ListObject名称": "随机辅助"
 			},
 			{
-				"索引": "Level",
+				"索引": "PlayerLv",
 				"别名": null,
 				"自动索引": null,
 				"xml表头": null,
 				"txt自定义表头": null,
 				"excel自定义表头": null,
 				"行内嵌套": null,
-				"表头ListObject名称": "tbl_表头_Level",
-				"数据工作簿名称": "Level.xlsx",
-				"数据工作表名称": "Cfg_Level",
-				"数据ListObject名称": "Cfg_Level"
+				"表头ListObject名称": "tbl_表头_PlayerLv",
+				"数据工作簿名称": "PlayerLv.xlsx",
+				"数据工作表名称": "Cfg_PlayerLv",
+				"数据ListObject名称": "Cfg_PlayerLv"
 			},
 			{
 				"索引": "辅助_属性组实例",
@@ -2719,6 +2934,32 @@
 				"数据工作簿名称": "Map.xlsx",
 				"数据工作表名称": "Cfg_PointPrefix",
 				"数据ListObject名称": "Cfg_PointPrefix"
+			},
+			{
+				"索引": "Level",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": "tbl_表头_Level",
+				"数据工作簿名称": "Level.xlsx",
+				"数据工作表名称": "Cfg_Level",
+				"数据ListObject名称": "Cfg_Level"
+			},
+			{
+				"索引": "LevelEndCondition",
+				"别名": null,
+				"自动索引": null,
+				"xml表头": null,
+				"txt自定义表头": null,
+				"excel自定义表头": null,
+				"行内嵌套": null,
+				"表头ListObject名称": "tbl_表头_LevelEndCondition",
+				"数据工作簿名称": "Level.xlsx",
+				"数据工作表名称": "Cfg_LevelEndCondition",
+				"数据ListObject名称": "Cfg_LevelEndCondition"
 			}
 		]
 	},
@@ -2832,6 +3073,30 @@
 				"分组": "Property",
 				"代码名": "Enum_PropertyInitType",
 				"描述": "属性初始化的时候取值"
+			},
+			{
+				"索引": "#关卡",
+				"分组": null,
+				"代码名": null,
+				"描述": null
+			},
+			{
+				"索引": "tbl_枚举_关卡胜负类型",
+				"分组": "Level",
+				"代码名": "Enum_LevelEndType",
+				"描述": "关卡结算条件类型，胜利条件/失败条件"
+			},
+			{
+				"索引": "tbl_枚举_关卡胜利类型",
+				"分组": "Level",
+				"代码名": "Enum_LevelSuccessType",
+				"描述": "关卡胜利类型，默认为敌方全部死亡，其他待扩展"
+			},
+			{
+				"索引": "tbl_枚举_关卡失败类型",
+				"分组": "Level",
+				"代码名": "Enum_LevelFaildType",
+				"描述": "关卡失败类型，默认为己方全部阵亡，其他待扩展"
 			}
 		]
 	},
@@ -2893,6 +3158,21 @@
 				"文件通用数据调用方法": null,
 				"关键字": "Property",
 				"文件名": "AutoEnum_Property",
+				"sheet名": null,
+				"后缀名": "cs",
+				"文件编码": "UTF8",
+				"文件路径": "\\..\\Scripts\\Enum\\",
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Enum_Level",
+				"父节点": "#EnumFile",
+				"导出文件用途类型": "枚举代码",
+				"导出文件类型": "csFile",
+				"文件通用数据调用方法": null,
+				"关键字": "Level",
+				"文件名": "AutoEnum_Level",
 				"sheet名": null,
 				"后缀名": "cs",
 				"文件编码": "UTF8",
@@ -3081,13 +3361,13 @@
 				"后置Python": null
 			},
 			{
-				"索引": "Level",
-				"父节点": "#Level",
+				"索引": "PlayerLv",
+				"父节点": "#PlayerLv",
 				"导出文件用途类型": "配置表",
 				"导出文件类型": "txt",
 				"文件通用数据调用方法": null,
-				"关键字": "Level",
-				"文件名": "Level",
+				"关键字": "PlayerLv",
+				"文件名": "PlayerLv",
 				"sheet名": null,
 				"后缀名": "txt",
 				"文件编码": "UTF8",
@@ -3133,6 +3413,36 @@
 				"文件通用数据调用方法": null,
 				"关键字": "PointPrefix",
 				"文件名": "PointPrefix",
+				"sheet名": null,
+				"后缀名": "txt",
+				"文件编码": "UTF8",
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "Level",
+				"父节点": "#Level",
+				"导出文件用途类型": "配置表",
+				"导出文件类型": "txt",
+				"文件通用数据调用方法": null,
+				"关键字": "Level",
+				"文件名": "Level",
+				"sheet名": null,
+				"后缀名": "txt",
+				"文件编码": "UTF8",
+				"文件路径": null,
+				"前置Python": null,
+				"后置Python": null
+			},
+			{
+				"索引": "LevelEndCondition",
+				"父节点": "#Level",
+				"导出文件用途类型": "配置表",
+				"导出文件类型": "txt",
+				"文件通用数据调用方法": null,
+				"关键字": "LevelEndCondition",
+				"文件名": "LevelEndCondition",
 				"sheet名": null,
 				"后缀名": "txt",
 				"文件编码": "UTF8",
@@ -3277,7 +3587,7 @@
 				"参数值": ""
 			},
 			{
-				"配置参数名称": "导出完成调用Python",
+				"配置参数名称": "生成工程文件脚本名",
 				"参数值": "CreateFile"
 			},
 			{
