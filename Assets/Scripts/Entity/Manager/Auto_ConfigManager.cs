@@ -8,6 +8,8 @@ public static partial class ConfigManager
 		LoadData<DRFightingdisplay>("FightingDisplay.txt");
 		LoadData<DRFightingproperty>("FightingProperty.txt");
 		LoadData<DRFightingunit>("FightingUnit.txt");
+		LoadData<DRLevel>("Level.txt");
+		LoadData<DRLevelendcondition>("LevelEndCondition.txt");
 		LoadData<DRMap>("Map.txt");
 		LoadData<DRMappoint>("MapPoint.txt");
 		LoadData<DRPlayerlv>("PlayerLv.txt");

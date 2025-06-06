@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public partial class DU_Player : UnitBase, ISaveData
+public partial class DU_Player : UnitBase, ISaveData 
 {
     public string IconId { get; set; } = "1";
     public DataChangedEventHandler DataChangedEvent { get; set; }

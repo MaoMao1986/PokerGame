@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// FightingUnit对象列表，工具自动生成，勿手动修改
 /// </summary>
-public partial class FightingUnit
+public partial class FightingUnit 
 {
 	/// <summary>
 	/// 战时属性

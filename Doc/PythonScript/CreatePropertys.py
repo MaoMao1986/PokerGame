@@ -10,30 +10,33 @@
 
 
 def CreatePropertyFile(p_Array):
-    
-    t_MD_PropertyAssist = MapDataInfos.ReadOnly("辅助_属性分组")
     t_MD_Property = MapDataInfos.ReadOnly("Property")
+    t_MD_PropertysClass = MapDataInfos.ReadOnly("辅助_属性组类")
     t_MD_PropertysObject = MapDataInfos.ReadOnly("辅助_属性组实例")
-    t_MD_Unit = MapDataInfos.ReadOnly("辅助_对象结构")
+    t_MD_UnitClass = MapDataInfos.ReadOnly("辅助_对象类")
+    t_MD_UnitObject = MapDataInfos.ReadOnly("辅助_对象实例")
     
-    for t_id in t_MD_PropertyAssist.DataData.GetRowKeyList():
-        t_DataGroupString = t_MD_PropertyAssist.DataData.GetData(t_id,"数据分组")
-        t_FileName = t_MD_PropertyAssist.DataData.GetData(t_id,"文件名")
-        t_ClassName = t_MD_PropertyAssist.DataData.GetData(t_id,"类名")
-        t_FileDesc = t_MD_PropertyAssist.DataData.GetData(t_id,"说明")
+    for t_id in t_MD_PropertysClass.DataData.GetRowKeyList():
+        t_DataGroupString = t_MD_PropertysClass.DataData.GetData(t_id,"数据分组")
+        t_FileName = t_MD_PropertysClass.DataData.GetData(t_id,"文件名")
+        t_ClassName = t_MD_PropertysClass.DataData.GetData(t_id,"类名")
+        t_FileDesc = t_MD_PropertysClass.DataData.GetData(t_id,"说明")
         t_DataGroupList = t_MD_Property.DataData.GetRowListByGroup(DataTrans.ListString(t_DataGroupString.split("|")))
         #创建属性组属性列表文件
         m_CreatePropertysFile(t_ClassName, t_FileName, t_DataGroupList, t_FileDesc)
         #创建属性组代码文件
         m_CreatePropertyCodeFile(t_ClassName, t_FileName, t_FileDesc)
         
-    for t_id in t_MD_Unit.DataData.GetRowKeyList():
-        t_FileName = t_MD_Unit.DataData.GetData(t_id,"文件名")
-        t_ClassName = t_MD_Unit.DataData.GetData(t_id,"类名")
-        t_UnitList = t_MD_Unit.DataData.GetData(t_id,"嵌套对象")
-        t_PropertyList = t_MD_Unit.DataData.GetData(t_id,"嵌套属性组")
-        m_CreateAutoUnitFile(t_ClassName, t_FileName, t_UnitList, t_PropertyList)
-        m_CreateUnitFile(t_ClassName, t_FileName, t_UnitList, t_PropertyList)
+    for t_id in t_MD_UnitObject.DataData.GetRowKeyList():
+        t_FileName = t_MD_UnitClass.DataData.GetData(t_id,"文件名")
+        t_ClassName =  t_MD_UnitClass.DataData.GetData(t_id,"类名") 
+        t_ClassT = t_MD_UnitClass.DataData.GetData(t_id,"泛型") 
+        t_WhereT = t_MD_UnitClass.DataData.GetData(t_id,"类约束") 
+        t_UnitList = t_MD_UnitClass.DataData.GetData(t_id,"嵌套对象实例")
+        t_PropertyList = t_MD_UnitClass.DataData.GetData(t_id,"嵌套属性组实例")
+        
+        m_CreateAutoUnitFile(t_FileName, t_ClassName,t_ClassT ,t_WhereT, t_UnitList, t_PropertyList)
+        m_CreateUnitFile(t_FileName, t_ClassName,t_ClassT ,t_WhereT, t_UnitList, t_PropertyList)
     
   
 #生成属性组中代码继承的文件（如果文件不存在则生成，如果存在，则跳过）
@@ -118,10 +121,13 @@ def m_CreatePropertysFile(p_ClassName, p_FileName, p_IdList, p_FileDesc):
     Log.WriteSuccess("生成" + propertyUnitCSPath + "成功")
     
     
-def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
+def m_CreateAutoUnitFile(p_FileName, p_ClassName, p_ClassT, p_WhereT, p_UnitList, p_PropertyList):
+
+    t_MD_PropertysClass = MapDataInfos.ReadOnly("辅助_属性组类")
     t_MD_PropertysObject = MapDataInfos.ReadOnly("辅助_属性组实例")
-    t_MD_Unit = MapDataInfos.ReadOnly("辅助_对象结构")
-    t_MD_PropertyAssist = MapDataInfos.ReadOnly("辅助_属性分组")
+    t_MD_UnitClass = MapDataInfos.ReadOnly("辅助_对象类")
+    t_MD_UnitObject = MapDataInfos.ReadOnly("辅助_对象实例")
+    
     t_UnitList = p_UnitList.split("|")
     t_PropertyList = p_PropertyList.split("|")
     
@@ -131,26 +137,27 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
     fileContent += "/// <summary>\n"
     fileContent += "/// " + p_ClassName + "对象列表，工具自动生成，勿手动修改\n"
     fileContent += "/// </summary>\n"
-    fileContent += "public partial class " + p_ClassName + "\n"
+    fileContent += "public partial class " + m_GetClassName(p_ClassName,p_ClassT,p_WhereT, "") + "\n"
     fileContent += "{\n"
     
     #所有的嵌套子对象
     if p_UnitList != "":
         for t_id in t_UnitList:
-            t_ClassName = t_MD_Unit.DataData.GetData(t_id,"类名")
-            t_VariableName = t_MD_Unit.DataData.GetData(t_id,"变量名")
-            t_Desc = t_MD_Unit.DataData.GetData(t_id,"说明")
+            t_ClassName = t_MD_UnitClass.DataData.GetData(t_MD_UnitObject.DataData.GetData(t_id,"对象类"),"类名") 
+            t_ClassT = t_MD_UnitObject.DataData.GetData(t_id,"泛型参数")
+            t_VariableName = t_MD_UnitObject.DataData.GetData(t_id,"变量名")
+            t_Desc = t_MD_UnitObject.DataData.GetData(t_id,"说明")
             fileContent += "\t/// <summary>\n"
             fileContent += "\t/// " + t_Desc + "\n"
             fileContent += "\t/// </summary>\n"
-            fileContent += "\tpublic " + t_ClassName + " " + t_VariableName + "{ get; set;}\n"
+            fileContent += "\tpublic " + t_ClassName + t_ClassT + " " + t_VariableName + "{ get; set;}\n"
         
         fileContent += "\t\n"
     
     #所有的属性组列表
     if p_PropertyList != "":
         for t_id in t_PropertyList:
-            t_ClassName = t_MD_PropertyAssist.DataData.GetData(t_MD_PropertysObject.DataData.GetData(t_id,"所属属性类型"), "类名")
+            t_ClassName = t_MD_PropertysClass.DataData.GetData(t_MD_PropertysObject.DataData.GetData(t_id,"属性组类"), "类名")
             t_VariableName = t_MD_PropertysObject.DataData.GetData(t_id,"变量名")
             t_Type = t_MD_PropertysObject.DataData.GetData(t_id,"类型")
             t_isShow = t_MD_PropertysObject.DataData.GetData(t_id,"是否声明")
@@ -184,9 +191,7 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
             if t_Index != 1:
                 fileContent += "\t\t\t\n"
             t_Index += 1
-            t_ClassName = t_MD_Unit.DataData.GetData(t_id,"类名")
-            t_VariableName = t_MD_Unit.DataData.GetData(t_id,"变量名")
-            t_Desc = t_MD_Unit.DataData.GetData(t_id,"说明")
+            t_VariableName = t_MD_UnitObject.DataData.GetData(t_id,"变量名")
             fileContent += "\t\t\t" + t_VariableName +" ??= new();\n"
             fileContent += "\t\t\t" + t_VariableName +".Init();\n"
             fileContent += "\t\t\tDevelopUnitList.Add(" + t_VariableName + ".Name, " + t_VariableName + ");\n"
@@ -202,7 +207,7 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
             if t_Index != 1:
                 fileContent += "\t\t\t\n"
             t_Index += 1
-            t_ClassName = t_MD_PropertyAssist.DataData.GetData(t_MD_PropertysObject.DataData.GetData(t_id,"所属属性类型"), "类名")
+            t_ClassName = t_MD_PropertysClass.DataData.GetData(t_MD_PropertysObject.DataData.GetData(t_id,"属性组类"), "类名")
             t_VariableName = t_MD_PropertysObject.DataData.GetData(t_id,"变量名")
             t_Type = t_MD_PropertysObject.DataData.GetData(t_id,"类型")
             t_InitType = t_MD_PropertysObject.DataData.GetData(t_id,"初始化类型")
@@ -246,7 +251,7 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
         fileContent += "\t\t// 子对象的改变事件挂上父对象的改变事件\n"
         fileContent += "\t\t{\n"
         for t_id in t_UnitList:
-            t_VariableName = t_MD_Unit.DataData.GetData(t_id,"变量名")
+            t_VariableName = t_MD_UnitObject.DataData.GetData(t_id,"变量名")
             fileContent += "\t\t\t" + t_VariableName +".DataChangedEvent += RaiseDataChanged;\n"
         fileContent += "\t\t}\n"
         fileContent += "\t\t\n"    
@@ -259,17 +264,20 @@ def m_CreateAutoUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
     
     
     
-def m_CreateUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
+def m_CreateUnitFile(p_FileName, p_ClassName, p_ClassT, p_WhereT, p_UnitList, p_PropertyList):
+
+    t_MD_PropertysClass = MapDataInfos.ReadOnly("辅助_属性组类")
     t_MD_PropertysObject = MapDataInfos.ReadOnly("辅助_属性组实例")
-    t_MD_Unit = MapDataInfos.ReadOnly("辅助_对象结构")
-    t_MD_PropertyAssist = MapDataInfos.ReadOnly("辅助_属性分组")
+    t_MD_UnitClass = MapDataInfos.ReadOnly("辅助_对象类")
+    t_MD_UnitObject = MapDataInfos.ReadOnly("辅助_对象实例")
+
     t_UnitList = p_UnitList.split("|")
     t_PropertyList = p_PropertyList.split("|")
     
     unitCSPath = ProjectPath + "\\..\\..\\Assets\\Scripts\\Entity\\Unit\\SubUnit\\" + p_FileName + ".cs"
     if not File.Exists(unitCSPath):
         fileContent = "using System.Collections.Generic;\n\n\n"
-        fileContent += "public partial class " + p_ClassName + " : UnitBase, ISaveDataBase\n"
+        fileContent += "public partial class " + m_GetClassName(p_ClassName, p_ClassT, p_WhereT, ": UnitBase, ISaveDataBase") + "\n"
         fileContent += "{\n"
         fileContent += "\tpublic DataChangedEventHandler DataChangedEvent{ get; set; }\n"
         fileContent += "\t\n"
@@ -290,3 +298,13 @@ def m_CreateUnitFile(p_ClassName, p_FileName, p_UnitList, p_PropertyList):
         fileContent += "}\n"
         File.Write(unitCSPath,fileContent)
         Log.WriteSuccess("生成" + unitCSPath + "成功")
+        
+def m_GetClassName(p_ClassName, p_ClassT, p_WhereT, p_Father):
+    t_ClassName = p_ClassName
+    if p_ClassT != "":
+        t_ClassName += " " + p_ClassT + p_Father
+        if p_WhereT != "":
+            t_ClassName += " where " + p_WhereT
+    else:
+        t_ClassName += " " + p_Father
+    return t_ClassName

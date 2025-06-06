@@ -10,7 +10,7 @@ public class DRMappoint : IConfigRow
 	/// <summary>
 	/// 类型
 	/// </summary>
-	public string Type {get; private set;}
+	public Enum_MapPointType Type {get; private set;}
 	/// <summary>
 	/// x
 	/// </summary>
@@ -19,6 +19,10 @@ public class DRMappoint : IConfigRow
 	/// y
 	/// </summary>
 	public double Y {get; private set;}
+	/// <summary>
+	/// 缩放
+	/// </summary>
+	public double Scale {get; private set;}
 	/// <summary>
 	/// 名称
 	/// </summary>
@@ -36,9 +40,10 @@ public class DRMappoint : IConfigRow
 	{
 		int t_Index = 0;
 		Id = ConfigManager.TransToString(p_dataRowString[t_Index]); t_Index++;
-		Type = ConfigManager.TransToString(p_dataRowString[t_Index]); t_Index++;
+		Type = ConfigManager.TransToEnum<Enum_MapPointType>(p_dataRowString[t_Index]); t_Index++;
 		X = ConfigManager.TransToDouble(p_dataRowString[t_Index]); t_Index++;
 		Y = ConfigManager.TransToDouble(p_dataRowString[t_Index]); t_Index++;
+		Scale = ConfigManager.TransToDouble(p_dataRowString[t_Index]); t_Index++;
 		Name = ConfigManager.TransToString(p_dataRowString[t_Index]); t_Index++;
 		Icon = ConfigManager.TransToString(p_dataRowString[t_Index]); t_Index++;
 		Prefixpoints = ConfigManager.TransToStringArray(p_dataRowString[t_Index]); t_Index++;

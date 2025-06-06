@@ -36,6 +36,7 @@ public class UI_Map : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHa
             Vector2 t_Position = new((float)t_PointRow.X, (float)t_PointRow.Y);
             Quaternion t_Rotation = m_PointLayer.transform.rotation;
             GameObject t_Point = Instantiate(m_Prefab_MapPoint, t_Position, t_Rotation, m_PointLayer.transform);
+            t_Point.GetComponent<RectTransform>().localScale = Vector2.one * (float)t_PointRow.Scale;
             UI_MapPoint t_UIMapPoint = t_Point.GetComponent<UI_MapPoint>();
             m_PointList.Add(t_PointId, t_UIMapPoint);
             t_UIMapPoint.InitData(t_PointId);

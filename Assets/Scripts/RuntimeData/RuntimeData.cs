@@ -5,6 +5,7 @@ using UnityEngine;
 public static class RuntimeData
 {
     public static DU_Player Player { get; set; }
+    public static BattleManager BattleManager { get; set; }
 
     public static void LoadAll()
     {

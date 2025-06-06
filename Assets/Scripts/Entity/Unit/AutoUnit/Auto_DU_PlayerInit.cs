@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// DU_PlayerInit对象列表，工具自动生成，勿手动修改
 /// </summary>
-public partial class DU_PlayerInit
+public partial class DU_PlayerInit 
 {
 	
 	public void RaiseDataChanged() => DataChangedEvent?.Invoke();

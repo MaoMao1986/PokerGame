@@ -4,12 +4,12 @@ using System.Collections.Generic;
 /// <summary>
 /// DU_PlayerLevel对象列表，工具自动生成，勿手动修改
 /// </summary>
-public partial class DU_PlayerLevel
+public partial class DU_PlayerLevel 
 {
 	/// <summary>
-	/// 角色经济属性
+	/// 角色等级属性
 	/// </summary>
-	public PlayerPros PlayerPros { get; set; }
+	public LvPros LvPros { get; set; }
 	
 	public void RaiseDataChanged() => DataChangedEvent?.Invoke();
 	
@@ -22,8 +22,8 @@ public partial class DU_PlayerLevel
 			BattlePropertys ??= new();
 			BattlePropertys.InitPropertyList();
 			
-			PlayerPros ??= new();
-			PlayerPros.InitPropertyList(Enum_PropertyInitType.InitValue);
+			LvPros ??= new();
+			LvPros.InitPropertyList(Enum_PropertyInitType.InitValue);
 		}
 		
 		InitData();
@@ -38,7 +38,7 @@ public partial class DU_PlayerLevel
 		
 		// 属性组的改变事件挂上父对象的改变事件
 		{
-			PlayerPros.DataChangedEvent += RaiseDataChanged;
+			LvPros.DataChangedEvent += RaiseDataChanged;
 		}
 		
 	}
